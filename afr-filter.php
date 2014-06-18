@@ -162,7 +162,7 @@
 			$_role = getRole($_SESSION['username'], $_db);
 			$_SESSION['role'] = $_role;
 
-			$_tpl->assign( "out", "<script>window.location = '/?i=Dashboard'</script>");
+			$_tpl->assign( "out", "<script>window.location = '" . $GLOBALS['base_url'] . "?i=Dashboard'</script>");
 		} else if ($_account == 2) {
 			$_tpl->assign( "out", "<span class='alert alert-danger alert-dismissable'><button type='button' class='close' data-dismiss='alert' aria-hidden='true'>&times;</button>Invalid username or password!</span>");
 		}		
@@ -254,7 +254,7 @@
 				doLog('PROFILE-UPDATE', 'Profile Updated', 0, $_REQUEST['username'], $_db);
 			}
 		} else {
-			$_tpl->assign( "out", "<script>window.location = '/?i=Login'</script>");
+			$_tpl->assign( "out", "<script>window.location = '" . $GLOBALS['base_url'] . "?i=Login'</script>");
 		}
 				
 		$_tpl->assign( "sitetitle", "My Profile - " . getSiteTitle($_db) );
@@ -284,7 +284,7 @@
 			$_tpl->assign( "sitetitle", "Dashboard - " . getSiteTitle($_db) );
 		} else {
 			if (!empty($_REQUEST['i'])) {
-				$_tpl->assign( "out", "<script>window.location = '/?i=Login'</script>");
+				$_tpl->assign( "out", "<script>window.location = '" . $GLOBALS['base_url'] . "?i=Login'</script>");
 			}
 		}		
 	}
@@ -338,7 +338,7 @@
 				}
 			}
 		} else {
-			$_tpl->assign( "out", "<script>window.location = '/?i=Login'</script>");
+			$_tpl->assign( "out", "<script>window.location = '" . $GLOBALS['base_url'] . "?i=Login'</script>");
 		}
 		
 		$_html =  "submit";
@@ -393,7 +393,7 @@
 				}														
 			}
 		} else {
-			$_tpl->assign( "out", "<script>window.location = '/?i=Login'</script>");
+			$_tpl->assign( "out", "<script>window.location = '" . $GLOBALS['base_url'] . "?i=Login'</script>");
 		}
 		
 		$_html =  'edit';
@@ -412,7 +412,7 @@
 				$_tpl->assign( "out", "<span class='alert alert-danger alert-dismissable'><button type='button' class='close' data-dismiss='alert' aria-hidden='true'>&times;</button>There was a problem deleting your article!</span>");
 			}					
 		} else {
-			$_tpl->assign( "out", "<script>window.location = '/?i=Login'</script>");
+			$_tpl->assign( "out", "<script>window.location = '" . $GLOBALS['base_url'] . "?i=Login'</script>");
 		}
 		
 		$_html =  "myarticles";
@@ -441,7 +441,7 @@
 			
 			$_tpl->assign( "mymessages", getInbox($_SESSION['username'], $_db) );			
 		} else {
-			$_tpl->assign( "out", "<script>window.location = '/?i=Login'</script>");
+			$_tpl->assign( "out", "<script>window.location = '" . $GLOBALS['base_url'] . "?i=Login'</script>");
 		}
 		
 		$_html =  "myinbox";
@@ -460,7 +460,7 @@
 				}
 			}
 		} else {
-			$_tpl->assign( "out", "<script>window.location = '/?i=Login'</script>");
+			$_tpl->assign( "out", "<script>window.location = '" . $GLOBALS['base_url'] . "?i=Login'</script>");
 		}
 		
 		$_html =  "write";	
@@ -484,7 +484,7 @@
 				$_tpl->assign( "preview", TRUE );				
 			}								
 		} else {
-			$_tpl->assign( "out", "<script>window.location = '/?i=Login'</script>");
+			$_tpl->assign( "out", "<script>window.location = '" . $GLOBALS['base_url'] . "?i=Login'</script>");
 		}
 		
 		$_html =  "myarticles";
@@ -495,7 +495,7 @@
 			$_tpl->assign( "articlestats", getMyArticleStats($_SESSION['username'], $_db) );
 			$_tpl->assign( "sitetitle", "My Article Stats - " . getSiteTitle($_db) );				
 		} else {
-			$_tpl->assign( "out", "<script>window.location = '/?i=Login'</script>");
+			$_tpl->assign( "out", "<script>window.location = '" . $GLOBALS['base_url'] . "?i=Login'</script>");
 		}
 		
 		$_html =  "articlestats";	
@@ -557,7 +557,7 @@
 				$_html =  'editpennames';
 			}
 		} else {
-			$_tpl->assign( "out", "<script>window.location = '/?i=Login'</script>");
+			$_tpl->assign( "out", "<script>window.location = '" . $GLOBALS['base_url'] . "?i=Login'</script>");
 			$_html =  'pennames';
 		}
 	}
@@ -604,7 +604,7 @@
 			findPlugins($_db);
 			$_tpl->assign( "xsettings", $_settings );			
 		} else {
-			$_tpl->assign( "out", "<script>window.location = '/?i=Login'</script>");
+			$_tpl->assign( "out", "<script>window.location = '" . $GLOBALS['base_url'] . "?i=Login'</script>");
 		}
 		
 		$_html =  'admin';
@@ -632,7 +632,7 @@
 			$_settings = getSiteSettings($_db);
 			$_tpl->assign( "xsettings", $_settings );			
 		} else {
-			$_tpl->assign( "out", "<script>window.location = '/?i=Login'</script>");
+			$_tpl->assign( "out", "<script>window.location = '" . $GLOBALS['base_url'] . "?i=Login'</script>");
 		}
 		
 		$_html =  'settings';
@@ -718,7 +718,7 @@
 			$_paging = $_pagination->parse();
 			$_tpl->assign( "paging", $_paging );	
 		} else {
-			$_tpl->assign( "out", "<script>window.location = '/?i=Login'</script>");
+			$_tpl->assign( "out", "<script>window.location = '" . $GLOBALS['base_url'] . "?i=Login'</script>");
 		}
 		
 		$_html =  'reviewarticles';
@@ -778,7 +778,7 @@
 			$_articles = getAdminPendingArticles($_db);
 			$_tpl->assign( "reviewarticles", $_articles );			
 		} else {
-			$_tpl->assign( "out", "<script>window.location = '/?i=Login'</script>");
+			$_tpl->assign( "out", "<script>window.location = '" . $GLOBALS['base_url'] . "?i=Login'</script>");
 		}
 		
 		$_html =  'reviewarticles';
@@ -796,7 +796,7 @@
 			$_articles = getAdminPendingArticles($_db);
 			$_tpl->assign( "reviewarticles", $_articles );			
 		} else {
-			$_tpl->assign( "out", "<script>window.location = '/?i=Login'</script>");
+			$_tpl->assign( "out", "<script>window.location = '" . $GLOBALS['base_url'] . "?i=Login'</script>");
 		}
 		
 		$_html =  'reviewarticles';
@@ -824,7 +824,7 @@
 			
 			$_tpl->assign( "xcategories", getCategories($_db) );				
 		} else {
-			$_tpl->assign( "out", "<script>window.location = '/?i=Login'</script>");
+			$_tpl->assign( "out", "<script>window.location = '" . $GLOBALS['base_url'] . "?i=Login'</script>");
 		}			
 	}
 	
@@ -850,7 +850,7 @@
 			
 			$_tpl->assign( "xlinks", getLinks($_db) );				
 		} else {
-			$_tpl->assign( "out", "<script>window.location = '/?i=Login'</script>");			
+			$_tpl->assign( "out", "<script>window.location = '" . $GLOBALS['base_url'] . "?i=Login'</script>");			
 		}			
 	}
 	
@@ -876,7 +876,7 @@
 			
 			$_tpl->assign( "users", getUsers(0,0,$_db) );				
 		} else {
-			$_tpl->assign( "out", "<script>window.location = '/?i=Login'</script>");			
+			$_tpl->assign( "out", "<script>window.location = '" . $GLOBALS['base_url'] . "?i=Login'</script>");			
 		}			
 	}
 	
@@ -895,7 +895,7 @@
 			$_tpl->assign( "sitetitle", "Import Articles - " . getSiteTitle($_db) );
 			$_tpl->assign( "importsource", "<select name='importsource' class='form-control'><option value='freecontentarticles.com'>freecontentarticles.com</option></select>");
 		} else {
-			$_tpl->assign( "out", "<script>window.location = '/?i=Login'</script>");
+			$_tpl->assign( "out", "<script>window.location = '" . $GLOBALS['base_url'] . "?i=Login'</script>");
 		}
 		
 		$_html =  "import";

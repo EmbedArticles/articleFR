@@ -68,7 +68,7 @@
 	$_pagination->setTotal($_count);
 	$_paging = $_pagination->parse();
 		
-	$_tpl->assign( "base", $_baseurl );
+	$_tpl->assign( "base", $GLOBALS['base_url'] );
 	$_tpl->assign( "sitetitle", getSiteTitle($_db) );
 	$_tpl->assign( "sitedescription", getSiteDescription($_db) );
 	$_tpl->assign( "sitekeywords", getSiteKeywords($_db) );
