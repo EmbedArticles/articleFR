@@ -1,0 +1,53 @@
+<div class="navbar navbar-fixed-top header">
+ 	<div class="col-md-12">
+        <div class="navbar-header">
+          
+          <a href="{$base}" class="navbar-brand" style="vertical-align: middle; padding: 0px; margin: 0px; margin-top: 10px;">{$brand}</a>
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-collapse1">
+          <i class="glyphicon glyphicon-search"></i>
+          </button>
+		  
+        </div>
+        <div class="collapse navbar-collapse" id="navbar-collapse1">
+          <form class="navbar-form pull-left" action="{$base}">
+              <div class="input-group" style="max-width:470px;">
+                <input type="text" class="form-control" placeholder="Search" name="srch-term" value="<?=htmlspecialchars($_REQUEST['srch-term'])?>" id="srch-term">
+                <div class="input-group-btn">
+                  <button class="btn btn-default btn-primary" type="submit"><i class="glyphicon glyphicon-search"></i></button>
+                </div>
+              </div>
+          </form>
+          <ul class="nav navbar-nav navbar-right">
+		     <li><a href="http://freereprintables.com/articlefr/" target="_ext"><b>What is ArticleFR?</b></a></li>
+             <li><a href="http://freereprintables.com/download.php?filename=articleFR.zip" target="_ext"><i class="glyphicon glyphicon-download" style="color:#1111dd;"></i>&nbsp;&nbsp;Download ArticleFR+</a></li>
+             <li>
+				<? if ($_SESSION['isloggedin'] !== FALSE && !empty($_SESSION['isloggedin'])) { ?>
+					<a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="glyphicon glyphicon-user"></i>&nbsp;&nbsp;<?=$_SESSION['name']?> <b class="icon-caret-down"></b></a>
+				<? } else { ?>
+					<a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="glyphicon glyphicon-user"></i>&nbsp;&nbsp;Welcome Guest <b class="icon-caret-down"></b></a>
+				<? } ?>
+			    <ul class="nav dropdown-menu">
+					<? if ($_SESSION['isloggedin'] !== FALSE && !empty($_SESSION['isloggedin'])) { ?>
+					  <li><a href="{$base}?i=Profile" rel="tooltip" data-placement="bottom" title="Profile"><i class="glyphicon glyphicon-user" style="color:#1111dd;"></i> Profile</a></li>
+					  <li><a href="{$base}?i=Dashboard" rel="tooltip" data-placement="bottom" title="Dashboard"><i class="glyphicon glyphicon-dashboard" style="color:#0000aa;"></i> Dashboard</a></li>
+					  <li><a href="{$base}?i=Inbox" rel="tooltip" data-placement="bottom" title="Inbox"><i class="glyphicon glyphicon-inbox" style="color:#9999ff;"></i> Inbox <span class="badge">{$unread}</span></a></li>
+					  <li><a href="{$base}?i=Articles" rel="tooltip" data-placement="bottom" title="Articles"><i class="glyphicon glyphicon-inbox" style="color:#11dd11;"></i> My Articles</a></li>
+					  <li><a href="{$base}?i=ArticleStats" rel="tooltip" data-placement="bottom" title="Article Stats"><i class="glyphicon glyphicon-stats" style="color:#11dd11;"></i> Article Statistics</a></li>
+					  <li><a href="{$base}?i=Pennames" rel="tooltip" data-placement="bottom" title="Pennames"><i class="glyphicon glyphicon-pencil" style="color:#1111dd;"></i> Pen Names</a></li>
+					  <li><a href="{$base}?i=Submit" rel="tooltip" data-placement="bottom" title="Submit"><i class="glyphicon glyphicon-plus"></i> Submit</a></li>
+					  <li><a href="{$base}?i=Logout" rel="tooltip" data-placement="bottom" title="Logout"><i class="glyphicon glyphicon-cog"></i> Logout</a></li>
+						<? if ($_SESSION['role'] == 'admin') { ?>
+						  <li class="nav-divider"></li>						  
+						  <li><a href="{$base}?i=Admin" rel="tooltip" data-placement="bottom" title="Admin Dashboard"><i class="glyphicon glyphicon-certificate" style="color:#dd1111;"></i> Admin</a></li>
+						  <li><a href="{$base}?i=Admin+Settings" rel="tooltip" data-placement="bottom" title="Admin Settings"><i class="glyphicon glyphicon-cog" style="color:#dd1111;"></i> Settings</a></li>
+						<? } ?>
+				    <? } else { ?>
+					  <li><a href="#loginModal" role="button" data-toggle="modal" rel="tooltip" data-placement="bottom" title="Login"><i class="glyphicon glyphicon-user" style="color:#1111dd;"></i> Login</a></li>
+					  <li><a href="{$base}" role="button" data-toggle="modal" rel="tooltip" data-placement="bottom" title="Register"><i class="glyphicon glyphicon-user" style="color:#1111dd;"></i> Register</a></li>
+				    <? } ?>
+			    </ul>			 
+			 </li>
+           </ul>
+        </div>	
+     </div>	
+</div>

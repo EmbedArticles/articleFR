@@ -1,0 +1,21 @@
+				<h2>
+					ArticleFR - Free Article Directory CMS System
+				</h2>
+				<hr>				
+				<p>Welcome to articleFR's page of freereprintables.com. What is articleFR? Well, articleFR is an open source Article Directory System developed by iSnare Online Technologies with Glenn Prialde as its author. It is a web application written to cater the needs of rapid creation of Article Directories.</p>
+				<p>Technically, articleFR is written in PHP+MySQL and is tested to be hold millions of data and still functions normally being lightweight and customizable with its plugins supported framework.</p>
+				<p>
+					What are the key features of articleFR?
+					<ul>
+						<li>Lightweight and straight-forward scripts.</li>
+						<li>Customizable and pluginable.</li>
+						<li>Article review on submission moderation support.</li>
+						<li>Supports templating.</li>
+						<li>Multiple pen name support.</li>
+						<li>Each pen name has its own email linked.</li>
+						<li>Doesn't waste-up server memory.</li>
+						<li>Lightweight and straight-forward scripts.</li>
+					</ul>
+				</p>
+				<p>Download the latest stable release of the ArticleFR+ Article Directory CMS System. <a href="http://freereprintables.com/download.php?filename=articleFR.zip" style="text-decoration: underline;">Download ver 2.0-stable</a> OR <a href="http://freereprintables.com/download.php?filename=articleFR-upgrade.zip" style="text-decoration: underline;">Upgrade release ver 2.0-stable</a>.</p>
+				<p><small>http://freereprintables.com/articlefr.txt</small></p>				
