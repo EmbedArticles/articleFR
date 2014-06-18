@@ -891,7 +891,18 @@
 	}
 	
 	function import_articles(&$_html, $_brand, $_tpl, $_db, &$_pagination) {
+		if (!empty($_REQUEST['s'])) {
+			$_data = '
+[meta]
+author=' . $_REQUEST['author'] . ' 
+			';
+			file_put_contents( dirname(__FILE__) . '/config/isnare.ini', $_data );
+			$_tpl->assign( "out", "<span class='alert alert-info alert-dismissable'><button type='button' class='close' data-dismiss='alert' aria-hidden='true'>&times;</button>Settings successfully saved!</span>");
+		}
+	
 		if ($_SESSION['isloggedin'] === TRUE && $_SESSION['role'] == 'admin') {
+			$_pennames = getPennames($_SESSION['username'], $_db);
+			$_tpl->assign( "pen_names", $_pennames );
 			$_tpl->assign( "sitetitle", "Import Articles - " . getSiteTitle($_db) );
 			$_tpl->assign( "importsource", "<select name='importsource' class='form-control'><option value='freecontentarticles.com'>freecontentarticles.com</option></select>");
 		} else {

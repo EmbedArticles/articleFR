@@ -86,7 +86,7 @@
 	
 	require_once('afr-filter.php');
 	
-	do_filter($_REQUEST['i'], $_template, $_brand, $_tpl, $_db, $_pagination);	
+	apply_action($_REQUEST['i'], $_template, $_brand, $_tpl, $_db, $_pagination);	
 	//do_plugin_hook($_REQUEST['i'], $_template, $_brand, $_tpl, $_db, $_pagination, $_plugins);	
 	
 	if (!empty($_REQUEST['t']) && !empty($_REQUEST['id']))  {

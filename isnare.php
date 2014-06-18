@@ -31,6 +31,8 @@
 	
 	require_once( dirname(__FILE__) . '/includes/functions.php' );	
 	
+	$_ini = parse_ini_file(dirname(__FILE__) . '/config/isnare.ini', true);
+	
 	//if ($_SERVER['REMOTE_ADDR'] == gethostbyname("apollo.isnare.com")) {
 		$title = $_REQUEST["article_title"];
 		$author = $_REQUEST["article_author"];
@@ -44,7 +46,7 @@
 		$email = $_REQUEST["article_email"]; 	
 		
 		$_conn = new_conn(false);
-		$query = "INSERT INTO article (category, date, author, username, status, title, body, about, summary) VALUES (".mysqli_real_escape_string($_conn, $category).", now(), '".mysqli_real_escape_string($_conn, $author)."', 'admin', 1, '".mysqli_real_escape_string($_conn, $title)."', '".mysqli_real_escape_string($_conn, $body_html)."', '".mysqli_real_escape_string($_conn, $bio_html)."', '".mysqli_real_escape_string($_conn, substr($bio_text, 0, 100))."')";
+		$query = "INSERT INTO article (category, date, author, username, status, title, body, about, summary) VALUES (".mysqli_real_escape_string($_conn, $category).", now(), '".mysqli_real_escape_string($_conn, $_ini["meta"]["author"])."', 'admin', 1, '".mysqli_real_escape_string($_conn, $title)."', '".mysqli_real_escape_string($_conn, $body_html)."', '".mysqli_real_escape_string($_conn, $bio_html)."', '".mysqli_real_escape_string($_conn, substr($bio_text, 0, 100))."')";
 		db_query($query);	
 		close_conn($_conn);
 	//}

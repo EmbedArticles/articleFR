@@ -123,9 +123,16 @@
 	
 	<div class="col-md-6" style="width: 780px;">
 		 <div class="panel panel-default" itemscope itemtype="http://schema.org/Article">
-		  <div class="panel-heading"><a href="{$base}article/{$articleid}/{$articletitle|encodeURL}/" rel="tooltip" data-placement="left" title="{$articletitle}"><h3 itemprop="name">{$articletitle}</h3></a></div>
+		  <div class="panel-heading">		  
+			<a href="{$base}article/{$articleid}/{$articletitle|encodeURL}/" rel="tooltip" data-placement="left" title="{$articletitle}"><h3 itemprop="name">{$articletitle}</h3></a>
+		  </div>
 			<div class="panel-body" style="margin-top: 5px !important; padding-top: 0px !important;">
-				<div style="display: block; padding: 0px; margin: 0px; padding-bottom: 10px; padding-top: 5px; border-bottom: 1px dotted #CCC;"><span>An article by <a href="{$base}author/{$articleauthor|urlencode}/" itemprop="author" rel="tooltip" data-placement="bottom" title="{$articleauthor}">{$articleauthor}</a> submitted under <a href="{$base}category/{$articlecategory|urlencode}/" itemprop="articleSection" rel="tooltip" data-placement="bottom" title="{$articlecategory}">{$articlecategory}</a></span><span class="pull-right"><img src="{$base}content/template/default/images/embed.png" border="0" alt="Embed" width="16" height="16"> <a href="#embedModal" role="button" data-toggle="modal" rel="tooltip" data-placement="bottom" title="Embed Article">Embed</a></span></div>
+				<div style="display: block; padding: 0px; margin: 0px; padding-bottom: 10px; padding-top: 5px; border-bottom: 1px dotted #CCC;">
+					<span>An article by <a href="{$base}author/{$articleauthor|urlencode}/" itemprop="author" rel="tooltip" data-placement="bottom" title="{$articleauthor}">{$articleauthor}</a> submitted under <a href="{$base}category/{$articlecategory|urlencode}/" itemprop="articleSection" rel="tooltip" data-placement="bottom" title="{$articlecategory}">{$articlecategory}</a></span>
+					<span class="dropdown pull-right"><a href="#" data-toggle="dropdown">Publisher Tools <b class="icon-caret-down"></b></a><ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
+						<li><a href="#embedModal" role="button" data-toggle="modal" title="Embed Article">Embed</a></li>
+					</ul></span>					
+				</div>
 				<div style="display: block; padding: 0px; margin: 0px; padding-bottom: 5px; padding-top: 5px;">
 					<div class="pull-right" style="margin: 0px; padding-left: 5px;">
 						<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
@@ -303,7 +310,7 @@
 				<p>Copy and paste the code below to embed this article.</p>
 			</center>
             <div class="form-group">
-			  <textarea class="form-control">
+			  <textarea class="form-control" cols="30" rows="10">
 <a class="embedly-card" href="{$base}article/{$articleid}/{$articletitle|encodeURL}/">{$articletitle}</a>
 <script>!function(a){var b="embedly-platform",c="script";if(!a.getElementById(b)){var d=a.createElement(c);d.id=b,d.src=("https:"===document.location.protocol?"https":"http")+"://cdn.embedly.com/widgets/platform.js";var e=document.getElementsByTagName(c)[0];e.parentNode.insertBefore(d,e)}}(document);</script>				
 			  </textarea>

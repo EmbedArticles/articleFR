@@ -35,6 +35,7 @@
 	include_once(dirname(dirname(__FILE__)) . '/includes/mysqli.functions.php');
 	include_once(dirname(dirname(__FILE__)) . '/includes/admin.functions.php');
 	include_once(dirname(dirname(__FILE__)) . '/includes/inbox.functions.php');	
+	include_once(dirname(dirname(__FILE__)) . '/includes/plugin.php');	
 	
 	function occurrence_keyphrases($phrase, $string) {
 		$count = preg_match_all("/(" . preg_quote($phrase) . ")/i", $string, $matches);
@@ -116,19 +117,7 @@
 		return $_is_adult;
 	}
 	
-	function add_plugin_hook($_dispatcher, $_connection) {
-		$_q = "SELECT dispatcher FROM plugin WHERE status = 1";
-		$_result = queryi($_q, $_connection);
-		
-		while( $_rs = mysqli_fetch_assoc($_result) ) {
-			$_caller = $_rs['dispatcher'];
-			$_caller($_dispatcher);
-		}
-		
-		return true;		
-	}
-	
-	function do_filter($_handler, &$_html, $_brand, $_tpl, $_db, &$_pagination) {					
+	function apply_action($_handler, &$_html, $_brand, $_tpl, $_db, &$_pagination) {					
 		$_handler = strtolower($_handler);
 		$_handler = preg_replace('/([\s]+)/', '_', $_handler);
 		

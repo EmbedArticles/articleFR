@@ -95,8 +95,8 @@
 		}
 	}
 	
-	function getPlugins($_connection) {
-		$_q = "SELECT id, author, name, site, date, active FROM plugins ORDER BY name ASC";
+	function getActivePlugins($_connection) {
+		$_q = "SELECT id, author, name, site, date, active, path FROM plugins WHERE active = 1";
 		$_result = queryi($_q, $_connection);
 	
 		$_retval = array();
@@ -109,6 +109,29 @@
 			$_entry['name'] = $_rs['name'];
 			$_entry['site'] = $_rs['site'];
 			$_entry['date'] = $_rs['date'];
+			$_entry['path'] = $_rs['path'];
+			$_entry['active'] = $_rs['active'];
+			array_push($_retval, $_entry);
+		}
+		
+		return $_retval;
+	}
+	
+	function getPlugins($_connection) {
+		$_q = "SELECT id, author, name, site, date, active, path FROM plugins WHERE active = 1 OR active = 0";
+		$_result = queryi($_q, $_connection);
+	
+		$_retval = array();
+		$_entry = array();
+		$_i = 0;
+		
+		while( $_rs = mysqli_fetch_assoc($_result) ) {
+			$_entry['id'] = $_rs['id'];		
+			$_entry['author'] = $_rs['author'];
+			$_entry['name'] = $_rs['name'];
+			$_entry['site'] = $_rs['site'];
+			$_entry['date'] = $_rs['date'];
+			$_entry['path'] = $_rs['path'];
 			$_entry['active'] = $_rs['active'];
 			array_push($_retval, $_entry);
 		}
