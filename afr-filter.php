@@ -894,7 +894,7 @@
 		if (!empty($_REQUEST['s'])) {
 			$_data = '
 [meta]
-author=' . $_REQUEST['author'] . ' 
+author=\'' . $_REQUEST['author'] . '\'
 			';
 			file_put_contents( dirname(__FILE__) . '/config/isnare.ini', $_data );
 			$_tpl->assign( "out", "<span class='alert alert-info alert-dismissable'><button type='button' class='close' data-dismiss='alert' aria-hidden='true'>&times;</button>Settings successfully saved!</span>");
