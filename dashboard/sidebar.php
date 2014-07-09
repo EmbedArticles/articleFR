@@ -117,11 +117,29 @@ if (apply_filters('the_unread_inbox_count', $_profile['username'], $_conn) > 0) 
 	$_sidebar .= '<li><a href="' . BASE_URL . 'dashboard/messages/inbox/"> <i class="fa fa-inbox"></i> <span>Inbox</span></a></li>';
 }
 
+if ($_SESSION ['role'] == 'admin') {
+	$_sidebar .= '
+		<li class="treeview"><a href="#"> <i class="fa fa-terminal"></i> <span>Tools</span> <i class="fa fa-angle-left pull-right"></i>
+		</a>
+			<ul class="treeview-menu">
+				<li><a href="' . BASE_URL . 'dashboard/tools/isnare/"><i
+						class="fa fa-info"></i> iSnare Publisher</a></li>
+				<!--<li><a href="' . BASE_URL . 'dashboard/tools/import/"><i
+						class="fa fa-cloud-upload"></i> Import Articles</a></li>
+				<li><a href="' . BASE_URL . 'dashboard/tools/export/"><i
+						class="fa fa-cloud-download"></i> Export Articles</a></li>-->						
+			</ul></li>
+	';
+}
+
+
+$_sidebar = apply_filters ( 'pre_close_admin_sidebar', $_sidebar );
+
 $_sidebar .= '
 				</ul>
 			</section>
 			<!-- /.sidebar -->		
 ';
-$_sidebar = apply_filters ( 'admin_sidebar', $_sidebar );
+$_sidebar = apply_filters ( 'the_admin_sidebar', $_sidebar );
 print $_sidebar;
 ?>

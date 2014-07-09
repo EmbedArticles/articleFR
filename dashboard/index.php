@@ -107,7 +107,9 @@ require_once ('session.php');
 		} else if (isset ( $_s ) && $_s == 'users' && $_a == 'export') {
 			include ('usersexport.php');		
 		} else if (isset ( $_s ) && $_s == 'users' && $_a == 'message') {
-			include ('message.php');				
+			include ('message.php');	
+		} else if (isset ( $_s ) && $_s == 'tools' && $_a == 'isnare') {
+			include ('isnarepublisher.php');						
 		} else {
 			include ('dashboard.php');
 		}

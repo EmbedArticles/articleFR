@@ -2,7 +2,7 @@
 ======
 ======
 ======
-====== 1. EDIT config/config.php 
+====== 1. EDIT /path/to/application/config/config.php and supply the needed database and other main configuration values for the system to deploy.
 ======
 ====== 2. Execute articlefr.sql IN Your Database Server
 ======
