@@ -29,9 +29,15 @@
 	*
 	*************************************************************************************************************************/
 	
-	require_once( dirname(__FILE__) . '/includes/functions.php' );	
+	define ( 'ROOT_DIR', realpath ( dirname ( __FILE__ ) ) . '/' );
+	define ( 'SYS_DIR', ROOT_DIR . 'system/' );
+	define ( 'APP_DIR', ROOT_DIR . 'application/' );
 	
-	$_ini = parse_ini_file(dirname(__FILE__) . '/config/isnare.ini', true);
+	include_once( dirname(__FILE__) . '/application/config/config.php' );	
+	require_once( dirname(__FILE__) . '/system/mysqli.functions.php' );
+	include_once( dirname(__FILE__) . '/system/functions.php' );	
+	
+	$_ini = parse_ini_file(dirname(__FILE__) . '/application/config/isnare.ini', true);
 	
 	//if ($_SERVER['REMOTE_ADDR'] == gethostbyname("apollo.isnare.com")) {
 		$title = $_REQUEST["article_title"];
@@ -45,7 +51,7 @@
 		$keywords = $_REQUEST["article_keywords"];
 		$email = $_REQUEST["article_email"]; 	
 		
-		$_conn = new_db_conni();
+		$_conn = new_db_conni($config['db_host'], $config['db_username'], $config['db_password'], $config['db_name']);
 		$_retval = submitArticle('admin', $title, $category, $_ini['meta']['author'], $summary, $body_html, $bio_html, $_conn);
 		print_r($_retval);
 		close_db_conni($_conn);

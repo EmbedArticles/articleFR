@@ -32,8 +32,10 @@
 	session_start();
 	extract($_REQUEST);
 
-	require_once( dirname(__FILE__) . '/includes/functions.php' );
-	$_conn = new_db_conni();
+	require_once( dirname(__FILE__) . '/system/mysqli.functions.php' );
+	include_once( dirname(__FILE__) . '/application/config/config.php' );
+	
+	$_conn = new_db_conni($config['db_host'], $config['db_username'], $config['db_password'], $config['db_name']);
 
 	if ($_REQUEST["act"] == "get") {
 		if (isset($_REQUEST["id"]) && !empty($_REQUEST["id"])) {
@@ -71,7 +73,7 @@
 				$_down = 0;
 			}
 
-			if (empty($_COOKIE['RATE' . $_REQUEST["id"]])) {
+			if (empty($_COOKIE[$_REQUEST["id"]])) {
 				if ($_REQUEST["rate"] == "UP") {
 					$_up = $_up + 1;
 					
@@ -82,7 +84,7 @@
 					
 					queryi($_query_key_1, $_conn);
 
-					setcookie('RATE' . $_REQUEST["id"], $_REQUEST["id"], time()+3600);
+					setcookie($_REQUEST["id"], $_REQUEST["id"], time()+3600);
 				} else {
 					$_down = $_down + 1;
 					
@@ -92,7 +94,7 @@
 					$_query_key_2 = "INSERT INTO rating(id, rate, votes, down, date) VALUES(" . mysqli_real_escape_string($_conn, $_REQUEST["id"]) . ", " . $rate . ", " . $votes . ", " . $_down . ", now()) ON DUPLICATE KEY UPDATE votes = votes + 1, rate = " . $rate . ", down = " . $_down;
 					queryi($_query_key_2, $_conn);
 
-					setcookie('RATE' . $_REQUEST["id"], $_REQUEST["id"], time()+3600);
+					setcookie($_REQUEST["id"], $_REQUEST["id"], time()+3600);
 				}
 			}
 			

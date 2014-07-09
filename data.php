@@ -30,9 +30,19 @@
 	
 	session_start();
 	
-	include_once( dirname(__FILE__) . '/includes/functions.php' );	
+	define ( 'ROOT_DIR', realpath ( dirname ( __FILE__ ) ) . '/' );
+	define ( 'SYS_DIR', ROOT_DIR . 'system/' );
+	define ( 'APP_DIR', ROOT_DIR . 'application/' );
 	
-	$_conn = new_db_conni();
+	include_once( dirname(__FILE__) . '/application/config/config.php' );
+	require_once( dirname(__FILE__) . '/system/mysqli.functions.php' );
+	include_once( dirname(__FILE__) . '/system/functions.php' );
+	
+	if (!$_SESSION['isloggedin']) {
+		header('Location: ' . $config['base_url'] . 'login/');
+	}
+	
+	$_conn = new_db_conni($config['db_host'], $config['db_username'], $config['db_password'], $config['db_name']);
 
 	$_pk = $_REQUEST['pk'];
 	$_pkf = $_REQUEST['pkf'];

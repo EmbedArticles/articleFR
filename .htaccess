@@ -1,19 +1,9 @@
 <IfModule mod_rewrite.c>
-	Options +FollowSymLinks
-	RewriteEngine On
-
-	RewriteRule ^message/f/(.+)$ index.php?i=Message&c=f&id=$1 [QSA,L]
-	RewriteRule ^message/a/(.+)$ index.php?i=Message&c=a&id=$1 [QSA,L]
-	RewriteRule ^message/c/(.+)$ index.php?i=Message&c=c&id=$1 [QSA,L]
-
-	RewriteRule ^author/(.+)/$ index.php?i=Author&c=$1 [QSA,L]
-	RewriteRule ^author/(.+)$ /author/$1/ [QSA,R=301,L]
-
-	RewriteRule ^category/(.+)/$ index.php?i=Category&c=$1 [QSA,L]
-	RewriteRule ^category/(.+)$ /category/$1/ [QSA,R=301,L]
-
-	RewriteRule ^article/(.+)/(.+)/$ index.php?t=$2&id=$1 [QSA,L]
-	RewriteRule ^article/(.+)/(.+)$ /article/$1/$2/ [QSA,R=301,L]	
-	
-	RewriteRule ^articlefr/$ index.php?i=ArticleFR [QSA,L]
+RewriteEngine On
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d 
+RewriteRule . index.php [L]
 </IfModule>
+
+# Prevent file browsing
+Options -Indexes

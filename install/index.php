@@ -18,7 +18,7 @@
       <td colspan=2 align=center height="25"><b><font color="#FFFFFF">ArticleFR+ Installer</font></b></td>
     </tr>
     <tr>
-      <td bgcolor="#FFFFFF" colspan="2"><b>NOTE</b> : Make sure config.php in /config/config.php is writable before you begin the installation.</td>
+      <td bgcolor="#FFFFFF" colspan="2"><b>NOTE</b> : Make sure config.php in <?=dirname(dirname(__FILE__)) . '/application/config/config.php'?> is writable before you begin the installation.</td>
     </tr>
     <tr>
       <td bgcolor="#FFFFFF">Database Host</td>
@@ -72,32 +72,30 @@
 <div style="width: 600px; text-align: left;">
 <?		
 	if (isset($_REQUEST['s'])) {
-		if (is_writable( dirname(dirname(__FILE__)) . '/config/config.php')) {			
+		if (is_writable( dirname(dirname(__FILE__)) . '/application/config/config.php' )) {			
 			$_config = '
-				<?
-					global $host, $name, $password, $username;
-					
-					$_baseurl = "' . $_REQUEST['baseURL'] . '";
-					
-					$admin_email = "' . $_REQUEST['adminEmail'] . '";
-					
-					$host = "' . $_REQUEST['databaseHost'] . '"; // Database host
-					
-					$name = "' . $_REQUEST['databaseName'] . '"; // Database name
-					
-					$password = "' . $_REQUEST['databasePassword'] . '"; // Database password
-					
-					$username = "' . $_REQUEST['databaseUser'] . '";	 // Database user
-					
-					/*************************************** DO NOT EDIT ***************************************/
-					$GLOBALS[\'base_url\'] = $_baseurl;
-					$GLOBALS[\'admin_email\'] = $admin_email;
-					$GLOBALS[\'template\'] = \'default\';
-					/*************************************** DO NOT EDIT ***************************************/
-				?>
+<?				
+	$config[\'admin_email\'] = \'' . $_REQUEST['adminEmail'] . '\'; // admin email to use in email notices
+
+	$config[\'template\'] = \'modular\'; // template to use
+	$config[\'base_url\'] = \'' . $_REQUEST['baseURL'] . '\'; // Base URL including trailing slash (e.g. http://localhost/)
+
+	$config[\'default_controller\'] = \'main\'; // Default controller to load
+	$config[\'error_controller\'] = \'error\'; // Controller used for errors (e.g. 404, 500 etc)
+
+	$config[\'db_host\'] = \'' . $_REQUEST['databaseHost'] . '\'; // Database host (e.g. localhost)
+	$config[\'db_name\'] = \'' . $_REQUEST['databaseName'] . '\'; // Database name
+	$config[\'db_username\'] = \'' . $_REQUEST['databaseUser'] . '\'; // Database username
+	$config[\'db_password\'] = \'' . $_REQUEST['databasePassword'] . '\'; // Database password
+
+	$config[\'autoload_helpers\'] = array(\'session_helper\', \'url_helper\');
+
+	$GLOBALS[\'template\'] = $config[\'template\'];
+	$GLOBALS[\'base_url\'] = $config[\'base_url\'];
+?>
 			';
 											
-			file_put_contents(dirname(dirname(__FILE__)) . '/config/config.php', $_config);		
+			file_put_contents( dirname(dirname(__FILE__)) . '/application/config/config.php', $_config );		
 			
 			print '<p><div class="alert alert-success">Done writing configuration file...</div></p>';
 			

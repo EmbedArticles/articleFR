@@ -1,0 +1,7 @@
+<IfModule mod_rewrite.c>
+RewriteEngine On
+RewriteRule ^([^/]*)/([^/]*)/$ index.php?_s=$1&_a=$2 [QSA,L]
+</IfModule>
+
+# Prevent file browsing
+Options -Indexes
