@@ -141,7 +141,9 @@
 					<h3 class="box-title">Plugin Settings</h3>
 				</div>		        
 				<div class="box-body">
-				
+				<?php 
+					include_once(PLUGIN_DIR . $_plugin['path'] . '/plugin-setting.php');
+				?>
 				</div><!-- /.box-body -->
 			</div>			
       	</section>		

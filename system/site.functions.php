@@ -27,7 +27,7 @@
 	*************************************************************************************************************************/
 	
 	function getPassword($_username, $_connection) {
-		$_q = "SELECT password, email FROM users WHERE username = '" . mysqli_real_escape_string($_connection, $_username) . "'";
+		$_q = "SELECT password, email, name FROM users WHERE username = '" . mysqli_real_escape_string($_connection, $_username) . "'";
 		$_result = single_resulti($_q, $_connection);
 		return $_result;
 	}	

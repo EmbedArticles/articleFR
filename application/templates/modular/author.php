@@ -54,6 +54,7 @@
 				print '<p>No articles yet under this category.</p>';
 			}
 			
+			print '<center>' . $site->pagination . '</center>';
 		?>		
 		  </div>
 		</div>		

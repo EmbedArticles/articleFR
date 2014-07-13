@@ -74,19 +74,19 @@ if($_html == null) {
 		require_once (APP_DIR . 'controllers/' . $controller . '.php');
 	}
 	
-	$_dbc = new_db_conni($config['db_host'], $config['db_username'], $config['db_password'], $config['db_name']);	
-	$_plugins = getActivePlugins($_dbc);	
-	foreach ( $_plugins as $_plugin ) {
-		@require_once (PLUGIN_DIR . $_plugin['path'] . '/plugin.php');
-	}	
-	close_db_conni($_dbc);
-	
 	// Check the action exists
 	if (! method_exists ( $controller, $action )) {
 		$controller = $config ['error_controller'];
 		require_once (APP_DIR . 'controllers/' . $controller . '.php');
 		$action = 'index';
 	}
+	
+	$GLOBALS['afrdb'] = new_db_conni($config['db_host'], $config['db_username'], $config['db_password'], $config['db_name']);	
+	$_plugins = getActivePlugins($GLOBALS['afrdb']);	
+	foreach ( $_plugins as $_plugin ) {
+		@require_once (PLUGIN_DIR . $_plugin['path'] . '/plugin.php');
+	}	
+	close_db_conni($GLOBALS['afrdb']);	
 	
 	// Create object and call method
 	$obj = new $controller ();
@@ -95,9 +95,10 @@ if($_html == null) {
 			$action 
 	), array_slice ( $segments, 2 ) );
 	
-$_html = ob_get_contents();
+$_html = ob_get_clean();
 ob_clean();
 ob_end_flush ();
+ob_end_clean();
 $_cache->set($_page, $_html, 1800);
 }
 

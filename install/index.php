@@ -18,7 +18,10 @@
       <td colspan=2 align=center height="25"><b><font color="#FFFFFF">ArticleFR+ Installer</font></b></td>
     </tr>
     <tr>
-      <td bgcolor="#FFFFFF" colspan="2"><b>NOTE</b> : Make sure config.php in <?=dirname(dirname(__FILE__)) . '/application/config/config.php'?> is writable before you begin the installation.</td>
+      <td bgcolor="#FFFFFF" colspan="2">
+		<p><b>NOTE</b> : Make sure config.php in <?=dirname(dirname(__FILE__)) . '/application/config/config.php'?> is writable before you begin the installation.</p>
+		<p><b>Please BACK-UP your article, users, and other key tables before installing...</b></p>
+	  </td>
     </tr>
     <tr>
       <td bgcolor="#FFFFFF">Database Host</td>

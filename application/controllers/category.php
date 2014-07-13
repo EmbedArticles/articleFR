@@ -32,18 +32,34 @@ class Category extends Controller {
 	
 	function v($_param_i, $_param_ii)
 	{
+		$pagination = new Pagination();
+		$page = isset($_REQUEST['page']) ? ((int) $_REQUEST['page']) : 1;
+		$pagination->setCurrent($page);
+		$pagination->setTarget($GLOBALS['base_url'] . 'category/v/' . $_param_i . '/' . $_param_ii);
+		$pagination->setRPP(15);
+		
 		$_site = $this->loadModel('site');
 		$_view = $this->loadView('category');
 
 		$_site->init();
 		
 		$_site->connect();
-		$_recent = apply_filters('get_category_live_articles', $_param_i, $_site->getConnection(), 0, 10);
+		$_recent = apply_filters('get_category_live_articles', $_param_i, $_site->getConnection(), $pagination->getStart(), $pagination->getRPP());
 		$_site->close();
-
-		$_site->recent = $_recent;
 		
-		$_site->set('title', apply_filters('the_site_title', str_replace('And', 'and', decodeURL($_param_ii)) . ' Article Section'));
+		$_recent[0]['total'] = $_recent[0]['total'] <= 0 ? 0 : $_recent[0]['total'];
+		
+		$pagination->setTotal($_recent[0]['total']);
+		$_site->pagination = $pagination->parse();
+		
+		$_site->recent = $_recent;		
+		
+		if ($page > 1) {
+			$_site->set('title', apply_filters('the_site_title', str_replace('And', 'and', decodeURL($_param_ii)) . ' Article Section Page ' . $page));
+		} else {
+			$_site->set('title', apply_filters('the_site_title', str_replace('And', 'and', decodeURL($_param_ii)) . ' Article Section'));
+		}
+		
 		$_site->set('description', apply_filters('the_site_description', null));
 		$_site->set('keywords', apply_filters('the_meta_keys', null));
 		

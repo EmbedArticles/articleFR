@@ -32,6 +32,12 @@ class Author extends Controller {
 	
 	function v($_param_i)
 	{
+		$pagination = new Pagination();
+		$page = isset($_REQUEST['page']) ? ((int) $_REQUEST['page']) : 1;
+		$pagination->setCurrent($page);
+		$pagination->setTarget($GLOBALS['base_url'] . 'author/v/' . $_param_i);
+		$pagination->setRPP(15);
+		
 		$_site = $this->loadModel('site');
 		$_view = $this->loadView('author');
 
@@ -43,9 +49,12 @@ class Author extends Controller {
 		$_profile['biography'] = apply_filters('the_biography', $_penname_profile['biography']);
 		$_profile['gravatar'] = apply_filters('the_gravatar', $_penname_profile['gravatar']);
 		$_profile['name'] = apply_filters('the_author', decodeURL($_param_i));
-		$_recent = apply_filters('get_recent_by_author', decodeURL($_param_i), $_site->getConnection(), 0, 20);
+		$_recent = apply_filters('get_recent_by_author', decodeURL($_param_i), $_site->getConnection(), $pagination->getStart(), $pagination->getRPP());
 		$_site->close();
 
+		$pagination->setTotal($_recent[0]['total']);
+		$_site->pagination = $pagination->parse();
+		
 		$_site->recent = $_recent;
 		$_site->profile = apply_filters('the_profile_object', $_profile);
 		

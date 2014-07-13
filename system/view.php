@@ -44,18 +44,18 @@ class View {
 	}
 		
 	public function render()
-	{
-		include_once(ROOT_DIR . 'system/mysqli.functions.php');					
-		
+	{							
 		foreach($this->pageVars as $_key => $_val) {
 			$this->pageVars[$_key] = unserialize($_val);
 		}
 		
 		extract($this->pageVars);
-
+	
 		ob_start();		
+		
 		require_once($this->functions);
 		require_once($this->template);
+		
 		echo ob_get_clean();
 		ob_end_flush();
 	}

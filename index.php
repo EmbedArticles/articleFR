@@ -54,6 +54,7 @@ require_once(ROOT_DIR . 'system/controller.php');
 require_once(ROOT_DIR . 'system/online.class.php');
 require_once(ROOT_DIR . 'system/php_fast_cache.php');
 require_once(ROOT_DIR . 'system/afr.php');
+require_once(ROOT_DIR . 'system/includes/lib/pagination/Pagination.class.php');
 
 // Define base URL
 global $config;

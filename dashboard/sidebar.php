@@ -119,7 +119,7 @@ if (apply_filters('the_unread_inbox_count', $_profile['username'], $_conn) > 0) 
 
 if ($_SESSION ['role'] == 'admin') {
 	$_sidebar .= '
-		<li class="treeview"><a href="#"> <i class="fa fa-terminal"></i> <span>Tools</span> <i class="fa fa-angle-left pull-right"></i>
+		<li class="treeview"><a href="#"> <i class="fa fa-archive"></i> <span>Tools</span> <i class="fa fa-angle-left pull-right"></i>
 		</a>
 			<ul class="treeview-menu">
 				<li><a href="' . BASE_URL . 'dashboard/tools/isnare/"><i

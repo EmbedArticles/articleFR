@@ -405,6 +405,9 @@
 	}	
 	
 	function getRecentArticlesByAuthor($_author, $_connection, $_start = 0, $_limit = 10) {		
+		$_qc = "SELECT count(a.id) as count FROM article a, category b, penname c WHERE a.status = 1 AND b.name = a.category AND c.name = a.author AND c.name = '" . mysqli_real_escape_string($_connection, $_author) . "'";
+		$_resultc = single_resulti($_qc, $_connection);
+		
 		$_q = "SELECT a.title, a.id, a.summary, a.body, a.author, a.category, a.date, b.id as category_id, c.gravatar FROM article a, category b, penname c WHERE a.status = 1 AND b.name = a.category AND c.name = a.author AND c.name = '" . mysqli_real_escape_string($_connection, $_author) . "' ORDER BY a.date DESC LIMIT " . $_start . ", " . $_limit;
 		$_result = queryi($_q, $_connection);
 	
@@ -413,6 +416,7 @@
 		$_i = 0;
 		
 		while( $_rs = mysqli_fetch_assoc($_result) ) {
+			$_entry['total'] = $_resultc['count'];
 			$_entry['id'] = $_rs['id'];
 			$_entry['title'] = $_rs['title'];
 			$_entry['summary'] = $_rs['summary'];
@@ -504,6 +508,9 @@
 	}
 	
 	function getArticlesByCategoryID($_category_id, $_connection, $_start = 0, $_limit = 10) {				
+		$_qc = "SELECT count(a.id) as count FROM article a, category b, penname c WHERE a.status = 1 AND b.name = a.category AND c.name = a.author AND b.id = " . intval($_category_id);
+		$_resultc = single_resulti($_qc, $_connection);
+		
 		$_q = "SELECT a.title, a.id, a.summary, a.body, a.author, a.category, a.date, b.id as category_id, c.gravatar FROM article a, category b, penname c WHERE a.status = 1 AND b.name = a.category AND c.name = a.author AND b.id = " . intval($_category_id) . " ORDER BY a.date DESC LIMIT " . $_start . ", " . $_limit;
 		$_result = queryi($_q, $_connection);
 	
@@ -512,6 +519,7 @@
 		$_i = 0;
 		
 		while( $_rs = mysqli_fetch_assoc($_result) ) {
+			$_entry['total'] = $_resultc['count'];
 			$_entry['id'] = $_rs['id'];
 			$_entry['title'] = $_rs['title'];
 			$_entry['summary'] = $_rs['summary'];

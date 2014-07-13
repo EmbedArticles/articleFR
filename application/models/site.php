@@ -47,6 +47,7 @@ class Site extends Model {
 	public $profile;
 	public $random;
 	public $controller;
+	public $pagination;
 	
 	public function init() {		
 		$this->connect();

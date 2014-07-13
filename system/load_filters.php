@@ -28,7 +28,7 @@
 	
 	add_filter('get_site_settings', 'getSiteSettings');
 	add_filter('get_brand', 'getSiteBrand');
-	add_filter('get_password', 'getPassword');
+	add_filter('get_password', 'getPassword', 10, 2);
 	add_filter('get_role', 'getRole', 10, 2);
 	add_filter('count_users', 'countRegisteredUsers');
 	add_filter('do_login', 'site_login', 10, 4);

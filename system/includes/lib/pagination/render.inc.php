@@ -22,7 +22,7 @@
         $classes = array('copy', 'previous');
         $params = $get;
         $params[$key] = ($current - 1);
-        $href = ($target) . '?' . http_build_query($params);
+        $href = ($target) . '/?' . http_build_query($params);
         $href = preg_replace(
             array('/=$/', '/=&/'),
             array('', '&'),
@@ -70,7 +70,7 @@
                 // class/href setup
                 $params = $get;
                 $params[$key] = ($current + $x - $leading);
-                $href = ($target) . '?' . http_build_query($params);
+                $href = ($target) . '/?' . http_build_query($params);
                 $href = preg_replace(
                     array('/=$/', '/=&/'),
                     array('', '&'),
@@ -91,7 +91,7 @@
                 // class/href setup
                 $params = $get;
                 $params[$key] = ($current + $x + 1);
-                $href = ($target) . '?' . http_build_query($params);
+                $href = ($target) . '/?' . http_build_query($params);
                 $href = preg_replace(
                     array('/=$/', '/=&/'),
                     array('', '&'),
@@ -111,7 +111,7 @@
         $classes = array('copy', 'next');
         $params = $get;
         $params[$key] = ($current + 1);
-        $href = ($target) . '?' . http_build_query($params);
+        $href = ($target) . '/?' . http_build_query($params);
         $href = preg_replace(
             array('/=$/', '/=&/'),
             array('', '&'),

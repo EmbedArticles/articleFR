@@ -102,7 +102,7 @@
 					$_realpath = $_plugindir . $entry;
 					if (file_exists($_realpath . '/plugin.ini')) {
 						$_ini = parse_ini_file($_realpath . '/plugin.ini', true);
-						addPlugin($entry, $_ini["meta"]["name"], $_ini["meta"]["author"], $_ini["meta"]["site"], $_connection);
+						addPlugin($entry, $_ini["meta"]["name"], $_ini["meta"]["author"], $_ini["meta"]["site"], $_ini["meta"]["description"], $_connection);
 					}
 				}
 			}
@@ -186,11 +186,11 @@
 		return $_retval;
 	}
 	
-	function addPlugin($_path, $_name, $_author, $_site, $_connection) {
-		if (!empty($_name) && !empty($_author) && !empty($_site)) {
+	function addPlugin($_path, $_name, $_author, $_site, $_description, $_connection) {
+		if (!empty($_name) && !empty($_author) && !empty($_site) && !empty($_description)) {
 			$_q = "
-				INSERT INTO plugins(`path`, `author`, `name`, `site`, `date`, `active`)
-					VALUES('" . mysqli_real_escape_string($_connection, $_path) . "', '" . mysqli_real_escape_string($_connection, $_author) . "', '" . mysqli_real_escape_string($_connection, $_name) . "', '" . mysqli_real_escape_string($_connection, $_site) . "', now(), 0) ON DUPLICATE KEY UPDATE date = now()";
+				INSERT INTO plugins(`path`, `author`, `name`, `site`, `date`, `description`, `active`)
+					VALUES('" . mysqli_real_escape_string($_connection, $_path) . "', '" . mysqli_real_escape_string($_connection, $_author) . "', '" . mysqli_real_escape_string($_connection, $_name) . "', '" . mysqli_real_escape_string($_connection, $_site) . "', now(), '" . mysqli_real_escape_string($_connection, $_description) . "', 0) ON DUPLICATE KEY UPDATE date = now()";
 			queryi($_q, $_connection);		
 			return 1;
 		} else {

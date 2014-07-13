@@ -100,6 +100,53 @@ class Login extends Controller {
 		$_view->set('site', apply_filters('the_site_object', $_site));
 		$_view->render();		
 	}
+	
+	function v($_param_i) {
+		global $config;
+	
+		$_site = $this->loadModel('site');
+		$_view = $this->loadView('login');
+	
+		$_site->init();
+	
+		$_site->set('title', apply_filters('the_site_title', ucfirst($_param_i) . ' Password'));
+		$_site->set('description', apply_filters('the_site_description', null));
+		$_site->set('keywords', apply_filters('the_meta_keys', null));
+	
+		$_site->set_canonical(apply_filters('the_canonical', $GLOBALS['base_url'] . 'login/v/' . $_param_i));
+	
+		$_site->controller = 'login';
+	
+		if ($_REQUEST['submit'] == 'reset') {
+			$_site->connect();
+			$_user = apply_filters('get_password',  $_REQUEST['username'], $_site->getConnection());			
+				
+			$_subject = getSiteSetting ( 'SITE_TITLE', $_site->getConnection() ) . ' Password Reset';
+			$_message = 'Please see below your account username and password. <br><br> Username: ' . $_REQUEST['username'] . '<br><br> Password: ' . $_user['password'];
+			email($config['base_url'], $_site->brand, getSiteSetting ( 'SITE_TITLE', $_site->getConnection() ), $config['admin_email'], $_user['email'], $_user['name'], $_message, $_subject);
+			
+			$_site->close();
+			$_view->set('s', 1);
+		}
+		
+		if ($_REQUEST['submit'] == 'resend') {
+			$_site->connect();
+			$_user = apply_filters('get_password',  $_REQUEST['username'], $_site->getConnection());
+			$_key = md5($_user['email'] . 'saltGwapoMiArticleFR+');
+			
+			$_subject = getSiteSetting ( 'SITE_TITLE', $_site->getConnection() ) . ' Registration Confirmation';
+			$_message = 'Please click on the link below to activate your account.<br><br><a href="' . $config['base_url'] . 'activate.php?k=' . $_key . '">' . $config['base_url'] . 'activate.php?k=' . $_key . '</a>';
+			email($config['base_url'], $_site->brand, getSiteSetting ( 'SITE_TITLE', $_site->getConnection() ), $config['admin_email'], $_user['email'], $_user['name'], $_message, $_subject);
+			
+			$_site->close();
+			$_view->set('s', 2);
+		}		
+				
+		$_view->set('r', $_param_i);
+	
+		$_view->set('site', apply_filters('the_site_object', $_site));
+		$_view->render();
+	}	
     
 }
 

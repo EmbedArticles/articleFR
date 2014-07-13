@@ -5,6 +5,7 @@ error_reporting ( E_ERROR );
 extract ( $_REQUEST );
 define ( 'ROOT_DIR', realpath ( dirname ( dirname ( __FILE__ ) ) ) . '/' );
 define ( 'SYS_DIR', ROOT_DIR . 'system/' );
+define ( 'PLUGIN_DIR', ROOT_DIR .'application/plugins/');
 define ( 'APP_DIR', ROOT_DIR . 'application/' );
 define ( 'AFR_VERSION', file_get_contents ( ROOT_DIR . '/version.txt' ) );
 

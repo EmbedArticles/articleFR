@@ -129,7 +129,7 @@
 							<select name="author" class="form-control" parsley-trigger="change" required>
 				';
 
-				$_pennames = apply_filters ( 'my_pennames', $_profile['username'], $_conn );
+				$_pennames = apply_filters ( 'my_pennames', $_article['username'], $_conn );
 				foreach ( $_pennames as $_name ) {
 					if ($_article['author'] == $_name['name']) {
 						print '<option value="' . $_name ['name'] . '" selected>' . $_name ['name'] . '</option>';
