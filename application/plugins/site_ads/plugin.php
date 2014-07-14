@@ -1,6 +1,6 @@
 <?
 	
-	function init() {
+	function site_ads_init() {
 		add_filter('the_article_body', 'display_330_280');
 	}
 	
@@ -8,7 +8,7 @@
 		$_pub_id = getSiteSetting('ADSENSE_PUBID', $GLOBALS['afrdb']);
 	
 		$_ads .= '
-			<div class="pull-right" style="margin: 0px; padding-left: 5px;">	
+			<div class="pull-right thumbnail" style="margin: 0px; padding-left: 5px;">	
 				<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
 				<ins class="adsbygoogle"
 					 style="display:inline-block;width:330px;height:280px;padding:0px;margin:0px;"
@@ -21,6 +21,6 @@
 		return $_ads . $_article;
 	}
 	
-	init();
+	site_ads_init();
 
 ?>

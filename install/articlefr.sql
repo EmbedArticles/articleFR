@@ -202,7 +202,10 @@ CREATE TABLE IF NOT EXISTS `pages` (
   UNIQUE KEY `title` (`title`,`description`),
   UNIQUE KEY `url` (`url`),
   KEY `status` (`status`)
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=2 ;
+
+INSERT INTO `pages` (`id`, `url`, `title`, `description`, `keywords`, `content`, `status`) VALUES 
+(6, 'about', 'About Us', 'About ArticleFR and Free Reprintables website...', 'articlefr,free reprintables,free articles,free article directory', '<h2><span>About Us<br></span></h2><p>Welcome to articleFR''s page of freereprintables.com. What is articleFR? Well, articleFR is an open source Article Directory System developed by iSnare Online Technologies with Glenn Prialde as its author. It is a web application written to cater the needs of rapid creation of Article Directories.</p><p>Technically, articleFR is written in PHP+MySQL and is tested to be hold millions of data and still functions normally being lightweight and customizable with its plugins supported framework.</p>', 1);
 
 DROP TABLE IF EXISTS `penname`;
 CREATE TABLE IF NOT EXISTS `penname` (
@@ -257,6 +260,14 @@ CREATE TABLE IF NOT EXISTS `settings` (
   UNIQUE KEY `name` (`name`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=14 ;
 
+DROP TABLE IF EXISTS `sessions`;
+CREATE TABLE IF NOT EXISTS `sessions` (
+  `id` int(10) NOT NULL AUTO_INCREMENT,
+  `ip` varchar(15) NOT NULL DEFAULT '',
+  `timestamp` varchar(15) NOT NULL DEFAULT '',
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `id` (`id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
 REPLACE INTO `settings` (`id`, `name`, `content`, `date`) VALUES
 (1, 'SITE_TITLE', 'Free Reprintables', '2014-01-10 20:20:18'),

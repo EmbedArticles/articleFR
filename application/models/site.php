@@ -48,6 +48,7 @@ class Site extends Model {
 	public $random;
 	public $controller;
 	public $pagination;
+	public $pages;
 	
 	public function init() {		
 		$this->connect();
@@ -65,7 +66,8 @@ class Site extends Model {
 		$this->random = apply_filters('get_random_articles', $GLOBALS['afrdb']);
 		$this->categories = apply_filters('get_categories', $GLOBALS['afrdb']);
 		$this->recent_pennames = apply_filters('get_pennames', 20, $GLOBALS['afrdb']);
-		$this->live_count = apply_filters('get_live_article_count', $GLOBALS['afrdb']);	
+		$this->live_count = apply_filters('get_live_article_count', $GLOBALS['afrdb']);
+		$this->pages = apply_filters('get_pages', $GLOBALS['afrdb']);	
 		$this->close();
 	}
 		

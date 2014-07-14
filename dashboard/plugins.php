@@ -14,6 +14,8 @@
 
 <?php 
 
+	$ini = new INI();
+	
 	do_action ( 'find_plugins', $_conn );
 	
 	if (isset($_REQUEST['pa']) && $_REQUEST['pa'] == 'enable') {

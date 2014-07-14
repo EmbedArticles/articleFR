@@ -63,7 +63,7 @@ class Register extends Controller {
 				//$_SESSION['role'] = apply_filters('the_role', $_role);				
 				
 				//$_site->profile = apply_filters('the_profile_object', $_profile);
-				
+								
 				do_action('do_log', 'REG', $_REQUEST['username'] . ' has registered...', 0, $_REQUEST['username'], $_site->getConnection());
 				//$this->redirect('dashboard/');
 				

@@ -56,7 +56,7 @@
 	}
 	
 	function display_rating($article, $site, $rate, $votes) {		
-		return '<b>Is the article helpful?</b> <span style="color: #006699 !important;"><a href="javascript:setRate(\'set\', ' . $article['id'] . ',\'UP\');" rel="nofollow" title="Yes! Article is helpful!"><img src="' . $site->base . 'application/templates/' . $site->template . '/images/thumb_up.png" alt="yes" border="0"></a> <span id="rate" name="rate">scored ' . $rate . ' of ' . $votes . ' votes</span> <a href="javascript:setRate(\'set\', ' . $article['id'] . ',\'DOWN\');" rel="nofollow" title="No! Article is not helpful!"><img src="' . $site->base . 'application/templates/' . $site->template . '/images/thumb_down.png" alt="no" border="0"></a>';	
+		return '<b>Is the article helpful?</b> <span><a href="javascript:setRate(\'set\', ' . $article['id'] . ',\'UP\');" rel="nofollow" title="Yes! Article is helpful!"><img src="' . $site->base . 'application/templates/' . $site->template . '/images/thumb_up.png" alt="yes" border="0"></a> <span id="rate" name="rate">scored ' . $rate . ' of ' . $votes . ' votes</span> <a href="javascript:setRate(\'set\', ' . $article['id'] . ',\'DOWN\');" rel="nofollow" title="No! Article is not helpful!"><img src="' . $site->base . 'application/templates/' . $site->template . '/images/thumb_down.png" alt="no" border="0"></a>';	
 	}
 	
 	function format_article_body($_data) {

@@ -30,13 +30,18 @@ class Article extends Controller {
 
 	function index() {}
 	
-	function v($_param_i, $_param_ii) {
+	function v($_param_i, $_param_ii) {			
 		$_site = $this->loadModel('site');
 		$_view = $this->loadView('article');
 
 		$_site->init();
 		
 		$_site->connect();
+		
+		if (!isset($_COOKIE[$_param_i]) && empty($_COOKIE[$_param_i])) {
+			updateArticleView($_param_i, $_site->getConnection());
+			setcookie($_param_i, session_id(), time() + 60*60*24*1);
+		}
 		
 		$_article = apply_filters('the_article', $_param_i, $_site->getConnection());
 		$_keywords = apply_filters('the_keywords', $_article['body']);

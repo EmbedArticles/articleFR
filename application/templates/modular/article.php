@@ -45,7 +45,7 @@
 				  <div style="display: block; margin-top: 10px; padding: 5px; background-color: #F5F5F5; border-radius: 4px;"><p><small>This article or any part of it is published for entertainment and educational purposes only, please do not apply or test any information and data found in this article without the help and advice of a professional. You are considered responsible for your own actions in any event which you use and apply any information found or pertaining to this article.</small></p></div>	  		
 			';
 			
-			add_action('pre_recent_article_view', 'trim');
+			print apply_filters('pre_recent_list_article_view', null);
 			
 			print '
 				  <div style="display: block; margin-top: 10px; margin-bottom: 10px; padding: 5px; padding-bottom: 0px; border-bottom: 1px dotted #E0E0E0; padding-left: 0px;"><h4><b>Recent Articles On ' . $article['category'] . '</b></h4></div>				
@@ -53,20 +53,26 @@
 			
 			$_ctr = 0;
 			foreach($site->recent as $_recent) {
-				print '
-					<div>
-						<h3><a href="' . $site->base . 'article/v/' . $_recent['id'] . '/' . encodeURL($_recent['title']) . '" title="' . htmlspecialchars($_recent['title']) . '">' . $_recent['title'] . '</a></h3>
-						<p>' . $_recent['summary'] . '...</p>
-						<p class="pull-right"><span class="label label-danger"><a href = "' . $site->base . 'category/v/' . $_recent['category_id'] . '/' . encodeURL($_recent['category']) . '">' . $_recent['category'] . '</a></span></p>
-						<ul class="list-inline"><li><a href="' . $site->base . 'author/v/' . encodeURL($_recent['author']) . '"><img src="' . get_gravatar($_recent['gravatar'], 20) . '" alt="User" border="0"></a> Submitted by <a href="' . $site->base . 'author/v/' . encodeURL($_recent['author']) . '">' . $_recent['author'] . '</a> last ' . getTime($_recent['date']) . '</li></ul>
-					</div>
-					<hr>
-				';
-				if($_ctr == 9)
-					break;
-				else 
-					$_ctr++;
-			}			
+				if ($article['title'] != $_recent['title']) {
+					print '
+						<div>
+							<h3><a href="' . $site->base . 'article/v/' . $_recent['id'] . '/' . encodeURL($_recent['title']) . '" title="' . htmlspecialchars($_recent['title']) . '">' . $_recent['title'] . '</a></h3>
+							<p>' . $_recent['summary'] . '...</p>
+							<p class="pull-right"><span class="label label-danger"><a href = "' . $site->base . 'category/v/' . $_recent['category_id'] . '/' . encodeURL($_recent['category']) . '">' . $_recent['category'] . '</a></span></p>
+							<ul class="list-inline"><li><a href="' . $site->base . 'author/v/' . encodeURL($_recent['author']) . '"><img src="' . get_gravatar($_recent['gravatar'], 20) . '" alt="User" border="0"></a> Submitted by <a href="' . $site->base . 'author/v/' . encodeURL($_recent['author']) . '">' . $_recent['author'] . '</a> last ' . getTime($_recent['date']) . '</li></ul>
+						</div>
+						<hr>
+					';
+					if($_ctr == 9)
+						break;
+					else 
+						$_ctr++;
+				}
+			}
+
+			if ($_ctr == 0) {
+				print '<p>No other articles yet under this category.</p>';
+			}
 		?>	
 		  </div>
 		</div>		

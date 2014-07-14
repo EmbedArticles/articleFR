@@ -38,20 +38,20 @@
 				</div>
 			';
 		
-			foreach($site->recent as $_recent) {
-				print '
-					<div>
-						<h3><a href="' . $site->base . 'article/v/' . $_recent['id'] . '/' . encodeURL($_recent['title']) . '" title="' . htmlspecialchars($_recent['title']) . '">' . $_recent['title'] . '</a></h3>
-						<p>' . $_recent['summary'] . '...</p>
-						<p class="pull-right"><span class="label label-danger"><a href = "' . $site->base . 'category/v/' . $_recent['category_id'] . '/' . encodeURL($_recent['category']) . '">' . $_recent['category'] . '</a></span></p>
-						<ul class="list-inline"><li><a href="' . $site->base . 'author/v/' . encodeURL($_recent['author']) . '"><img src="' . get_gravatar($_recent['gravatar'], 20) . '" alt="User" border="0"></a> Submitted by <a href="' . $site->base . 'author/v/' . encodeURL($_recent['author']) . '">' . $_recent['author'] . '</a> last ' . getTime($_recent['date']) . '</li></ul>
-					</div>
-					<hr>				
-				';							
-			}		
-			
-			if (count($site->recent) <= 0) {
-				print '<p>No articles yet under this category.</p>';
+			if (!empty($site->recent[0]['id'])) {
+				foreach($site->recent as $_recent) {
+					print '
+						<div>
+							<h3><a href="' . $site->base . 'article/v/' . $_recent['id'] . '/' . encodeURL($_recent['title']) . '" title="' . htmlspecialchars($_recent['title']) . '">' . $_recent['title'] . '</a></h3>
+							<p>' . $_recent['summary'] . '...</p>
+							<p class="pull-right"><span class="label label-danger"><a href = "' . $site->base . 'category/v/' . $_recent['category_id'] . '/' . encodeURL($_recent['category']) . '">' . $_recent['category'] . '</a></span></p>
+							<ul class="list-inline"><li><a href="' . $site->base . 'author/v/' . encodeURL($_recent['author']) . '"><img src="' . get_gravatar($_recent['gravatar'], 20) . '" alt="User" border="0"></a> Submitted by <a href="' . $site->base . 'author/v/' . encodeURL($_recent['author']) . '">' . $_recent['author'] . '</a> last ' . getTime($_recent['date']) . '</li></ul>
+						</div>
+						<hr>				
+					';							
+				}		
+			} else {
+				print '<p>No articles yet under this author.</p>';
 			}
 			
 			print '<center>' . $site->pagination . '</center>';

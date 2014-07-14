@@ -80,7 +80,7 @@
 <?				
 	$config[\'admin_email\'] = \'' . $_REQUEST['adminEmail'] . '\'; // admin email to use in email notices
 
-	$config[\'template\'] = \'modular\'; // template to use
+	$config[\'template\'] = \'amelia\'; // template to use
 	$config[\'base_url\'] = \'' . $_REQUEST['baseURL'] . '\'; // Base URL including trailing slash (e.g. http://localhost/)
 
 	$config[\'default_controller\'] = \'main\'; // Default controller to load

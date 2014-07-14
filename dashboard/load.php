@@ -11,6 +11,7 @@ define ( 'AFR_VERSION', file_get_contents ( ROOT_DIR . '/version.txt' ) );
 
 require_once (APP_DIR . 'config/config.php');
 require_once (SYS_DIR . 'plugin.php');
+require_once (SYS_DIR . 'ini.class.php');
 require_once (SYS_DIR . 'online.class.php');
 require_once (SYS_DIR . 'load_actions.php');
 require_once (SYS_DIR . 'load_filters.php');

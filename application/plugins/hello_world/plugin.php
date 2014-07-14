@@ -1,6 +1,6 @@
 <?
 	
-	function init() {
+	function hello_world_init() {
 		add_filter('the_site_title', 'set_title');
 	}
 	
@@ -8,6 +8,6 @@
 		return $_title . ' - Hello World';
 	}
 	
-	init();
+	hello_world_init();
 
 ?>

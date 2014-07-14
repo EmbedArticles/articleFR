@@ -44,10 +44,10 @@ function get_head($title, $description, $keywords, $canonical, $base, $template)
 			<link rel="profile" href="http://freereprintables.com/articlefr/" />		
 			
 			<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.2/jquery.min.js"></script>
-			<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>			
+			<script src="' . $base . 'application/templates/' . $template . '/js/bootstrap.min.js"></script>			
 			
-			<link href="http://maxcdn.bootstrapcdn.com/bootswatch/3.1.1/united/bootstrap.min.css" rel="stylesheet prefetch">			
-			<link href="http://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css" rel="stylesheet prefetch">
+			<link href="//maxcdn.bootstrapcdn.com/bootswatch/3.1.1/united/bootstrap.min.css" rel="stylesheet prefetch">			
+			<link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css" rel="stylesheet prefetch">
 			<link href="' . $base . 'application/templates/' . $template . '/css/styles.css" rel="stylesheet">
 			<link href="' . $base . 'application/templates/' . $template . '/css/nice-menu.css" rel="stylesheet">
 			

@@ -52,6 +52,8 @@ class Author extends Controller {
 		$_recent = apply_filters('get_recent_by_author', decodeURL($_param_i), $_site->getConnection(), $pagination->getStart(), $pagination->getRPP());
 		$_site->close();
 
+		$_recent[0]['total'] = empty($_recent[0]['total']) ? 0 : $_recent[0]['total'];
+		
 		$pagination->setTotal($_recent[0]['total']);
 		$_site->pagination = $pagination->parse();
 		

@@ -51,12 +51,12 @@ class Login extends Controller {
 		
 		if ($_REQUEST['submit'] == 'login') {
 			$_site->connect();
-			$_login = apply_filters('do_login',  $_REQUEST['username'], $_REQUEST['password'], $_REQUEST['submit'], $_site->getConnection());
+			$_login = apply_filters('do_login',  $_REQUEST['username'], $_REQUEST['password'], $_REQUEST['submit'], $_site->getConnection());			
+			$_profile = apply_filters('get_profile', $_REQUEST['username'], $_site->getConnection());
+			do_action('do_log', 'LOGIN', $_REQUEST['username'] . ' has logged-in...', 0, $_REQUEST['username'], $_site->getConnection());
 			$_site->close();
 			
-			if ($_login == 1) {
-				$_profile = apply_filters('get_profile', $_REQUEST['username'], $_site->getConnection());
-				
+			if ($_login == 1) {							
 				$_SESSION['isloggedin'] = apply_filters('the_isloggedin', TRUE);
 				$_SESSION['username'] = apply_filters('the_username', $_REQUEST['username']);				
 				$_SESSION['name'] = apply_filters('the_name', $_profile['name']);
@@ -66,9 +66,8 @@ class Login extends Controller {
 				$_role = apply_filters('get_role', $_REQUEST['username'], $_site->getConnection());
 				$_SESSION['role'] = apply_filters('the_role', $_role);				
 				
-				$_site->profile = apply_filters('the_profile_object', $_profile);
+				$_site->profile = apply_filters('the_profile_object', $_profile);								
 				
-				do_action('do_log', 'LOGIN', $_REQUEST['username'] . ' has logged-in...', 0, $_REQUEST['username'], $_site->getConnection());
 				$this->redirect('dashboard/');
 			}
 		}
