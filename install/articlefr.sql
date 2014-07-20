@@ -234,7 +234,11 @@ CREATE TABLE IF NOT EXISTS `plugins` (
 ) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=2 ;
 
 REPLACE INTO `plugins` (`id`, `author`, `name`, `site`, `date`, `active`, `path`, `description`) VALUES
-(1, 'Glenn Prialde', 'Hello World', 'http://freereprintables.com', '2014-07-08 12:42:06', 0, 'hello_world', 'Replaces all SITE_TITLE as "Hello World".');
+(3, 'Glenn Prialde', 'Hello World', 'http://freereprintables.com', '2014-07-20 14:13:56', 0, 'hello_world', 'Appends Hello World in every site title.', '1.0.0'),
+(4, 'Glenn Prialde', 'Site Advertisements', 'http://freereprintables.com', '2014-07-20 14:13:56', 1, 'site_ads', 'Displays all ads in the site.', '1.0.0'),
+(5, 'Glenn Prialde', 'XML Sitemaps', 'http://freereprintables.com', '2014-07-20 14:13:56', 1, 'xml_sitemap', 'Creates an XML Sitemap for your website.', '1.0.0'),
+(6, 'Glenn Prialde', 'iSnare Answers', 'http://freereprintables.com', '2014-07-20 14:13:56', 1, 'isnare_answers', 'Display a page questions list from isnare.org.', '1.0.0');
+
 
 DROP TABLE IF EXISTS `rating`;
 CREATE TABLE IF NOT EXISTS `rating` (
@@ -260,15 +264,6 @@ CREATE TABLE IF NOT EXISTS `settings` (
   UNIQUE KEY `name` (`name`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=14 ;
 
-DROP TABLE IF EXISTS `sessions`;
-CREATE TABLE IF NOT EXISTS `sessions` (
-  `id` int(10) NOT NULL AUTO_INCREMENT,
-  `ip` varchar(15) NOT NULL DEFAULT '',
-  `timestamp` varchar(15) NOT NULL DEFAULT '',
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `id` (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
-
 REPLACE INTO `settings` (`id`, `name`, `content`, `date`) VALUES
 (1, 'SITE_TITLE', 'Free Reprintables', '2014-01-10 20:20:18'),
 (2, 'SITE_BRAND', '<img src="http://freereprintables.com/img/brand.png" border="0" alt="brand" height="40" width="200">', '2014-01-10 20:25:34'),
@@ -283,6 +278,15 @@ REPLACE INTO `settings` (`id`, `name`, `content`, `date`) VALUES
 (12, 'TITLE_MIN_WORDS', '1', '2014-01-23 03:41:17'),
 (13, 'ARTICLEFR_NETWORK_CONNECT', 'FALSE', '2014-07-05 06:39:11');
 
+DROP TABLE IF EXISTS `sessions`;
+CREATE TABLE IF NOT EXISTS `sessions` (
+  `id` int(10) NOT NULL AUTO_INCREMENT,
+  `ip` varchar(15) NOT NULL DEFAULT '',
+  `timestamp` varchar(15) NOT NULL DEFAULT '',
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `id` (`id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+
 DROP TABLE IF EXISTS `users`;
 CREATE TABLE IF NOT EXISTS `users` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
@@ -295,7 +299,7 @@ CREATE TABLE IF NOT EXISTS `users` (
   `website` varchar(255) CHARACTER SET latin1 COLLATE latin1_general_ci DEFAULT NULL,
   `blog` varchar(255) CHARACTER SET latin1 COLLATE latin1_general_ci DEFAULT NULL,
   `points` int(11) NOT NULL DEFAULT '100',
-  `isactive` set('active','inactive') NOT NULL DEFAULT 'inactive',
+  `isactive` set('active','inactive','deleted') NOT NULL DEFAULT 'inactive',
   `activekey` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `email` (`email`),
@@ -306,3 +310,31 @@ CREATE TABLE IF NOT EXISTS `users` (
 
 REPLACE INTO `users` (`id`, `username`, `password`, `email`, `membership`, `date`, `name`, `website`, `blog`, `points`, `isactive`, `activekey`) VALUES
 (1, 'admin', 'admin123', 'admin@testdomain.com', 'admin', '2014-01-17 07:46:40', 'Administrator', 'http://www.example.com', 'http://www.example.org/', 100, 'active', NULL);
+
+CREATE TABLE IF NOT EXISTS `announcements` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `title` varchar(255) NOT NULL,
+  `message` text NOT NULL,
+  `date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `title` (`title`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+
+CREATE TABLE IF NOT EXISTS `showcase` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `admin` varchar(255) NOT NULL,
+  `url` varchar(255) NOT NULL,
+  `title` varchar(255) NOT NULL,
+  `description` varchar(255) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+
+CREATE TABLE IF NOT EXISTS `socials` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `provider` varchar(255) NOT NULL,
+  `signature` varchar(255) NOT NULL,
+  `user` bigint(20) NOT NULL,
+  `date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `signature` (`signature`)
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;

@@ -21,6 +21,7 @@ require_once (ROOT_DIR . 'dashboard/lib/progressbar.class.php');
 
 global $config, $_conn;
 define ( 'BASE_URL', $config ['base_url'] );
+define ( 'ADMIN_EMAIL', $config ['admin_email'] );
 
 $_conn = new_db_conni ( $config ['db_host'], $config ['db_username'], $config ['db_password'], $config ['db_name'] );
 

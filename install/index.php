@@ -78,6 +78,10 @@
 		if (is_writable( dirname(dirname(__FILE__)) . '/application/config/config.php' )) {			
 			$_config = '
 <?				
+	$site_config = parse_ini_file(dirname(__FILE__) . \'/site.ini\', true);
+
+	$config[\'default_gravatar\'] = $site_config[\'gravatar\'][\'default\']; // admin email to use in email notices
+
 	$config[\'admin_email\'] = \'' . $_REQUEST['adminEmail'] . '\'; // admin email to use in email notices
 
 	$config[\'template\'] = \'amelia\'; // template to use

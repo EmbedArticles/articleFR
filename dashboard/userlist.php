@@ -17,6 +17,8 @@
 
 		if (isset($_REQUEST['pa']) && $_REQUEST['pa'] == 'delete') {
 			deleteProfile($_REQUEST['u'], $_conn);
+			deleteAllArticlesByUsername($_REQUEST['u'], $_conn);
+			deletePennamesByUsername($_REQUEST['u'], $_conn);
 			print '
 				<div class="alert alert-info alert-dismissable">
 					<i class="fa fa-info"></i>
@@ -157,6 +159,7 @@
 				<ul class="nav nav-tabs pull-right">
 					<li class="active"><a href="#active" data-toggle="tab">Active</a></li>
 					<li><a href="#inactive" data-toggle="tab">Inactive</a></li>
+					<li><a href="#deletedusers" data-toggle="tab">Deleted</a></li>
 					<li class="pull-left header">Users</li>
 				</ul>
 				<div class="tab-content">
@@ -226,6 +229,39 @@
 		            	</tbody>
 						</table>					
 					</div>
+					<div class="tab-pane" id="deletedusers" style="position: relative;">
+						<table id="deleted" class="table table-condensed table-hover table-striped">
+							<thead>
+								<tr>
+									<th>ID</th>
+									<th>Username</th>
+									<th>Name</th>
+									<th>Membership</th>
+									<th>Pennames</th>
+									<th>Status</th>
+									<th>Action</th>
+								</tr>
+							</thead>
+							<tbody>
+		            		<?php
+								$_users = getDeletedUsers($_conn);
+								foreach ( $_users as $_user ) {
+									print '
+										<tr>
+											<td>' . $_user ['id'] . '</td>
+											<td>' . $_user ['username'] . '</td>
+											<td>' . $_user ['name'] . '</td>
+											<td>' . $_user ['membership'] . '</td>
+											<td><a href="' . BASE_URL . 'dashboard/articles/pennames/?u=' . $_user ['username'] . '" title="Pen Names">' . $_user ['pennames'] . '</a></td>
+											<td> <b>DELETED</b> </td>
+											<td><a href="' . BASE_URL . 'dashboard/users/list/?pa=edit&u=' . $_user ['username'] . '" title="Edit"><i class="fa fa-edit"></i></a> / <a href="' . BASE_URL . 'dashboard/users/list/?pa=activate&u=' . $_user ['username'] . '" title="Activate"><i class="fa fa-check-square"></i></a></td>
+										</tr>
+									';
+								}
+							?>
+		            	</tbody>
+						</table>					
+					</div>					
 				</div>
 			</div>		
 			

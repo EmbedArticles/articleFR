@@ -75,7 +75,7 @@
 
 					<div class="form-group">
 						<label>URL Slug - Will be viewed as <?=BASE_URL?>pages/v/&lt;URL SLUG></label>
-						<input type="text" name="url" class="form-control" value="<?php print $_page['url']; ?>" placeholder="URL Slug ..." parsley-trigger="change" required />
+						<input type="text" name="url" class="form-control" value="<?php print $_page['url']; ?>" placeholder="URL Slug ..." parsley-type="alphanum" parsley-trigger="change" required />
 					</div>
 										
 					<div class="form-group">

@@ -27,12 +27,17 @@
 	*************************************************************************************************************************/
 	
 	function searchArticles($_keyword, $_start = 0, $_limit = 10, $_connection) {
+		$_qc = "SELECT count(DISTINCT a.id) as count FROM article a, penname b, category c
+			WHERE MATCH( a.title, a.summary, a.body, b.name ) AGAINST ( '" . mysqli_real_escape_string($_connection, $_keyword) . "' IN BOOLEAN MODE )
+				AND b.name = a.author AND b.username = a.username AND c.name = a.category AND a.status = 1";
+		$_resultc = single_resulti($_qc, $_connection);
+		
 		$_q = "
-			SELECT DISTINCT a.title, a.id, a.username, a.category, a.author, a.summary, a.body, a.about, b.name, b.gravatar, b.biography, match( a.title, a.summary, a.body, b.name )
-				AGAINST ( '" . mysqli_real_escape_string($_connection, $_keyword) . "' IN BOOLEAN MODE ) AS relevance
-				FROM article a, penname b
-			WHERE match( a.title, a.summary, a.body, b.name ) AGAINST ( '" . mysqli_real_escape_string($_connection, $_keyword) . "' IN BOOLEAN MODE )
-				AND a.status = 1 
+			SELECT DISTINCT a.id, a.username, a.title, a.category, a.author, a.summary, a.body, a.status, a.date, a.about, b.name, b.gravatar, b.biography, b.id as pennameid, c.id as category_id, 
+				MATCH( a.title, a.summary, a.body, b.name )	AGAINST ( '" . mysqli_real_escape_string($_connection, $_keyword) . "' IN BOOLEAN MODE ) AS relevance
+				FROM article a, penname b, category c
+			WHERE MATCH( a.title, a.summary, a.body, b.name ) AGAINST ( '" . mysqli_real_escape_string($_connection, $_keyword) . "' IN BOOLEAN MODE )
+				AND b.name = a.author AND b.username = a.username AND c.name = a.category AND a.status = 1 
 			GROUP BY a.title
 			ORDER BY relevance DESC LIMIT " . $_start . ", " . $_limit . "		
 		";
@@ -43,6 +48,7 @@
 		$_i = 0;
 		
 		while( $_rs = mysqli_fetch_assoc($_result) ) {
+			$_entry['total'] = $_resultc['count'];
 			$_entry['id'] = $_rs['id'];
 			$_entry['title'] = $_rs['title'];
 			$_entry['summary'] = $_rs['summary'];
@@ -50,9 +56,21 @@
 			$_entry['author'] = $_rs['author'];
 			$_entry['category'] = $_rs['category'];
 			$_entry['date'] = $_rs['date'];
+			$_entry['gravatar'] = $_rs['gravatar'];
+			$_entry['category_id'] = $_rs['category_id'];			
 			array_push($_retval, $_entry);
 		}
 		
+		return $_retval;
+	}	
+	
+	function relatedArticles($_article, $_start = 0, $_limit = 10, $_connection) {
+		$_keywords = _keywords($_article);
+		foreach($_keywords as $_keyword) {
+			$_terms .= $_keyword . ' ';
+		}
+		$_terms = trim($_terms);
+		$_retval = searchArticles($_terms, $_start, $_limit, $_connection);		
 		return $_retval;
 	}
 	
@@ -164,6 +182,19 @@
 		return $_retval;
 	}
 	
+	function deleteAllArticlesByUsername($_username, $_connection) {
+		if (!empty($_id) && !empty($_username)) {
+			$_q = "
+				UPDATE article SET 						
+						status = 2
+				WHERE username = '" . mysqli_real_escape_string($_connection, $_username) . "'";
+			queryi($_q, $_connection);		
+			return 1;
+		} else {
+			return 0;
+		}
+	}
+	
 	function deleteArticle($_id, $_username, $_connection) {
 		if (!empty($_id) && !empty($_username)) {
 			$_body = preg_replace('/(\n)/sim', '<br>', $_body);
@@ -200,11 +231,8 @@
 	
 	function editArticle($_id, $_username, $_title, $_category, $_author, $_summary, $_body, $_about, $_connection, $_status = 0) {
 		$_cheksum = md5($_body);
-		if (!empty($_username) && !empty($_title) && !empty($_category) && !empty($_author) && !empty($_summary) && !empty($_body) && !empty($_about)) {
-			$_qt = "SELECT title FROM article WHERE id = " . mysqli_real_escape_string($_connection, $_id) . "' AND status = 1";
-			$_resultt = single_resulti($_qt, $_connection);
-			
-			$_qc = "SELECT id FROM article WHERE title != '" . $_resultt['title'] . "' AND title = '" . mysqli_real_escape_string($_connection, $_title) . "' AND status = 1";
+		if (!empty($_username) && !empty($_title) && !empty($_category) && !empty($_author) && !empty($_summary) && !empty($_body) && !empty($_about)) {			
+			$_qc = "SELECT id FROM article WHERE id != " . mysqli_real_escape_string($_connection, $_id) . " AND title = '" . mysqli_real_escape_string($_connection, $_title) . "' AND (status = 1 OR status = 0)";
 			$_resultc = single_resulti($_qc, $_connection);
 			
 			if (empty($_resultc['id'])) {

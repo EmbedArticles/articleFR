@@ -32,9 +32,19 @@ class Login extends Controller {
 	{		
 		global $config;
 		
+		$ini = new INI();
+		$ini_file = APP_DIR . 'config/socials.ini';
+		$ini->read($ini_file);
+		
 		$_site = $this->loadModel('site');
 		$_view = $this->loadView('login');
 		
+		$_site->setBuffer('facebook_app_id', $ini->data['facebook']['app_id']);
+		$_site->setBuffer('facebook_app_secret', $ini->data['facebook']['app_secret']);
+		
+		$_site->setBuffer('twitter_app_id', $ini->data['twitter']['app_id']);
+		$_site->setBuffer('twitter_app_secret', $ini->data['twitter']['app_secret']);
+				
 		$_site->init();	
 
 		$_site->set('title', apply_filters('the_site_title', 'Login'));

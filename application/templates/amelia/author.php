@@ -25,7 +25,7 @@
 		
 		<?
 			print '
-				<div style="display: block; margin-bottom: 10px; margin-top: 0px; padding-bottom: 10px; border-bottom: 1px dotted #E0E0E0;">
+				<div style="display: block; margin-bottom: 10px; margin-top: 0px; padding-bottom: 10px; border-bottom: 1px dotted #0d747c;">
 					<div class="media">
 					  <a class="pull-left thumbnail" href="' . $site->base . 'author/v/' . encodeURL($site->profile['name']) . '" rel="tooltip" data-placement="left" title="' . htmlspecialchars($site->profile['name']) . '">
 						<img class="media-object image-thumbnail" src="' . get_gravatar($site->profile['gravatar'], 80) . '" alt="' . htmlspecialchars($site->profile['name']) . '">

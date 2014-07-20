@@ -21,7 +21,7 @@
 			foreach($site->categories as $_category) {
 				$_c = $_color[rand(0, 4)];
 				print '
-					<li class="' . $_c . '"><a href = "' . $site->base . 'category/v/' . $_category['id'] . '/' . encodeURL($_category['category']) . '">' . $_category['category'] . '</a></li>
+					<li class="' . $_c . '"><a href = "' . $site->base . 'category/v/' . $_category['id'] . '/' . encodeURL($_category['category']) . '">' . $_category['category'] . ' <small style="color: #DDD !important;">x ' . $_category['count'] . '</small></a></li>
 				';
 			}
 	   ?>

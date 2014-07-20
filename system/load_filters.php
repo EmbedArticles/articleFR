@@ -32,7 +32,9 @@
 	add_filter('get_role', 'getRole', 10, 2);
 	add_filter('count_users', 'countRegisteredUsers');
 	add_filter('do_login', 'site_login', 10, 4);
-	add_filter('register', 'regiserUser', 10, 5);
+	add_filter('register', 'registerUser', 10, 5);
+	add_filter('register_social', 'registerSocialUser', 10, 5);
+	add_filter('has_social', 'hasSocialRecord', 10, 2);
 	add_filter('get_rater', 'getRater');
 	add_filter('get_site_title', 'getSiteTitle');
 	add_filter('get_site_description', 'getSiteDescription');
@@ -78,7 +80,9 @@
 	add_filter('get_unread_message_count', 'getUnreadMessagesCount');	
 	add_filter('get_total_inbox_count', 'getTotalInboxCount');
 
-	add_filter('search_articles', 'searchArticles');
+	add_filter('search_articles', 'searchArticles', 10, 4);
+	add_filter('get_related_articles', 'relatedArticles', 10, 4);
+	
 	add_filter('get_article_view', 'getArticleView');
 	add_filter('update_article_view', 'updateArticleView');	
 	add_filter('delete_article', 'deleteArticle');

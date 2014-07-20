@@ -19,9 +19,6 @@
 	</div>
 </footer>
 
-<!-- script references -->	
-<script src="<?=$site->base?>content/template/modular/js/scripts.js"></script>
-
 <div class="back-to-top" id="back-top">
 	<a href="javascript:void(0)" rel="nofollow" class="back-to-top">Top</a>
 </div>

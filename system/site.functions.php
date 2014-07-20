@@ -58,34 +58,104 @@
 		}
 	}
 	
-	function regiserUser($_email, $_username, $_password, $_name, $_connection) {
-		$_username = trim(strtolower($_username));
-		$_email = trim(strtolower($_email));
-		$_q = "SELECT id FROM users WHERE TRIM(LOWER(username)) = '" . mysqli_real_escape_string($_connection, $_username) . "' OR TRIM(LOWER(email)) = '" . mysqli_real_escape_string($_connection, $_email) . "'";
-		$_result = single_resulti($_q, $_connection);
-		if (empty($_result['id'])) {
-			$_key = md5($_email . 'saltGwapoMiArticleFR+');
-			$_q = "INSERT users(
-								email, 
-								username, 
-								password, 
-								name, 
-								date, 
-								isactive, 
-								activekey) 
-				   VALUES (
-							'" . mysqli_real_escape_string($_connection, $_email) . "', 
-							'" . mysqli_real_escape_string($_connection, $_username) . "', 
-							'" . mysqli_real_escape_string($_connection, $_password) . "', 
-							'" . mysqli_real_escape_string($_connection, $_name) . "', 
-							now(),
-							'inactive',
-							'" . mysqli_real_escape_string($_connection, $_key) . "'
-					)";
-			queryi($_q, $_connection);	
-			return 1;
+	function insertSocialRecord($_provider, $_signature, $_user, $_connection) {
+		$_q = "INSERT INTO socials(
+							provider, 
+							signature, 
+							user, 
+							date
+							) 
+			   VALUES (
+						'" . mysqli_real_escape_string($_connection, $_provider) . "', 
+						'" . mysqli_real_escape_string($_connection, $_signature) . "', 
+						" . mysqli_real_escape_string($_connection, $_user) . ", 
+						now()
+				) ON DUPLICATE KEY UPDATE date = now()";
+		$_result = queryi($_q, $_connection);	
+		
+		return $_result;
+	}
+	
+	function hasSocialRecord($_signature, $_connection) {
+		$_q = "SELECT id FROM socials WHERE signature = '" . mysqli_real_escape_string($_connection, $_signature) . "'";
+		$_result = single_resulti($_q, $_connection);	
+		
+		if (!empty($_result['id'])) {
+			return true;
 		} else {
-			return 0;
+			return false;
+		}
+	}
+
+	function registerSocialUser($_email, $_username, $_password, $_name, $_connection) {
+		$_username = trim(strtolower($_username));
+		$_username = preg_replace("/[\s]/i", "-", $_username);
+		if (strlen($_username) < 6) {
+			return 2;
+		} else {
+			$_email = trim(strtolower($_email));
+			$_q = "SELECT id FROM users WHERE (TRIM(LOWER(username)) = '" . mysqli_real_escape_string($_connection, $_username) . "' OR TRIM(LOWER(email)) = '" . mysqli_real_escape_string($_connection, $_email) . "') AND isactive != 'deleted'";
+			$_result = single_resulti($_q, $_connection);
+			if (empty($_result['id'])) {
+				$_key = md5($_email . 'saltGwapoMiArticleFR+');
+				$_q = "INSERT INTO users(
+									email, 
+									username, 
+									password, 
+									name, 
+									date, 
+									isactive, 
+									activekey) 
+					   VALUES (
+								'" . mysqli_real_escape_string($_connection, $_email) . "', 
+								'" . mysqli_real_escape_string($_connection, $_username) . "', 
+								'" . mysqli_real_escape_string($_connection, $_password) . "', 
+								'" . mysqli_real_escape_string($_connection, $_name) . "', 
+								now(),
+								'active',
+								'" . mysqli_real_escape_string($_connection, $_key) . "'
+						)";
+				queryi($_q, $_connection);	
+				return 1;
+			} else {
+				return 0;
+			}
+		}
+	}
+	
+	function registerUser($_email, $_username, $_password, $_name, $_connection) {
+		$_username = trim(strtolower($_username));
+		$_username = preg_replace("/[\s]/i", "-", $_username);
+		if (strlen($_username) < 6) {
+			return 2;
+		} else {
+			$_email = trim(strtolower($_email));
+			$_q = "SELECT id FROM users WHERE (TRIM(LOWER(username)) = '" . mysqli_real_escape_string($_connection, $_username) . "' OR TRIM(LOWER(email)) = '" . mysqli_real_escape_string($_connection, $_email) . "') AND isactive != 'deleted'";
+			$_result = single_resulti($_q, $_connection);
+			if (empty($_result['id'])) {
+				$_key = md5($_email . 'saltGwapoMiArticleFR+');
+				$_q = "INSERT INTO users(
+									email, 
+									username, 
+									password, 
+									name, 
+									date, 
+									isactive, 
+									activekey) 
+					   VALUES (
+								'" . mysqli_real_escape_string($_connection, $_email) . "', 
+								'" . mysqli_real_escape_string($_connection, $_username) . "', 
+								'" . mysqli_real_escape_string($_connection, $_password) . "', 
+								'" . mysqli_real_escape_string($_connection, $_name) . "', 
+								now(),
+								'inactive',
+								'" . mysqli_real_escape_string($_connection, $_key) . "'
+						)";
+				queryi($_q, $_connection);	
+				return 1;
+			} else {
+				return 0;
+			}
 		}
 	}
 	
@@ -273,7 +343,8 @@
 		return $_retval;
 	}
 	
-	function getInactiveUsers($_connection, $_start = 0, $_limit = 10) {				
+	function getInactiveUsers($_connection, $_start = 0, $_limit = 10) {
+		global $config;
 		if ($_start == 0) {
 			$_q = "SELECT username, email, name, website, blog, id, date, isactive, activekey, membership FROM users WHERE name IS NOT NULL AND isactive = 'inactive' ORDER BY date DESC";
 		} else {
@@ -292,7 +363,7 @@
 			
 			$email = multi_resulti($_result, $_z, 'email');
 			$size = 40;		
-			$_photo = "http://www.gravatar.com/avatar/" . md5( strtolower( trim( $email ) ) ) . "?d=monsterid&s=" . $size;
+			$_photo = "http://www.gravatar.com/avatar/" . md5( strtolower( trim( $email ) ) ) . "?d=" . $config['default_gravatar'] . "&s=" . $size;
 			
 			$_entry['photo'] = $_photo;
 			$_entry['username'] = multi_resulti($_result, $_z, 'username');
@@ -311,6 +382,46 @@
 		
 		return $_retval;
 	}
+	
+	function getDeletedUsers($_connection, $_start = 0, $_limit = 10) {				
+		if ($_start == 0) {
+			$_q = "SELECT username, email, name, website, blog, id, date, isactive, activekey, membership FROM users WHERE name IS NOT NULL AND isactive = 'deleted' ORDER BY date DESC";
+		} else {
+			$_q = "SELECT username, email, name, website, blog, id, date, isactive, activekey, membership FROM users WHERE name IS NOT NULL AND isactive = 'deleted' ORDER BY date DESC LIMIT " . $_start . "," . $limit;
+		}
+		
+		$_result = queryi($_q, $_connection);
+	
+		$_retval = array();
+		$_entry = array();
+		$_i = 0;
+		
+		for ($_z=0; $_z<numrowsi($_result); $_z++) {
+			$_qc = "SELECT count(id) as count FROM penname WHERE username = '" . multi_resulti($_result, $_z, 'username') . "'";
+			$_resultc = single_resulti($_qc, $_connection);
+		
+			$email = multi_resulti($_result, $_z, 'email');
+			$size = 40;		
+			$_photo = "http://www.gravatar.com/avatar/" . md5( strtolower( trim( $email ) ) ) . "?d=" . $config['default_gravatar'] . "&s=" . $size;
+			
+			$_entry['photo'] = $_photo;
+			$_entry['username'] = multi_resulti($_result, $_z, 'username');
+			$_entry['email'] = multi_resulti($_result, $_z, 'email');
+			$_entry['name'] = multi_resulti($_result, $_z, 'name');
+			$_entry['date'] = getTime(multi_resulti($_result, $_z, 'date'));
+			$_entry['website'] = multi_resulti($_result, $_z, 'website');
+			$_entry['blog'] = multi_resulti($_result, $_z, 'blog');
+			$_entry['id'] = multi_resulti($_result, $_z, 'id');
+			$_entry['isactive'] = multi_resulti($_result, $_z, 'isactive');
+			$_entry['activekey'] = multi_resulti($_result, $_z, 'activekey');
+			$_entry['membership'] = multi_resulti($_result, $_z, 'membership');
+			$_entry['pennames'] = $_resultc['count'];
+			array_push($_retval, $_entry);
+		}
+		
+		return $_retval;
+	}
+
 	
 	function getActiveUsers($_connection, $_start = 0, $_limit = 10) {				
 		if ($_start == 0) {
@@ -331,7 +442,7 @@
 		
 			$email = multi_resulti($_result, $_z, 'email');
 			$size = 40;		
-			$_photo = "http://www.gravatar.com/avatar/" . md5( strtolower( trim( $email ) ) ) . "?d=monsterid&s=" . $size;
+			$_photo = "http://www.gravatar.com/avatar/" . md5( strtolower( trim( $email ) ) ) . "?d=" . $config['default_gravatar'] . "&s=" . $size;
 			
 			$_entry['photo'] = $_photo;
 			$_entry['username'] = multi_resulti($_result, $_z, 'username');
@@ -367,7 +478,7 @@
 		for ($_z=0; $_z<numrowsi($_result); $_z++) {
 			$email = multi_resulti($_result, $_z, 'email');
 			$size = 40;		
-			$_photo = "http://www.gravatar.com/avatar/" . md5( strtolower( trim( $email ) ) ) . "?d=monsterid&s=" . $size;
+			$_photo = "http://www.gravatar.com/avatar/" . md5( strtolower( trim( $email ) ) ) . "?d=" . $config['default_gravatar'] . "&s=" . $size;
 			
 			$_entry['photo'] = $_photo;
 			$_entry['username'] = multi_resulti($_result, $_z, 'username');
@@ -401,7 +512,7 @@
 		for ($_z=0; $_z<numrowsi($_result); $_z++) {
 			$email = multi_resulti($_result, $_z, 'gravatar');
 			$size = 40;		
-			$_photo = "http://www.gravatar.com/avatar/" . md5( strtolower( trim( $email ) ) ) . "?d=monsterid&s=" . $size;
+			$_photo = "http://www.gravatar.com/avatar/" . md5( strtolower( trim( $email ) ) ) . "?d=" . $config['default_gravatar'] . "&s=" . $size;
 			
 			$_entry['photo'] = $_photo;
 			$_entry['username'] = multi_resulti($_result, $_z, 'username');
@@ -437,6 +548,10 @@
 	}
 	
 	function getGravatar( $email, $s = 40, $d = 'monsterid', $r = 'g' ) {
+		global $config;
+		
+		$d = $config['default_gravatar'];
+		
 		$url = 'http://www.gravatar.com/avatar/';
 		$url .= md5( strtolower( trim( $email ) ) );
 		$url .= "?s=$s&d=$d&r=$r";

@@ -13,7 +13,7 @@ require_once ('session.php');
 <body class="skin-blue">
 	<!-- header logo: style can be found in header.less -->
 	<header class="header">
-		<a href="<?=BASE_URL.'dashboard/'?>" class="logo"> <!-- Add the class icon to your logo image or logo icon to add the margining -->
+		<a href="<?=BASE_URL.'dashboard/'?>" class="logo" data-toggle="tooltip" title="ArticleFR - Article Free Reprintables"> <!-- Add the class icon to your logo image or logo icon to add the margining -->
 			<?=getSiteSetting('SITE_BRAND', $_conn)?>
 		</a>
 		<!-- Header Navbar: style can be found in header.less -->
@@ -69,49 +69,55 @@ require_once ('session.php');
 		<aside class="right-side text-left">
 		<?php
 		if (isset ( $_s ) && $_s == 'articles' && $_a == 'submit') {
-			include ('submit.php');
+			include_once ('submit.php');
 		} else if (isset ( $_s ) && $_s == 'articles' && $_a == 'manage') {
-			include ('myarticles.php');
+			include_once ('myarticles.php');
 		} else if (isset ( $_s ) && $_s == 'system' && $_a == 'logout') {
-			include ('logout.php');
+			include_once ('logout.php');
 		} else if (isset ( $_s ) && $_s == 'articles' && $_a == 'statistics') {
-			include ('myarticlesreport.php');
+			include_once ('myarticlesreport.php');
 		} else if (isset ( $_s ) && $_s == 'articles' && $_a == 'pennames') {
-			include ('mypennames.php');
+			include_once ('mypennames.php');
 		} else if (isset ( $_s ) && $_s == 'articles' && $_a == 'edit') {
-			include ('editarticle.php');	
+			include_once ('editarticle.php');	
 		} else if (isset ( $_s ) && $_s == 'articles' && $_a == 'review') {
-			include ('reviewarticles.php');					
+			include_once ('reviewarticles.php');					
 		} else if (isset ( $_s ) && $_s == 'messages' && $_a == 'inbox') {
-			include ('inbox.php');
+			include_once ('inbox.php');
 		} else if (isset ( $_s ) && $_s == 'settings' && $_a == 'accounts') {
-			include ('myaccount.php');
+			include_once ('myaccount.php');
 		} else if (isset ( $_s ) && $_s == 'settings' && $_a == 'links') {
-			include ('links.php');
+			include_once ('links.php');
 		} else if (isset ( $_s ) && $_s == 'settings' && $_a == 'categories') {
-			include ('categories.php');
+			include_once ('categories.php');
 		} else if (isset ( $_s ) && $_s == 'settings' && $_a == 'site') {
-			include ('sitesettings.php');
+			include_once ('sitesettings.php');
+		} else if (isset ( $_s ) && $_s == 'settings' && $_a == 'social_login') {
+			include_once ('sociallogin.php');			
 		} else if (isset ( $_s ) && $_s == 'settings' && $_a == 'plugins') {
-			include ('plugins.php');			
+			include_once ('plugins.php');		
+		} else if (isset ( $_s ) && $_s == 'settings' && $_a == 'system') {
+			include_once ('system.php');				
 		} else if (isset ( $_s ) && $_s == 'pages' && $_a == 'manage') {
-			include ('pages.php');
+			include_once ('pages.php');
 		} else if (isset ( $_s ) && $_s == 'pages' && $_a == 'create') {
-			include ('page.php');
+			include_once ('page.php');
 		} else if (isset ( $_s ) && $_s == 'pages' && $_a == 'edit') {
-			include ('pageedit.php');	
+			include_once ('pageedit.php');	
 		} else if (isset ( $_s ) && $_s == 'users' && $_a == 'list') {
-			include ('userlist.php');			
+			include_once ('userlist.php');			
 		} else if (isset ( $_s ) && $_s == 'users' && $_a == 'create') {
-			include ('user.php');		
+			include_once ('user.php');		
 		} else if (isset ( $_s ) && $_s == 'users' && $_a == 'export') {
-			include ('usersexport.php');		
+			include_once ('usersexport.php');		
 		} else if (isset ( $_s ) && $_s == 'users' && $_a == 'message') {
-			include ('message.php');	
+			include_once ('message.php');	
 		} else if (isset ( $_s ) && $_s == 'tools' && $_a == 'isnare') {
-			include ('isnarepublisher.php');						
+			include_once ('isnarepublisher.php');	
+		} else if (isset ( $_s ) && $_s == 'tools' && $_a == 'update') {
+			include_once ('update.php');								
 		} else {
-			include ('dashboard.php');
+			include_once ('dashboard.php');
 		}
 		?>
 		
@@ -182,29 +188,70 @@ require_once ('session.php');
 	<script src="<?=BASE_URL?>dashboard/js/plugins/iCheck/icheck.min.js"
 		type="text/javascript"></script>
 
-	<script type="text/javascript">			
-		$(window).load(function() {			
-			$("#content").wysihtml5({'color': true});		
+	<script src="<?=BASE_URL?>dashboard/js/jquery.spellchecker.min.js"></script>
+	
+	<script>
+	(function() {
+	  
+	  var element = $("#content");
+	  
+	  element.wysihtml5({
+	    toolbar: {
+	       "spellchecker":
+	          "<li><div class='btn-group'>" +
+	              "<a class='btn btn-default' data-wysihtml5-command='spellcheck'>" + 
+	              "<i class='icon-spellchecker spellchecker-button-icon'></i> Check Spelling</a>" +
+	          "</div></li>"
+	    },
+	    stylesheets: [
+	      "<?=BASE_URL?>dashboard/css/jquery.spellchecker.min.css"
+	    ],     
+	  });
+	 
+	  var wysihtml5 = element.data('wysihtml5');
+	  var body = $(wysihtml5.editor.composer.iframe).contents().find('body');
+	  
+	  var toggle = (function() {
+	  
+	    var spellchecker = null;
+	 
+	    function create() {
+	 
+	      spellchecker = new $.SpellChecker(body, {
+	        lang: 'en',
+	        parser: 'html',
+	        webservice: {
+	          path: "<?=BASE_URL?>dashboard/lib/SpellChecker.php",
+	          driver: 'pspell'
+	        },
+	        suggestBox: {
+	          position: 'below'
+	        }
+	      });
+	 
+	      spellchecker.on('check.success', function() {
+	        alert('There are no incorrectly spelt words.');
+	      });
+	 
+	      spellchecker.check();
+	    }
+	 
+	    function destroy() {
+	      spellchecker.destroy();
+	      spellchecker = null;
+	    }
+	 
+	    function toggle() {
+	      (!spellchecker) ? create() : destroy();
+	    }
+	 
+	    return toggle;
+	  })();
+	  
+	  wysihtml5.toolbar.find('[data-wysihtml5-command="spellcheck"]').click(toggle);
+	})();
+	</script>	
 
-			$("#content").markdown({
-				autofocus:false,
-				savable:true,
-				onSave: function(e) {
-					alert("Saving '" + e.getContent() + "'...")
-				}
-			});	
-
-			$("#keywords").selectize({
-				persist: false,
-				createOnBlur: true,
-				create: true
-			});						
-		});		
-		
-		var converter = Markdown.getSanitizingConverter();
-		var editor = new Markdown.Editor(converter, "-answer");
-		editor.run();					
-	</script>
 </body>
 </html>
 <?php

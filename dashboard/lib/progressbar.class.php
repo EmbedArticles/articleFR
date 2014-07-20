@@ -49,8 +49,8 @@ class ProgressBar
             @apache_setenv('no-gzip', 1);
             @ini_set('zlib.output_compression', 0);
             @ini_set('implicit_flush', 1);
-            for ($i = 0; $i < ob_get_level(); $i++) { ob_end_flush(); }
-                ob_implicit_flush(1);
+            //for ($i = 0; $i < ob_get_level(); $i++) { ob_end_flush(); }
+            ob_implicit_flush(1);
         }
         
         $this->output = $output;
@@ -120,6 +120,7 @@ class ProgressBar
         if($this->output_buffer_padding > $this->output_buffer_padding_total)
         {
             echo "$msg";
+            flush();
         }
         else
         {
@@ -128,11 +129,12 @@ class ProgressBar
             
             echo "$msg".str_repeat(" ", $this->output_buffer_padding_total - $this->output_buffer_padding);//add extra bytes to stop most browsers from buffering
             $this->output_buffer_padding .= $this->output_buffer_padding_total - $this->output_buffer_padding;
+            flush();
         }
         
         flush();
         ob_flush();    
-        print ob_get_clean();    
+        //print ob_get_clean();    
         //end the flushing of the buffer
         if($this->loop >= 100/$percentModifier && $count >= $total)
         {

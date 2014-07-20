@@ -16,25 +16,16 @@
 			<li><a href="<?=$site->base?>register/"><b class="glyphicon glyphicon-registration-mark icon"></b>Register</a></li>
 			<? } else { ?>
 			<li><a href="<?=$site->base?>dashboard/"><b class="glyphicon glyphicon-dashboard icon"></b>Dashboard</a></li>			
-			<? } ?>
-			<!-- 
-			<li class="dropdown">
-			  <a href="#" class="dropdown-toggle" data-toggle="dropdown">More <b class="caret"></b></a>
-			  <ul class="dropdown-menu">
-				<li><a href="#">Action</a></li>
-				<li><a href="#">Another action</a></li>
-				<li class="divider"></li>
-				<li><a href="#">Separated link</a></li>
-				<li class="divider"></li>
-				<li><a href="#">One more separated link</a></li>
-			  </ul>
-			</li>
-			 -->
+			<? 
+			   } 
+			
+			   apply_filters('topmenu_lastitem', null);
+			?>
 		</ul>
 		<div class="col-sm-3 col-md-3 pull-right">
-		  <form class="navbar-form" role="search">
+		  <form class="navbar-form" method="get" action="<?=$site->base.'search/v/'?>" role="search">
 			<div class="input-group">
-				<input type="text" class="form-control" placeholder="Search" name="srch-term" id="srch-term">
+				<input type="text" class="form-control" placeholder="Search" name="q" value="<? print htmlentities($_REQUEST['q']); ?>" id="srch-term">
 				<div class="input-group-btn">
 					<button class="btn btn-default" type="submit"><i class="glyphicon glyphicon-search"></i></button>
 				</div>

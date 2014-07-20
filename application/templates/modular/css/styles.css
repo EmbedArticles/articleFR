@@ -1,0 +1,196 @@
+/* hack to fix firefox issue where tweet and blockquote
+ * where both showing up, little help anyone? */
+body { 
+	background-color: #F9F9F9;
+	margin: 0px;
+	padding: 0px;
+	margin-top: 60px;
+}
+
+.container-fluid {
+	height: 100% !important;
+}
+
+.col-sm-3 {
+	height: 100% !important;
+}
+
+.navbar {
+	border-bottom: 5px solid #CCCCCC;
+	box-shadow: 0px 0.25em 0.25em rgba(0, 0, 0, 0.1);
+}
+
+.brand {
+	vertical-align: top !important;
+	padding: 15px;
+	padding-top: 5px;
+	height: 40px;
+}
+
+.articles-count, .navbar-brand {
+	font-size: 1.2em;
+	font-weight: bold;
+}
+
+.main-panel {
+	margin-top: 25px;
+	height: 100%;
+}
+
+.main-panel-right {
+	border-left: 1px dotted #E0E0E0;
+	padding-left: 20px;
+	height: 100%;
+}
+
+.main-panel-left {
+	border-right: 1px dotted #E0E0E0;
+	padding-right: 20px;
+	height: 100%;
+}
+
+.navbar-header {
+	padding-left: 15px;
+}
+
+blockquote.twitter-tweet {
+    visibility: hidden;
+    height: 0;
+    margin: 5px;
+    padding: 0;
+}
+
+.tryit {
+    padding-top: 25px;
+}
+
+.well {
+    margin-top: 20px;
+    padding-top: 0;
+}
+
+.well[id] {
+    padding-top: 10px;
+}
+
+.bootswatch {
+    padding: 10px 0 20px 0;
+}
+
+.jumbotron {
+    margin-top: -50px;
+    padding-bottom: 25px;
+}
+
+.hidden {
+    padding-top: 10px;
+}
+
+iframe {
+    border-width: 0;
+    overflow: hidden;
+}
+
+.iframe-extras {
+    margin-top: -20px;
+    width: 100%;
+    height: 550px;
+}
+
+footer {
+	margin-top: 40px;
+	border-top: 5px solid #BF3E11;
+	background-color: #E0E0E0;
+	width: 100%;
+	bottom: 0;
+	text-align: center;
+}
+
+footer .footer-panel .footer-links, 
+footer .footer-panel .footer-copyright,
+footer .footer-panel .footer-links a {
+	font-size: 0.91em;
+	font-weight: bold;
+	color: #0a0a0a;
+	text-decoration: none;
+	padding-left: 20px;
+	padding-right: 20px;
+}
+
+footer .footer-panel .footer-copyright {
+	margin-top: 10px;
+	font-weight: normal;
+}
+
+footer .footer-panel .footer-links a:hover {
+	color: #999;
+	text-decoration: none;
+}
+
+footer .footer-panel .footer-links a:first-child {
+	padding-left: 0px;
+}
+
+footer .footer-panel .footer-links a:last-child {
+	padding-right: 0px;
+}
+
+footer .footer-panel {
+	padding: 15px;
+	margin: 0px;
+}
+
+footer .fa-maxcdn {
+    font-size: 36px;
+}
+
+.timeline-js {
+    padding-left: 50px;
+}
+
+.crumbs-wrapper { display: block; padding: 0px; margin: 0px; margin-bottom: 10px; margin-top: 25px; }
+.crumbs-head { display: inline; padding: 0px; margin: 0px; list-style: none outside none; }
+.crumbs-node { display: inline; float: left; padding: 0px; margin: 0px; list-style: none outside none; }
+.crumbs-home { padding: 0px; margin: 0px; text-decoration: none; list-style: none outside none; }
+.crumbs-node-child{ padding: 0px; margin: 0px; border: 0px; text-decoration: none; list-style: none outside none; }
+
+.icon { color: #CC0000; font-weight: bold; margin-right: 10px; }
+.breadcrumb li { font-weight: normal; }
+
+.side-label h1, .side-label h2, .side-label h3, .side-label h4 {
+	font-weight: bold;
+}
+
+h1 a, h2 a, h3 a, h4 a {
+	text-decoration: none !important;
+}
+
+.side-label {
+	font-weight: bold;
+	border-bottom: 1px solid #E0E0E0;
+	padding: 0px;
+	margin: 0px;
+	margin-bottom: 10px;
+}
+
+.label a { color: #FFF !important; }
+
+.form-group { margin-bottom: 20px; }
+
+.back-to-top {
+	position: fixed;
+	bottom: 15px;
+	right: 20px;
+	background: url('http://freereprintables.com/application/templates/modular/images/arrows.png') left top no-repeat; 
+	width: 25px;
+	height: 23px;
+}
+
+.back-to-top a {
+	text-indent: -9999px;
+	display: block;
+}
+
+.back-to-top:hover { 
+	background:url('http://freereprintables.com/application/templates/modular/images/arrows.png') left -23px no-repeat; 
+}

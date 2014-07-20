@@ -28,6 +28,8 @@
 	
 class Site extends Model {	
 	
+	public $_buffer = array();
+	
 	public $base;
 	public $template;
 	public $brand;
@@ -63,7 +65,7 @@ class Site extends Model {
 		$this->adsense = apply_filters('get_adsense', $GLOBALS['afrdb']);
 		$this->links = apply_filters('get_links', $GLOBALS['afrdb']);
 		$this->recent = apply_filters('get_recent', $GLOBALS['afrdb']);
-		$this->random = apply_filters('get_random_articles', $GLOBALS['afrdb']);
+		//$this->random = apply_filters('get_random_articles', $GLOBALS['afrdb']);
 		$this->categories = apply_filters('get_categories', $GLOBALS['afrdb']);
 		$this->recent_pennames = apply_filters('get_pennames', 20, $GLOBALS['afrdb']);
 		$this->live_count = apply_filters('get_live_article_count', $GLOBALS['afrdb']);
@@ -86,6 +88,14 @@ class Site extends Model {
 	public function get($f) {
 		return $this->$f;	
 	}
+	
+	public function setBuffer($f, $v) {
+		$this->_buffer[strtolower($this->$f)] = $v;
+	}
+	
+	public function getBuffer($f) {
+		return $this->_buffer[strtolower($this->$f)];
+	}	
 }
 
 ?>

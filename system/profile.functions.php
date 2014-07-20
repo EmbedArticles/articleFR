@@ -26,6 +26,19 @@
 	*
 	*************************************************************************************************************************/		
 	
+	function activateProfileByKey($_key, $_connection) {
+		$_qc = "SELECT username, isactive FROM users WHERE activekey = '" . mysqli_real_escape_string($_connection, $_key) . "'";
+		$_resultc = single_resulti($_qc, $_connection);
+		
+		if ($_resultc['isactive'] == 'inactive') {
+			$_q = "UPDATE users SET isactive = 'active' WHERE username = '" . mysqli_real_escape_string($_connection, $_resultc['username']) . "'";
+			$_res = queryi($_q, $_connection);
+			return true;
+		}
+		
+		return false;
+	}
+	
 	function activateProfile($_username, $_connection) {
 		$_q = "UPDATE users SET  isactive = 'active' WHERE username = '" . mysqli_real_escape_string($_connection, $_username) . "'";
 		$_res = queryi($_q, $_connection);
@@ -33,8 +46,15 @@
 	}
 	
 	function deleteProfile($_username, $_connection) {
-		$_q = "UPDATE users SET  isactive = 'inactive' WHERE username = '" . mysqli_real_escape_string($_connection, $_username) . "'";
-		$_res = queryi($_q, $_connection);
+		$_qc = "SELECT id FROM users WHERE username = '" . mysqli_real_escape_string($_connection, $_username) . "'";
+		$_resultc = single_resulti($_qc, $_connection);
+		
+		$_qs = "DELETE FROM socials WHERE user = " . mysqli_real_escape_string($_connection, $_resultc['id']);
+		$_ress = queryi($_qs, $_connection);
+		
+		$_q = "UPDATE users SET isactive = 'deleted' WHERE username = '" . mysqli_real_escape_string($_connection, $_username) . "'";
+		$_res = queryi($_q, $_connection);	
+		
 		return $_res;
 	}
 	

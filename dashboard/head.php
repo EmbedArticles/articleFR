@@ -44,14 +44,16 @@ $_head = apply_filters('admin_header', '
 <script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=false"></script>
 <script type="text/javascript" src="' . BASE_URL. 'dashboard/js/ipmapper.min.js"></script>		
 		
-<script type="text/javascript" src="' . BASE_URL. 'dashboard/js/parsley.js"></script>
-
+<script type="text/javascript" src="' . BASE_URL. 'dashboard/js/parsley.js"></script>		
+		
 <link href="' . BASE_URL. 'dashboard/js/markdown/pagedown/highlightjs.css" rel="stylesheet" type="text/css" />	
 		
 <script type="text/javascript" src="' . BASE_URL. 'dashboard/js/markdown/pagedown/highlight.min.js"></script>
 
 <script src="' . BASE_URL. 'dashboard/js/bootstrap-tagsinput.min.js"></script>
-		
+			
+<link rel="stylesheet" type="text/css" media="screen" href="' . BASE_URL. 'dashboard/css/jquery.spellchecker.min.css" />
+				
 <script type="text/javascript">
 	$(function(){
 		$(\'.wmd-input\').keypress(function(){
@@ -73,6 +75,7 @@ $_head = apply_filters('admin_header', '
 		$("#plugins").dataTable();	
 		$("#plugins_ii").dataTable();	
 		$("#pending").dataTable();	
+		$("#deleted").dataTable();
 		$("#offline").dataTable();	
 		$("#exports").dataTable();
 		$("#all").dataTable();
@@ -137,6 +140,25 @@ $_head = apply_filters('admin_header', '
 	  }
 	}					
 </script>
+<script type="text/javascript">
+$(document).ready( function(){ 
+	$(".cb-enable").click(function(){
+		var parent = $(this).parents(".switch");
+		$(".cb-disable",parent).removeClass("selected");
+		$(this).addClass("selected");
+		$("#twitterradio").value("true");
+		$("#facebookradio").value("true");
+	});
+	$(".cb-disable").click(function(){
+		var parent = $(this).parents(".switch");
+		$(".cb-enable",parent).removeClass("selected");
+		$(this).addClass("selected");
+		$("#twitterradio").value("false");
+		$("#facebookradio").value("false");
+	});
+});
+</script>
+				
 <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
 <!-- WARNING: Respond.js doesn\'t work if you view the page via file:// -->
 <!--[if lt IE 9]>
@@ -144,7 +166,18 @@ $_head = apply_filters('admin_header', '
           <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
 <![endif]-->
 <style>
-	.wmd-button > span { background-image: url("' . BASE_URL. 'dashboard/js/markdown/pagedown/wmd-buttons.png") }		
+	.wmd-button > span { background-image: url("' . BASE_URL. 'dashboard/js/markdown/pagedown/wmd-buttons.png") }
+	.field { width: 100%; float: left; margin: 0 0 20px; }
+	.field input { margin: 0 0 0 20px; }		
+	.cb-enable, .cb-disable, .cb-enable span, .cb-disable span { background: url(' . BASE_URL. 'dashboard/img/switch.gif) repeat-x; display: block; float: left; }
+	.cb-enable span, .cb-disable span { line-height: 30px; display: block; background-repeat: no-repeat; font-weight: bold; }
+	.cb-enable span { background-position: left -90px; padding: 0 10px; }
+	.cb-disable span { background-position: right -180px;padding: 0 10px; }
+	.cb-disable.selected { background-position: 0 -30px; }
+	.cb-disable.selected span { background-position: right -210px; color: #fff; }
+	.cb-enable.selected { background-position: 0 -60px; }
+	.cb-enable.selected span { background-position: left -150px; color: #fff; }
+	.switch label { cursor: pointer; }						
 </style>
 </head>		
 ');

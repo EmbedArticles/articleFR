@@ -45,7 +45,9 @@
 
 	$_key = $_REQUEST['k'];
 	
-	updateDataField($_key, 'activekey', 'users', 'isactive', 'active', $_conn);
+	//updateDataField($_key, 'activekey', 'users', 'isactive', 'active', $_conn);
+	activateProfileByKey($_key, $_conn);
+	
 	header('Location: ' . $config['base_url'] . 'login/activate/' . $_key . '/');
 	
 	close_db_conni($_conn);

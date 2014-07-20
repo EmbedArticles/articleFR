@@ -84,11 +84,15 @@
 		return $words;
 	}	
 	
-	function _is_adult($article) {	
-		$_is_adult = FALSE;
-		$_badwords_file = dirname(__FILE__) . '/includes/badwords.txt';    
+	function _is_adult($article) {
+		$_badwords_file = dirname(__FILE__) . '/includes/badwords.txt';
 		$_badwords = file($_badwords_file);
+		
+		$_is_adult = FALSE;
+		$_stuffing = FALSE;
+		
 		$total = count($_badwords);    
+		
 		for ($x=0; $x < $total; $x++) {
 			$_badwords[$x] = trim(strtolower($_badwords[$x]));
 		}
@@ -96,6 +100,7 @@
 		$_article_kps = preg_replace("(\n|\r|\t)", " ", $article);	
 		$_article_kps = strip_tags($_article_kps);
 		$_article_kps = cleanterms($_article_kps);
+		
 		$_count_keyphrases = preg_match_all("/\b([\w\-']+)\b/", $_article_kps, $_words_keyphrases);
 		
 		$xy = 0;
@@ -109,11 +114,15 @@
 				if ($_density >= 2) {					
 					$_is_adult = TRUE;
 					break;
+				} else if ($_density > 7) { 
+					$_stuffing = TRUE;
+					break;	
 				}
 			}
 			$xy++;
-		}					
-		return $_is_adult;
+		}		
+					
+		return array('is_adult' => $_is_adult, 'is_stuffing' => $_stuffing);
 	}	
 	
 	function logDownload($_ip, $_connection) {

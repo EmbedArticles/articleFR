@@ -45,13 +45,35 @@ class Contact extends Controller {
 		
 		$_site->controller = 'contact';
 		
+		$_view->set('site', apply_filters('the_site_object', $_site));		
+		
+		$_view->render();
+	}
+    
+	function v()
+	{		
+		global $config;
+		
+		$_site = $this->loadModel('site');
+		$_view = $this->loadView('contact');
+		
+		$_site->init();	
+
+		$_site->set('title', apply_filters('the_site_title', 'Contact Us'));
+		$_site->set('description', apply_filters('the_site_description', null));
+		$_site->set('keywords', apply_filters('the_meta_keys', null));
+		
+		$_site->set_canonical(apply_filters('the_canonical', $GLOBALS['base_url'] . 'contact/'));		
+		
+		$_site->controller = 'contact';
+		
 		$_view->set('site', apply_filters('the_site_object', $_site));
 		
 		$_message = '<p>Sender\'s Email: ' . $_REQUEST['email'] . '</p>';
 		$_message .= '<p>Sender\'s Message: ' . $_REQUEST['message'] . '</p>';
 		
 		if ($_REQUEST['submit'] == 'send') {
-			apply_filters('send_email', $config['base_url'], $_site->brand, $config['admin_email'], $config['admin_email'], $_REQUEST['name'], $_message, $_REQUEST['subject']);
+			email($config['base_url'], $_site->brand, $_site->title, $config['admin_email'], $config['admin_email'], $_REQUEST['name'], $_message, $_REQUEST['subject']);
 			$_view->set('sent', 1);
 		} else {
 			$_view->set('sent', 0);
@@ -59,7 +81,7 @@ class Contact extends Controller {
 		
 		$_view->render();
 	}
-    
+	
 }
 
 ?>

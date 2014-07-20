@@ -53,7 +53,20 @@
 					  <a href="<?=$site->base?>login/v/reset" class="btn btn-primary">Reset Password</a>
 					  <a href="<?=$site->base?>login/v/resend" class="btn btn-primary">Resend Activation</a>
 					</div>
-				  </div>				  
+				  </div>
+				  
+				  <?php
+				  	$_fbid = $site->getBuffer('facebook_app_id');
+				  	$_twid = $site->getBuffer('twitter_app_id'); 
+				  	if (!empty($_fbid) || !empty($_twid)) { 
+				  ?>
+				  <div class="form-group">
+					<div class="col-sm-offset-2 col-sm-10">
+					  <a class="btn btn-primary" href="<?=$site->base?>auth/facebook"><i class="fa fa-facebook"></i> | Sign in with Facebook</a>
+					  <a class="btn btn-info" href="<?=$site->base?>auth/twitter"><i class="fa fa-twitter"></i> | Sign in with Twitter</a>
+					</div>					
+				  </div>		
+				  <?php } ?>				  		  				 
 				</form>		
 				<?php } else if ($r == 'reset') { ?>
 				  <?php 
@@ -82,19 +95,19 @@
 					}
 				  ?>				
 				  <form method="post" class="form-horizontal" action="<?=$site->base?>login/v/resend" role="form">
-				  <div class="form-group">
-					<label for="inputEmail3" class="col-sm-2 control-label">Username</label>
-					<div class="col-sm-10">
-					  <input type="text" class="form-control" name="username" id="inputEmail3" placeholder="Username" parsley-trigger="change" required>
-					</div>
-				  </div>					  				  				  
+					  <div class="form-group">
+						<label for="inputEmail3" class="col-sm-2 control-label">Username</label>
+						<div class="col-sm-10">
+						  <input type="text" class="form-control" name="username" id="inputEmail3" placeholder="Username" parsley-trigger="change" required>
+						</div>
+					  </div>					  				  				  
 				  
-				  <div class="form-group">
-					<div class="col-sm-offset-2 col-sm-10">
-					  <button type="submit" name="submit" value="resend" class="btn btn-danger">Resend Activation</button>
-					</div>
-				  </div>				  
-				</form>				
+					  <div class="form-group">
+						<div class="col-sm-offset-2 col-sm-10">
+						  <button type="submit" name="submit" value="resend" class="btn btn-danger">Resend Activation</button>
+						</div>
+					  </div>				  
+				  </form>				
 				<?php } ?>
 				
 			</div>

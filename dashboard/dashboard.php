@@ -15,12 +15,12 @@
 	<div class="row">
 		<div class="col-xs-12">
 		<?php 
-			if (AFR_VERSION < file_get_contents("http://freereprintables.com/latest_release.txt")) {
+			if (AFR_VERSION < file_get_contents("http://freereprintables.com/latest_release.txt") && $_SESSION ['role'] == 'admin') {
 				print '
 					<div class="alert alert-info alert-dismissable">
 						<i class="fa fa-info"></i>
 						<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-						<b>Alert!</b> Information: A new version of ArticleFR is now available for <b><a href="http://freereprintables.com/articlefr/">download</a></b>.
+						<b>Alert!</b> Information: A new version of ArticleFR is now available for <b><a href="http://freereprintables.com/download.php?filename=articleFR.zip" style="text-decoration: underline;">download</a></b>. You may use this tool to <b><a href="' . BASE_URL . 'dashboard/tools/update/" style="text-decoration: underline;">update</a></b> your version here.
 					</div>				
 				';
 			}			

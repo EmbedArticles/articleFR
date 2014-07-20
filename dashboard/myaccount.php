@@ -27,6 +27,36 @@
 			';
 		}
 	}	
+	
+	if (isset($_REQUEST['delete']) && $_REQUEST['delete'] == 'Delete') {
+		if ($_profile['username'] != 'admin') {
+			deleteProfile($_profile['username'], $_conn);
+			deleteAllArticlesByUsername($_profile['username'], $_conn);
+			deletePennamesByUsername($_profile['username'], $_conn);
+			
+			$_SESSION['isloggedin'] = FALSE;
+			$_SESSION['username'] = NULL;		
+			$_SESSION['name'] = NULL;
+			$_SESSION['email'] = NULL;
+			$_SESSION['website'] = NULL;
+			$_SESSION['blog'] = NULL;
+			$_SESSION['role'] = NULL;	
+			
+			print '	<script type="text/javascript">
+					<!-- 
+						window.location="' . BASE_URL . '" 
+					//-->
+					</script>';
+		} else {
+			print '
+			<div class="alert alert-danger alert-dismissable">
+				<i class="fa fa-ban"></i>
+				<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+				<b>Alert!</b> ERROR: You cannot delete an Administrator account.
+			</div>
+			';		
+		}
+	}
 		
 ?>
 
@@ -70,7 +100,7 @@
 								
 									<div class="box-footer">
 										<button type="submit" name="submit" value="Edit" class="btn btn-primary"><b class="fa fa-users"></b> Edit</button>
-										<button type="reset" name="reset" value="Reset" class="btn btn-danger">Reset</button>
+										<button type="submit" name="delete" value="Delete" class="btn btn-danger">Delete Account</button>
 									</div>
 								</form>
 							';					

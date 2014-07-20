@@ -6,7 +6,7 @@
 	<ol class="breadcrumb">
 		<li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
 		<li><a href="#"><i class="fa fa-wrench"></i> Settings</a></li>
-		<li class="active"><i class="fa fa-cloud"></i> Site Settings</li>
+		<li class="active"><i class="fa fa-gears"></i> Site Settings</li>
 	</ol>
 </section>
 

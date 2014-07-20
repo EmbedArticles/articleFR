@@ -51,33 +51,7 @@
 		<?
 		}
 		?>
-	</div>
-
-		<div class="side-label">
-			<h4>Random Articles</h4>
 		</div>
-		<div>
-		<?
-		foreach ( $site->random as $random ) {
-		?>
-			<div class="media">
-				<a class="thumbnail pull-left"
-					href="<?=$site->base?>author/v/<?=encodeURL($random['author'])?>">
-					<img class="media-object"
-					src="<?=get_gravatar($random['gravatar'], 30)?>" width="30"
-					height="30" alt="<?=$random['author']?>">
-				</a>
-				<div class="media-body">
-					<h5 class="media-heading">
-						<a
-							href="<?=$site->base?>article/v/<?=$random['id']?>/<?=encodeURL($random['title'])?>"><?=$random['title']?></a>
-					</h5>
-				</div>
-			</div>	
-		<?
-		}
-		?>
-	</div>
 
 	</div>
 </div>

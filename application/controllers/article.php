@@ -47,6 +47,7 @@ class Article extends Controller {
 		$_keywords = apply_filters('the_keywords', $_article['body']);
 		$_is_adult = apply_filters('is_adult', $_article['body']);			
 		$_site->controller = 'article';
+		$_related = apply_filters('get_related_articles', $_article['body'], 0, 4, $_site->getConnection());
 		
 		$_site->recent = apply_filters('get_category_live_articles', $_article['category_id'], $_site->getConnection(), 0, 10);
 		
@@ -67,6 +68,8 @@ class Article extends Controller {
 		
 		$_site->set_canonical(apply_filters('the_canonical', $GLOBALS['base_url'] . 'article/v/' . $_param_i . '/' . $_param_ii));
 
+		$_view->set('related', apply_filters('the_related_articles', $_related));
+		
 		$_view->set('site', apply_filters('the_site_object', $_site));
 		$_view->set('article', apply_filters('the_article_object', $_article));
 		$_view->set('is_adult', apply_filters('the_is_adult', $_is_adult));

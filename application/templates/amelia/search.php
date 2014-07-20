@@ -19,27 +19,45 @@
 		  	<div class="crumbs-wrapper">
 		  		<ul class="breadcrumb">
 		  			<li><b class="glyphicon glyphicon-home icon"></b><a href="<?=$site->base?>">Home</a></li>
-					<li><b class="glyphicon glyphicon-folder-open icon"></b><a href="<?=$site->base?>category/v/<?=$_category_id?>/<?=encodeURL($_category_name)?>"><?=$_category_name?></a></li>
+					<li><b class="glyphicon glyphicon-folder-open icon"></b><a href="<?=$site->base?>search/v/?q=<?=urlencode($_REQUEST['q'])?>"><?=ucwords($_REQUEST['q'])?></a></li>
 		  		</ul>
 		  	</div>	  
 		
 		<?
-			foreach($site->recent as $_recent) {
+			if (!empty($site->recent[0]['id'])) {
 				print '
 					<div>
-						<h3><a href="' . $site->base . 'article/v/' . $_recent['id'] . '/' . encodeURL($_recent['title']) . '" title="' . htmlspecialchars($_recent['title']) . '">' . $_recent['title'] . '</a></h3>
-						<p>' . $_recent['summary'] . '...</p>
-						<p class="pull-right"><span class="label label-danger"><a href = "' . $site->base . 'category/v/' . $_recent['category_id'] . '/' . encodeURL($_recent['category']) . '">' . $_recent['category'] . '</a></span></p>
-						<ul class="list-inline"><li><a href="' . $site->base . 'author/v/' . encodeURL($_recent['author']) . '"><img src="' . get_gravatar($_recent['gravatar'], 20) . '" alt="User" border="0"></a> Submitted by <a href="' . $site->base . 'author/v/' . encodeURL($_recent['author']) . '">' . $_recent['author'] . '</a> last ' . getTime($_recent['date']) . '</li></ul>
+						<p>There are ' . $site->recent[0]['total'] . ' results for <i>' . $_REQUEST['q'] . '</i></p>
 					</div>
-					<hr>				
-				';							
-			}		
+				';
+				
+				foreach($site->recent as $_recent) {					
+					print '
+						<div>
+							<h3><a href="' . $site->base . 'article/v/' . $_recent['id'] . '/' . encodeURL($_recent['title']) . '" title="' . htmlspecialchars($_recent['title']) . '">' . $_recent['title'] . '</a></h3>
+							<p>' . $_recent['summary'] . '...</p>
+							<p class="pull-right"><span class="label label-danger"><a href = "' . $site->base . 'category/v/' . $_recent['category_id'] . '/' . encodeURL($_recent['category']) . '">' . $_recent['category'] . '</a></span></p>
+							<ul class="list-inline"><li><a href="' . $site->base . 'author/v/' . encodeURL($_recent['author']) . '"><img src="' . get_gravatar($_recent['gravatar'], 20) . '" alt="User" style="border: 2px solid #0d747c;"></a> Submitted by <a href="' . $site->base . 'author/v/' . encodeURL($_recent['author']) . '">' . $_recent['author'] . '</a> last ' . getTime($_recent['date']) . '</li></ul>
+						</div>
+						<hr>				
+					';							
+				}		
 			
-			if (count($site->recent) <= 0) {
-				print '<p>No articles yet under this category.</p>';
+			} else {
+				print '
+					<p>No results containing all your search terms were found.</p>
+					<p>Suggestions:</p>
+					<p>
+						<ul>
+							<li>Make sure all words are spelled correctly.</li>
+							<li>Try different keywords.</li>
+							<li>Try more general keywords.</li>
+						</ul>
+					</p>
+				';
 			}
 			
+			print '<center>' . $site->pagination . '</center>';
 		?>		
 		  </div>
 		</div>		

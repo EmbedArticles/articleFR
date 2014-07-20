@@ -17,7 +17,7 @@ class phpFastCache {
     public static $securityHtAccess = true; // auto create .htaccess
     public static $option = array();
     public static $server = array(array("localhost",11211)); // for MemCache
-    public static $useTmpCache = true; // use for get from Tmp Memory, will be faster in checking cache on LOOP.
+    public static $useTmpCache = false; // use for get from Tmp Memory, will be faster in checking cache on LOOP.
     public static $debugging = false; // turn true for debugging
 
 

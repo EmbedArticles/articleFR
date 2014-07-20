@@ -48,9 +48,13 @@ function get_head($title, $description, $keywords, $canonical, $base, $template)
 			
 			<link href="//maxcdn.bootstrapcdn.com/bootswatch/3.2.0/amelia/bootstrap.min.css" rel="stylesheet prefetch">			
 			<link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css" rel="stylesheet prefetch">
+					
 			<link href="' . $base . 'application/templates/' . $template . '/css/styles.css" rel="stylesheet">
 			<link href="' . $base . 'application/templates/' . $template . '/css/nice-menu.css" rel="stylesheet">
-			
+					
+			<link href="' . $base . 'dashboard/css/ionicons.min.css" rel="stylesheet" type="text/css" />
+			<link href="' . $base . 'dashboard/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
+					
 			<link href="' . $base . 'application/templates/' . $template . '/css/zebra_pagination.css" rel="stylesheet">
 			<link href="' . $base . 'application/templates/' . $template . '/lib/markdown/pagedown/wmd.css" rel="stylesheet">
 			<link href="' . $base . 'application/templates/' . $template . '/lib/markdown/pagedown/highlightjs.css" rel="stylesheet">
@@ -67,6 +71,7 @@ function get_head($title, $description, $keywords, $canonical, $base, $template)
 			<script type="text/javascript" src="' . $base . 'application/templates/' . $template . '/js/parsley.js"></script>
 			<script type="text/javascript" src="' . $base . 'application/templates/' . $template . '/js/jquery.smint.js"></script>
 			<script type="text/javascript" src="' . $base . 'application/templates/' . $template . '/js/zebra_pagination.js"></script>
+			<script type="text/javascript" src="' . $base . 'application/templates/' . $template . '/loadjs.php?s=' . $base . 'application/templates/' . $template . '/js/jquery.sharrre.min.js&h=sharrre.php&r=' . $base . 'sharrre.php"></script>
 			
 			<script type="text/javascript">var switchTo5x=true;</script>
 			<script type="text/javascript" src="http://w.sharethis.com/button/buttons.js"></script>
@@ -94,6 +99,26 @@ function get_head($title, $description, $keywords, $canonical, $base, $template)
 						}
 					});			
 							
+					$("#sharrre").sharrre({
+					  share: {
+					    googlePlus: true,
+					    facebook: true,
+					    twitter: true
+					  },
+					  buttons: {
+					    googlePlus: {size: "tall", annotation:"bubble"},
+					    facebook: {layout: "box_count"},
+					    twitter: {count: "vertical", via: "freereprintable"}
+					  },
+					  hover: function(api, options){
+					    $(api.element).find(".buttons").show();
+					  },
+					  hide: function(api, options){
+					    $(api.element).find(".buttons").hide();
+					  },
+					  enableTracking: true
+					});
+									
 					$("a").tooltip();
 				});	
 				window.onscroll = function() {
@@ -106,7 +131,7 @@ function get_head($title, $description, $keywords, $canonical, $base, $template)
 					}
 				};				
 				function setRate(a,i,r) { $("#rate").html("Retrieving data..."); $("#rate").load("' . $base . 'rate.php?id=" + i + "&act=" + a + "&rate=" + r).fadeIn("slow"); }
-			</script>
+			</script>						
 		</head>			
 	';
 	

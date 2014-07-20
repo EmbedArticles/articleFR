@@ -108,6 +108,19 @@
 		return $_retval;
 	}
 	
+	function deletePennamesByUsername($_username, $_connection) {
+		if (!empty($_username)) {
+			$_q = "DELETE * FROM penname WHERE username = '" . mysqli_real_escape_string($_connection, $_username) . "'";
+			queryi($_q, $_connection);	
+			
+			$_retval = 1;
+		} else {
+			$_retval = 0;
+		}
+		
+		return $_retval;
+	}
+	
 	function deletePenname($_id, $_connection) {
 		$_penname = getPenname($_id, $_connection);
 		$_qc = "SELECT count(id) as count FROM article WHERE author = '" . mysqli_real_escape_string($_connection, $_penname['name']) . "' AND status = 1";

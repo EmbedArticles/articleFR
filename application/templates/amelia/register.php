@@ -30,6 +30,8 @@
 					<div class="alert alert-danger text-center"><strong>An Error Was Found While Trying To Create Your Account!</strong><br>Please try to use another email address or username.</div>
 				<?php } else if ($register == 1 && $submit == 'register') { ?>
 					<div class="alert alert-info text-center"><strong>Registration successful and user account created.</strong><br>Please check your registered email for the confirmation link and key.</div>
+				<?php } else if ($register == 2 && $submit == 'register') { ?>
+					<div class="alert alert-info text-center"><strong>An Error Was Found While Trying To Create Your Account!</strong><br>Username must be at least 6 letters minimum without spaces.</div>
 				<?php } ?>
 								
 				<form method="post" class="form-horizontal" role="form">
