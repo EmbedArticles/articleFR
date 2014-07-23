@@ -28,7 +28,7 @@
 		
 		if (!$akismet->isCommentSpam()) {
 			$_is_adult = _is_adult($_REQUEST['content']);
-			if (!$_is_adult) {
+			if (!$_is_adult['is_adult'] && !$_is_adult['is_stuffing']) {
 				$_create = editPage($_REQUEST['id'], $_REQUEST['url'], $_REQUEST['title'], $_REQUEST['description'], $_REQUEST['keywords'], $_REQUEST['content'], $_conn);
 				doLog('CREATE', 'Page ' . $_REQUEST['title'] . ' Created', 0, $_profile['username'], $_conn);
 				if ($_create == 1) {

@@ -34,7 +34,7 @@
 			if (str_word_count(strip_tags($_REQUEST['content'])) <= $_max_words && str_word_count(strip_tags($_REQUEST['content'])) >= $_min_words) {
 				if (str_word_count(strip_tags($_REQUEST['title'])) <= $_title_max && str_word_count(strip_tags($_REQUEST['title'])) >= $_title_min) {
 					$_is_adult = _is_adult($_REQUEST['content']);
-					if (!$_is_adult) {						
+					if (!$_is_adult['is_adult'] && !$_is_adult['is_stuffing']) {			
 						if (isset($_REQUEST['status'])) {
 							$_REQUEST['status'] = $_REQUEST['status'];
 						} else {

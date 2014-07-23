@@ -34,7 +34,7 @@
 			if (str_word_count(strip_tags($_REQUEST['content'])) <= $_max_words && str_word_count(strip_tags($_REQUEST['content'])) >= $_min_words) {
 				if (str_word_count(strip_tags($_REQUEST['title'])) <= $_title_max && str_word_count(strip_tags($_REQUEST['title'])) >= $_title_min) {
 					$_is_adult = _is_adult($_REQUEST['content']);
-					if (!$_is_adult) {
+					if (!$_is_adult['is_adult'] && !$_is_adult['is_stuffing']) {
 						$_submit = submitArticle($_profile['username'], $_REQUEST['title'], $_REQUEST['category'], $_REQUEST['author'], $_REQUEST['summary'], $_REQUEST['content'], $_REQUEST['about'], $_conn);
 						doLog('SUBMIT', 'Article Submitted', 0, $_profile['username'], $_conn);
 						if ($_submit == 1) {
