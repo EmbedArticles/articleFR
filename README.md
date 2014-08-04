@@ -1,0 +1,14 @@
+ArticleFR - Free Article Directory CMS System
+
+Download the latest stable release of the ArticleFR+ Article Directory CMS System https://github.com/articlefr/articleFR/archive/master.zip
+
+Please refer to <INSTALLATION FILE> for the installation...
+
+Website: http://freereprintables.com
+Github: https://github.com/articlefr/articleFR
+License: <SEE LICENSE FILE>
+
+For questions and other articleFR web application concerns or development concerns please see the forums below...
+
+Support Forums: http://freereprintables.com/forums/
+Sponsor: http://www.isnare.com
