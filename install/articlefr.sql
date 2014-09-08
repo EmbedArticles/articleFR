@@ -507,7 +507,7 @@ CREATE TABLE IF NOT EXISTS `users` (
 ) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=2 ;
 
 INSERT IGNORE INTO `users` (`id`, `username`, `password`, `email`, `membership`, `date`, `name`, `website`, `blog`, `points`, `isactive`, `activekey`) VALUES
-(1, 'admin', 'admin123', 'admin@freereprintables.com', 'admin', '2014-01-17 07:46:40', 'Administrator', 'http://freereprintables.com', 'http://freereprintables.com', 100, 'active', NULL),
+(1, 'admin', 'admin123', 'admin@freereprintables.com', 'admin', '2014-01-17 07:46:40', 'Administrator', 'http://freereprintables.com', 'http://freereprintables.com', 100, 'active', NULL);
 
 --
 -- Table structure for table `videos`
