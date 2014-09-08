@@ -40,7 +40,8 @@ class Search extends Controller {
 		
 		$_site = $this->loadModel('site');
 		$_view = $this->loadView('search');
-
+		$this->loadPlugins($_site);
+		
 		$_site->init();
 		
 		$_site->connect();
@@ -65,6 +66,16 @@ class Search extends Controller {
 		
 		$_site->set_canonical(apply_filters('the_canonical', $GLOBALS['base_url'] . 'search/v/?q=' . $_REQUEST['q'] . '&page=' . $_REQUEST['page']));
 				
+		$_video = $this->loadModel('video');
+		
+		$_video->connect();		
+		$_video->set( 'recent_videos', apply_filters('recent_videos', $_video->getConnection(), 0, 10) );
+		$_video->set( 'channels', apply_filters('random_channels', $_video->getConnection()) );
+		$_video->set( 'total_videos', apply_filters('get_total_videos', $_video->getConnection()) );
+		$_video->close();
+		
+		$_view->set('video', apply_filters('the_video_object', $_video));
+		
 		$_site->controller = 'search';
 		
 		$_view->set('site', apply_filters('the_site_object', $_site));

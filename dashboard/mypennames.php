@@ -22,36 +22,56 @@
 			$_profile ['username'] = $_profile ['username'];
 		}
 				
-		$_create = apply_filters('add_penname', addPennames($_REQUEST['name'], $_REQUEST['gravatar'], $_REQUEST['biography'], $_profile['username'], $_conn));
-		if ($_create == 1) {
+		if (str_word_count($_REQUEST['biography']) < 140) {
+			$_create = apply_filters('add_penname', addPennames($_REQUEST['name'], $_REQUEST['gravatar'], $_REQUEST['biography'], $_profile['username'], $_conn));
+			if ($_create == 1) {
+				print '
+				<div class="alert alert-success alert-dismissable">
+					<i class="fa fa-check"></i>
+					<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+					<b>Alert!</b> Success: Your pen name has been added.
+				</div>
+				';
+			} else if ($_create == 2) {
+				print '
+				<div class="alert alert-danger alert-dismissable">
+					<i class="fa fa-ban"></i>
+					<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+					<b>Alert!</b> Error: Please use another name or gravatar email address.
+				</div>
+				';
+			}
+		} else {
 			print '
-			<div class="alert alert-success alert-dismissable">
-				<i class="fa fa-check"></i>
-				<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-				<b>Alert!</b> Success: Your pen name has been added.
-			</div>
-			';
-		} else if ($_create == 2) {
-			print '
-			<div class="alert alert-danger alert-dismissable">
-				<i class="fa fa-ban"></i>
-				<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-				<b>Alert!</b> Error: Please use another name or gravatar email address.
-			</div>
-			';
+				<div class="alert alert-info alert-dismissable">
+					<i class="fa fa-info"></i>
+					<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+					<b>Alert!</b> Information: Biography should only be 140 words maximum.
+				</div>
+				';			
 		}
 	}
 	
 	if (isset($_REQUEST['submit']) && $_REQUEST['submit'] == 'Edit') {
-		$_create = apply_filters('edit_penname', editPennames($_REQUEST['name'], $_REQUEST['gravatar'], $_REQUEST['biography'], $_REQUEST['id'], $_conn));
-		if ($_create == 1) {
+		if (str_word_count($_REQUEST['biography']) < 140) {
+			$_create = apply_filters('edit_penname', editPennames($_REQUEST['name'], $_REQUEST['gravatar'], $_REQUEST['biography'], $_REQUEST['id'], $_conn));
+			if ($_create == 1) {
+				print '
+				<div class="alert alert-success alert-dismissable">
+					<i class="fa fa-check"></i>
+					<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+					<b>Alert!</b> Success: Your pen name has been edited.
+				</div>
+				';
+			}
+		} else {			
 			print '
-			<div class="alert alert-success alert-dismissable">
-				<i class="fa fa-check"></i>
-				<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-				<b>Alert!</b> Success: Your pen name has been edited.
-			</div>
-			';
+				<div class="alert alert-info alert-dismissable">
+					<i class="fa fa-info"></i>
+					<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+					<b>Alert!</b> Information: Biography should only be 140 words maximum.
+				</div>
+				';		
 		}
 	}	
 	

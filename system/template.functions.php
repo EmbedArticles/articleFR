@@ -25,7 +25,87 @@
 	* Website: http://www.freecontentarticles.com 
 	*
 	*************************************************************************************************************************/	
+
+	function get_link_tracker_js() {
+		$_var = '
+					<script>
+					var trackOutboundLink = function(url) {
+					   _gaq.push([\'_trackEvent\', \'Click Tracking\', \'Link Clickthroughs\', url]);
+					}		
+					</script>		
+				';
+		return $_var;		
+	}
+
+	function build_main_login_form($base) {
+		$_socials = parse_ini_file(dirname(dirname(__FILE__)) . '/application/config/socials.ini', true);
 		
+		$_form = '<form method="post" class="form-horizontal" action="'. $base . 'login/" role="form">';
+		$_form .= '<div class="form-group"><label for="inputEmail3" class="col-sm-2 control-label">Username</label><div class="col-sm-10"><input type="text" class="form-control" name="username" id="inputEmail3" placeholder="Username" parsley-trigger="change" required></div></div>';
+		$_form .= '<div class="form-group"><label for="name" class="col-sm-2 control-label">Password</label><div class="col-sm-10"><input type="password" class="form-control" name="password" id="password" placeholder="Password" parsley-trigger="change" required></div></div>';
+		$_form .= '<div class="form-group"><div class="col-sm-offset-2 col-sm-10"><button type="submit" name="submit" value="login" class="btn btn-danger">Login</button> <a href="'. $base . 'login/v/reset" class="btn btn-primary">Reset Password</a> <a href="'. $base . 'login/v/resend" class="btn btn-primary">Resend Activation</a></div></div>';					
+			
+		if (!empty($_socials['facebook']['app_id']) || !empty($_socials['twitter']['app_id'])) {
+			$_form .= '<div class="form-group"><div class="col-sm-offset-2 col-sm-10">';
+				
+			if (!empty($_socials['facebook']['app_id'])) {
+				$_form .= '<a class="btn btn-primary" href="' . $base . 'auth/facebook"><i class="fa fa-facebook"></i> | Sign in with Facebook</a> ';
+			}
+		
+			if (!empty($_socials['twitter']['app_id'])) {
+				$_form .= '<a class="btn btn-info" href="' . $base . 'auth/twitter"><i class="fa fa-twitter"></i> | Sign in with Twitter</a> ';
+			}
+		
+			$_form .= '</div></div>';
+		}
+			
+		$_form .= '</form>';
+
+		return $_form;
+	}
+	
+	function build_login_form($base, $type) {	
+		if ($type == 'main') {	
+			$_form = apply_filters('main_login_form', build_main_login_form($base));
+		} else if ($type == 'reset') {
+			$_form = '
+				  <form method="post" class="form-horizontal" action="' . $base . 'login/v/reset" role="form">
+				  <div class="form-group">
+					<label for="inputEmail3" class="col-sm-2 control-label">Username</label>
+					<div class="col-sm-10">
+					  <input type="text" class="form-control" name="username" id="inputEmail3" placeholder="Username" parsley-trigger="change" required>
+					</div>
+				  </div>					  				  					
+				  
+				  <div class="form-group">
+					<div class="col-sm-offset-2 col-sm-10">
+					  <button type="submit" name="submit" value="reset" class="btn btn-danger">Reset Password</button>
+					</div>
+				  </div>				  
+				</form>						
+			';			
+		} else if ($type == 'resend') {
+			$_form ='
+				  <form method="post" class="form-horizontal" action="' . $base . 'login/v/resend" role="form">
+					  <div class="form-group">
+						<label for="inputEmail3" class="col-sm-2 control-label">Username</label>
+						<div class="col-sm-10">
+						  <input type="text" class="form-control" name="username" id="inputEmail3" placeholder="Username" parsley-trigger="change" required>
+						</div>
+					  </div>					  				  				  
+				  
+					  <div class="form-group">
+						<div class="col-sm-offset-2 col-sm-10">
+						  <button type="submit" name="submit" value="resend" class="btn btn-danger">Resend Activation</button>
+						</div>
+					  </div>				  
+				  </form>					
+			';			
+		}
+		
+		return $_form;
+	}
+	
 	function thousandths($_number) {
 		$_number = ($_number / 1000) >= 1 ? number_format(($_number / 1000), 1) . 'K' : $_number;
 		return $_number;

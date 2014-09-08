@@ -15,6 +15,38 @@
 	
 <?php 
 
+	if (isset($_REQUEST['submit']) && $_REQUEST['submit'] == 'images') {
+		$term = preg_replace('/(\s)/', ',', trim($_REQUEST['flickr']));
+		
+		$flickr = new Phlickr_Api("dd1322bcf1680ba0c0a5b3ebc85c667c", "d44939c31b3e9619");
+		
+		$xml = $flickr->executeMethod('flickr.photos.search',
+		array(
+		'text' => $term,
+		'tags' => $term,
+		'tag_mode' => 'any',
+		'per_page' => 60,
+		'privacy_filter' => '1',
+		'sort' => 'date-posted-desc',
+		'media' => 'photos'
+		)
+		);
+		 
+		$response = simplexml_load_string($xml);
+		$urls = array();
+		
+		$_images = '<select id="images" name="image" class="image-picker show-html">';
+		
+		foreach($response->photos->photo as $photo){
+			$_url_display = 'http://farm'.$photo['farm'].'.staticflickr.com/'.$photo['server'].'/'.$photo['id'].'_'.$photo['secret'].'_q.jpg';
+			$_url_value = 'http://farm'.$photo['farm'].'.staticflickr.com/'.$photo['server'].'/'.$photo['id'].'_'.$photo['secret'].'_z.jpg';
+			$_images .= '<option data-img-label="' . htmlspecialchars($photo['title']) . '" data-img-src="' . $_url_display . '" value="' . $_url_value . '">' . $_url_display . '</option>';
+		}
+		
+		$_images .= '</select>';
+		
+	}
+	
 	if (isset($_REQUEST['submit']) && $_REQUEST['submit'] == 'edit') {			
 		$_max_words = getSiteSetting('ARTICLE_MAX_WORDS', $_conn);
 		$_min_words = getSiteSetting('ARTICLE_MIN_WORDS', $_conn);
@@ -50,6 +82,9 @@
 									<b>Alert!</b> Success: Your article has been edited successfully.
 								</div>
 							';
+							if (!empty($_REQUEST['image'])) {
+								$_database->query("REPLACE INTO media(`url`, `article`, `user`, `date`) VALUES('" . $_database->quote($_REQUEST['image']) . "', " . $_database->quote($_REQUEST['id']) . ", " . $_profile['id'] . ", now())");							
+							}							
 						} else if ($_edit == 2) {
 							print '
 								<div class="alert alert-danger alert-dismissable">
@@ -106,6 +141,7 @@
 	}
 
 	$_article = getArticleCommon($_REQUEST['id'], $_conn);
+	$_media = $_database->squery("SELECT url FROM media WHERE article = " . $_database->quote($_REQUEST['id']));
 ?>
 
 	<!-- Main row -->
@@ -117,8 +153,38 @@
 		        </div>		        
 	            <div class="box-body">
 				<?php 
+				
+				if (!empty($_media['url'])) {
+					$_media_image = '
+						<div class="form-group">
+							<label>Media Image [<a href="#mediaImageModal" data-target="#mediaImageModal" data-toggle="modal" >view</a>]</label>					
+							<input type="text" name="media" class="form-control" value="' . $_media['url'] . '" />
+						</div>
+					';
+				} else {
+					$_media_image = NULL;
+				}
+				
 				print '
+					<form method="post" role="form">
+						<div class="form-group">													
+							<label>Search Images</label>
+							<div class="input-group input-group-sm">														
+								<input class="form-control" placeholder="Search Flickr Images ..." name="flickr" value="' . $_REQUEST['flickr'] . '" type="text">
+								<span class="input-group-btn">
+									<button class="btn btn-info btn-flat" type="submit" name="submit" value="images">Go!</button>
+								</span>
+							</div>																									
+						</div>		
+					</form>			
 					<form method="post" role="form" parsley-validate>
+						<div class="form-group">
+							<div id="imageselect" style="margin-top: 5px;">' . $_images . '</div>
+							<span>To select an image for inclusion simply click on the image of your choice.</span>
+						</div>					
+					
+						' . $_media_image . '													
+						
 						<div class="form-group">
 							<label>Title</label>
 							<input type="text" name="title" class="form-control" placeholder="Title ..." value="' . $_article['title'] . '" parsley-trigger="change" required />
@@ -209,8 +275,9 @@
                     	        <span class="sr-only">Toggle Dropdown</span>
                             </button>
                             <ul class="dropdown-menu" role="menu">
-                            	<li><a href="'.BASE_URL.'terms/" target="_new">Terms of Service</a></li>
-                                <li><a href="'.BASE_URL.'dashboard/">Cancel</a></li>
+								<li><a href="' . BASE_URL . 'dashboard/articles/review/?pa=approve&id=' . $_article ['id'] . '">Approve Article</a></li>
+								<li><a href="' . BASE_URL . 'dashboard/articles/review/?pa=delete&id=' . $_article ['id'] . '">Disapprove Article</a></li>
+                                <li><a href="'.BASE_URL.'dashboard/">Cancel Edit</a></li>
                            	</ul>
                          </div>			
 					</div>	                                                                               
@@ -223,6 +290,23 @@
 		</div>
 	</div>
 	<!-- /.row (main row) -->
+	
+	<div class="modal fade" id="mediaImageModal" tabindex="-1" role="dialog" aria-labelledby="myMediaImageModal" aria-hidden="true">
+	  <div class="modal-dialog">
+		<div class="modal-content">
+		  <div class="modal-header">
+			<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+			<h4 class="modal-title" id="myMediaImageModal">Media Image</h4>
+		  </div>
+		  <div class="modal-body">
+			<center><img src="<?=$_media['url']?>" width="550" height="auto" border="0"></center>
+		  </div>
+		  <div class="modal-footer">
+			<button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+		  </div>
+		</div><!-- /.modal-content -->
+	  </div><!-- /.modal-dialog -->
+	</div><!-- /.modal -->	
 
 </section>
 <!-- /.content -->

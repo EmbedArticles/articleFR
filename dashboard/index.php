@@ -45,7 +45,7 @@ require_once ('session.php');
 						</ul>	
 					</li>
 				 </ul>		
-			</div>
+			</div>			
 		</nav>
 	</header>
 	<div class="wrapper row-offcanvas row-offcanvas-left">
@@ -58,9 +58,9 @@ require_once ('session.php');
 							class="img-circle" alt="Avatar" />
 					</div>
 					<div class="pull-left info">
-						<p>Hello, <? print $_SESSION['username']; ?></p>
-						<a href="<?=BASE_URL?>" target="_new"><i
-							class="fa fa-circle text-success"></i> Visit Website</a>
+						<p>[<? print $_SESSION['username']; ?>]</p>
+						<a href="<?=BASE_URL?>" target="_new"><b>Go to Website <i
+							class="fa fa-external-link-square"></i></b></a>
 					</div>
 				</div>
 				<?php include('sidebar.php'); ?>
@@ -68,6 +68,7 @@ require_once ('session.php');
 
 		<aside class="right-side text-left">
 		<?php
+		flush();
 		if (isset ( $_s ) && $_s == 'articles' && $_a == 'submit') {
 			include_once ('submit.php');
 		} else if (isset ( $_s ) && $_s == 'articles' && $_a == 'manage') {
@@ -115,17 +116,37 @@ require_once ('session.php');
 		} else if (isset ( $_s ) && $_s == 'tools' && $_a == 'isnare') {
 			include_once ('isnarepublisher.php');	
 		} else if (isset ( $_s ) && $_s == 'tools' && $_a == 'update') {
-			include_once ('update.php');								
+			include_once ('update.php');	
+		} else if (isset ( $_s ) && $_s == 'tools' && $_a == 'pingservers') {
+			include_once ('pingservers.php');	
+		} else if (isset ( $_s ) && $_s == 'videos' && $_a == 'upload') {
+			include_once ('videoupload.php');			
+		} else if (isset ( $_s ) && $_s == 'videos' && $_a == 'manage') {
+			include_once ('videos.php');	
+		} else if (isset ( $_s ) && $_s == 'videos' && $_a == 'channels') {
+			include_once ('channels.php');
+		} else if (isset ( $_s ) && $_s == 'videos' && $_a == 'socialsites') {
+			include_once ('socialsites.php');		
+		} else if (isset ( $_s ) && $_s == 'videos' && $_a == 'fileupload') {
+			include_once ('fileupload.php');	
+		} else if (isset ( $_s ) && $_s == 'videos' && $_a == 'loadurl') {
+			include_once ('loadurl.php');	
+		} else if (isset ( $_s ) && $_s == 'videos' && $_a == 'review') {
+			include_once ('reviewvideos.php');								
+		} else if (isset ( $_s ) && $_s == 'videos' && $_a == 'edit') {
+			include_once ('editvideos.php');			
 		} else {
 			include_once ('dashboard.php');
 		}
+		
+		flush();
 		?>
 		
             <section style="width: 100%; border-top: 1px solid #DDD;">
 				<div class="text-left"
 					style="display: block; width: 100%; padding: 10px; border-top: 1px solid #F0F0F0;">
-					<small><i>Powered by <a href="http://freereprintables.com"
-							target="_new">ArticleFR v.<?=AFR_VERSION?></a></i></small>
+					<b>Powered by <a href="http://freereprintables.com"
+							target="_new">ArticleFR v<?=AFR_VERSION?></a></b>
 				</div>
 			</section>
 		</aside>
@@ -190,6 +211,15 @@ require_once ('session.php');
 
 	<script src="<?=BASE_URL?>dashboard/js/jquery.spellchecker.min.js"></script>
 	
+	<script src="<?=BASE_URL?>dashboard/js/modal.js"></script>
+	
+	<script src="<?=BASE_URL?>dashboard/js/plugins/html5video.js"></script>
+	<script src="<?=BASE_URL?>dashboard/js/plugins/modal-maxwidth.js"></script>
+	<script src="<?=BASE_URL?>dashboard/js/plugins/modal-resize.js"></script>
+	<script src="<?=BASE_URL?>dashboard/js/plugins/gallery.js"></script>	
+	
+	<script type="text/javascript" src="<?=BASE_URL?>dashboard/js/site.js"></script>
+	
 	<script>
 	(function() {
 	  
@@ -252,9 +282,19 @@ require_once ('session.php');
 	})();
 	</script>	
 
+	<script>
+	  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+	  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+	  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+	  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+	  ga('create', '<? print $site_config['analytics']['ID']; ?>', 'auto');
+	  ga('send', 'pageview');
+	</script>
+	
 </body>
 </html>
 <?php
 ob_end_flush();
-close_db_conni($_conn); 
+close_db_conni($_conn);
+$_database->close(); 
 ?>

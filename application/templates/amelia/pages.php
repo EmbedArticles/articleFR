@@ -26,7 +26,7 @@
 			  	
 				<div class="text-left center-block">
 					<?php 
-						eval('$_page = $page["content"];');
+						$_page = eval('?>' . $page_content);
 						print $_page; 				
 					?>
 				</div>

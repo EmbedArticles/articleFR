@@ -25,7 +25,7 @@
 	* Website: http://www.freecontentarticles.com 
 	*
 	*************************************************************************************************************************/
-
+	
 	function getTotalDBSize($_connection) {
 		$_q = "SHOW TABLE STATUS";
 		$_result = queryi($_q, $_connection);
@@ -186,6 +186,18 @@
 		return $_retval;
 	}
 	
+	function logTrackbacks($id, $aid, $url, $title, $summary, $_connection) {
+		if (!empty($id) && !empty($aid) && !empty($url) && !empty($title) && !empty($summary)) {
+			$_q = "
+				INSERT INTO trackbacks(`id`, `aid`, `url`, `title`, `summary`, `date`)
+					VALUES(" . mysqli_real_escape_string($_connection, $id) . ", " . mysqli_real_escape_string($_connection, $aid) . ", '" . mysqli_real_escape_string($_connection, $url) . "', '" . mysqli_real_escape_string($_connection, $title) . "', '" . mysqli_real_escape_string($_connection, $summary) . "', now()) ON DUPLICATE KEY UPDATE date = now()";
+			queryi($_q, $_connection);		
+			return 1;
+		} else {
+			return 0;
+		}
+	}
+	
 	function addPlugin($_path, $_name, $_author, $_site, $_description, $_connection) {
 		if (!empty($_name) && !empty($_author) && !empty($_site) && !empty($_description)) {
 			$_q = "
@@ -277,6 +289,47 @@
 		
 		return $_retval;
 	}
+	
+	function addPingServer($_url, $_connection) {
+		if (!empty($_url)) {
+			$_q = "
+				INSERT INTO pingservers(url)
+					VALUES('" . mysqli_real_escape_string($_connection, $_url) . "') ON DUPLICATE KEY UPDATE id = id";
+			queryi($_q, $_connection);		
+			return 1;
+		} else {
+			return 0;
+		}
+	}
+	
+	function deletePingServer($_id, $_connection) {
+		if (!empty($_id)) {
+			$_q = "
+				DELETE FROM pingservers
+					WHERE id = " . mysqli_real_escape_string($_connection, $_id);
+			queryi($_q, $_connection);		
+			return 1;
+		} else {
+			return 0;
+		}
+	}
+	
+	function getPingServers($_connection) {
+		$_q = "SELECT id, url FROM pingservers";
+		$_result = queryi($_q, $_connection);
+	
+		$_retval = array();
+		$_entry = array();
+		$_i = 0;
+		
+		while( $_rs = mysqli_fetch_assoc($_result) ) {
+			$_entry['id'] = $_rs['id'];
+			$_entry['url'] = $_rs['url'];
+			array_push($_retval, $_entry);
+		}
+		
+		return $_retval;
+	}	
 	
 	function getSiteSetting($_setting, $_connection) {
 		$_q = "SELECT content FROM settings WHERE name = '" . mysqli_real_escape_string($_connection, $_setting) . "'";

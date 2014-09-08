@@ -31,14 +31,26 @@ class Main extends Controller {
 	function index()
 	{		
 		$_site = $this->loadModel('site');
+		$_video = $this->loadModel('video');
+		$this->loadPlugins($_site);
+		
 		$_site->init();		
 		
 		$_site->set_canonical(apply_filters('the_canonical', $GLOBALS['base_url']));	
 		$_site->controller = 'index';
 		
+		$_video->connect();	
+		
+		$_video->set( 'recent_videos', apply_filters('recent_videos', $_video->getConnection(), 0, 10) );
+		$_video->set( 'channels', apply_filters('random_channels', $_video->getConnection()) );
+		$_video->set( 'total_videos', apply_filters('get_total_videos', $_video->getConnection()) );
+
+		$_video->close();
+		
 		$_view = $this->loadView('index');		
 		
 		$_view->set('site', apply_filters('the_site_object', $_site));
+		$_view->set('video', apply_filters('the_video_object', $_video));
 		
 		$_view->render();
 		

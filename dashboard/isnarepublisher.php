@@ -80,7 +80,8 @@ file_put_contents( dirname(dirname(__FILE__)) . '/application/config/isnare.ini'
 
 				<div class="box-body">
 						
-					<p>The iSnare import articles module works by registering an account at <a href="http://www.isnare.com/publisher" target="_new">http://www.isnare.com/publisher</a> and set your script URL under settings menu to <a href="<?=BASE_URL?>isnare.php" target="_new"><?=BASE_URL?>isnare.php</a></p>
+					<p>The iSnare import articles module works by registering an account at <a href="http://www.isnare.com/publisher" target="_new">http://www.isnare.com/publisher</a> and then enable to accept articles by setting your script URL under SETTINGS menu at the iSnare Publisher site.</p>
+					<p>Your script URL is <code><a href="<?=BASE_URL?>isnare.php" target="_new"><?=BASE_URL?>isnare.php</a></code></p>
 					<p>Be sure to have finished setting the '<i>Import Assigned Author Name</i>' before registering an account at iSnare.com.</p>
 					<p>If you have any questions or if you need some assitance please do not hesitate to email <i>admin@isnare.org</i></p>
 						

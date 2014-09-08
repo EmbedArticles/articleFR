@@ -40,7 +40,9 @@ class Author extends Controller {
 		
 		$_site = $this->loadModel('site');
 		$_view = $this->loadView('author');
-
+		$_video = $this->loadModel('video');
+		$this->loadPlugins($_site);
+		
 		$_site->init();
 		
 		$_site->connect();
@@ -51,6 +53,14 @@ class Author extends Controller {
 		$_profile['name'] = apply_filters('the_author', decodeURL($_param_i));
 		$_recent = apply_filters('get_recent_by_author', decodeURL($_param_i), $_site->getConnection(), $pagination->getStart(), $pagination->getRPP());
 		$_site->close();
+		
+		$_video->connect();	
+		
+		$_video->set( 'recent_videos', apply_filters('recent_videos', $_video->getConnection(), 0, 10) );
+		$_video->set( 'channels', apply_filters('random_channels', $_video->getConnection()) );
+		$_video->set( 'total_videos', apply_filters('get_total_videos', $_video->getConnection()) );
+
+		$_video->close();		
 
 		$_recent[0]['total'] = empty($_recent[0]['total']) ? 0 : $_recent[0]['total'];
 		
@@ -70,6 +80,7 @@ class Author extends Controller {
 		
 		$_view->set('site', apply_filters('the_site_object', $_site));
 		$_view->set('_author_name_encoded', $_param_i);
+		$_view->set('video', apply_filters('the_video_object', $_video));
 		
 		$_view->render();
 	}

@@ -3403,3 +3403,106 @@ fieldset[disabled] .btn-vk.active {
   color: #587ea3;
   background-color: #ffffff;
 }
+
+#gritter-notice-wrapper {
+position: fixed;
+top: 60px;
+right: 20px;
+width: 301px;
+z-index: 9999;
+}
+
+.gritter-item-wrapper {
+position: relative;
+margin: 0 0 10px 0;
+}
+
+.gritter-top {
+background-image: url(http://df863cbnfyvuy.cloudfront.net/v21/admin/img/gritter-top.png);
+background-repeat: no-repeat;
+background-position: top left;
+height: 10px;
+}
+
+.gritter-item {
+display: block;
+background-image: url(http://df863cbnfyvuy.cloudfront.net/v21/admin/img/gritter-bg-tile.png);
+background-repeat: repeat-y;
+background-position: top left;
+color: #eee;
+padding: 2px 11px 8px 11px;
+font-size: 12px;
+font-family: "Open Sans",Verdana,Arial,Helvetica,sans-serif;
+}
+
+.nottype, .nottypered, .nottypeblue, .nottypegreen {
+display: block;
+position: absolute;
+top: 20px;
+left: 17px;
+}
+
+.gritter-ico {
+position: absolute;
+display: block;
+top: 28%;
+left: 34%;
+}
+
+.gritter-with-image {
+width: 230px;
+float: right;
+}
+index.phpmedia="screen"
+.gritter-with-image, .gritter-without-image {
+padding: 0 0 5px 0;
+}
+
+.gritter-title {
+font-size: 14px;
+font-weight: bold;
+line-height: 1.2em;
+padding: 2px 0 10px;
+display: block;
+text-shadow: 0 1px 0 #111;
+}
+
+.gritter-bottom {
+background-image: url(http://df863cbnfyvuy.cloudfront.net/v21/admin/img/gritter-bottom.png);
+background-repeat: no-repeat;
+background-position: top left;
+height: 8px;
+margin: 0;
+}
+
+#upload_frame {
+	border:0px;
+	height:40px;
+	width:400px;
+	display:none;
+}
+
+#progress_container {
+	width: 300px; 
+	height: 30px; 
+	border: 1px solid #CCCCCC; 
+	background-color:#EBEBEB;
+	display: block; 
+	margin:5px 0px -15px 0px;
+}
+
+#progress_bar {
+	position: relative; 
+	height: 30px; 
+	background-color: #F3631C; 
+	width: 0%; 
+	z-index:10; 
+}
+
+#progress_completed {
+	font-size:16px; 
+	z-index:40; 
+	line-height:30px; 
+	padding-left:4px; 
+	color:#FFFFFF;
+}

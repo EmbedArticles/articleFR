@@ -1,9 +1,14 @@
 <!DOCTYPE html>
 <html lang="en">
 
-<?php get_head($site->title, $site->description, $site->keywords, $site->get_canonical(), $site->base, $site->template); ?>
+<?php get_head_with_trackback($site->title, $site->description, $site->keywords, $site->get_canonical(), $site->base, $site->template, $site->trackback); ?>
 	
 <body>
+	<?
+		$trackback = new Trackback($_sitename, $config['admin_email'], 'ISO-8859-1');
+		$_track = $trackback->rdf_autodiscover(date(RFC822), $article['title'], $article['summary'], $site->get_canonical(), $site->base . 'trackback/' . $article['id'], $article['author']);
+		echo $_track;
+	?>
 
 	<?php include('topbar.php'); ?>
 

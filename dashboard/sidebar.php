@@ -1,9 +1,10 @@
 <?php
 add_filter('review_articles_count', 'getAdminPendingArticleCount');
+add_filter('review_videos_count', 'getAdminPendingVideoCount');
 $_review = apply_filters('review_articles_count', $_conn);
+$_review_v = apply_filters('review_videos_count', $_conn);
 
 add_filter('admin_sidebar', $_sidebar);
-
 $_sidebar = '
 				<!-- sidebar menu: : style can be found in sidebar.less -->
 				<ul class="sidebar-menu">
@@ -25,12 +26,41 @@ if ($_SESSION ['role'] == 'admin') {
 			</ul></li>			
 	';
 }
-if ($_review > 0) {
+
+if ($_review_v > 0 && $_SESSION ['role'] == 'admin' || $_SESSION ['role'] == 'reviewer') {
+	$_vbadge = '<small class="badge pull-right bg-teal">' . $_review_v . '</small>';
+} else {
+	$_vbadge = null;
+}
+
+if ($_review > 0 && $_SESSION ['role'] == 'admin' || $_SESSION ['role'] == 'reviewer') {
 	$_rbadge = '<small class="badge pull-right bg-teal">' . $_review . '</small>';
 } else {
 	$_rbadge = null;
 }
+
 $_sidebar .= '
+					<li class="treeview"><a href="#" title="Videos"> <i class="fa fa-video-camera"></i> <span>Videos</span>
+							<i class="fa fa-angle-left pull-right"></i>' . $_vbadge . '
+					</a>
+						<ul class="treeview-menu">
+							<li><a href="' . BASE_URL . 'dashboard/videos/manage/" title="Manage"><i class="fa fa-film"></i>
+									Manage</a></li>
+							<li><a href="' . BASE_URL . 'dashboard/videos/upload/" title="Upload"><i class="fa fa-upload"></i>
+									Upload</a></li>
+							<li><a href="' . BASE_URL . 'dashboard/videos/channels/" title="Channels"><i class="fa fa-ticket"></i>
+									Channels</a></li>
+';
+			
+if ($_SESSION ['role'] == 'admin' || $_SESSION ['role'] == 'reviewer') {
+	$_sidebar .= '
+				<li><a href="' . BASE_URL . 'dashboard/videos/review/" title="Review"><i class="fa fa-desktop"></i> Review' . $_vbadge . '</a></li>						
+			';
+}				
+		
+$_sidebar .= '			
+					</ul></li>
+					
 					<li class="treeview"><a href="#" title="Articles"> <i class="fa fa-pencil"></i> <span>Articles</span>
 							<i class="fa fa-angle-left pull-right"></i>' . $_rbadge . '
 					</a>
@@ -129,7 +159,9 @@ if ($_SESSION ['role'] == 'admin') {
 				<li><a href="' . BASE_URL . 'dashboard/tools/isnare/" title="iSnare Publisher"><i
 						class="fa fa-info"></i> iSnare Publisher</a></li>
 				<li><a href="' . BASE_URL . 'dashboard/tools/update/" title="Update ArticleFR"><i
-						class="fa fa-upload"></i> Update ArticleFR</a></li>																	
+						class="fa fa-upload"></i> Update ArticleFR</a></li>		
+				<li><a href="' . BASE_URL . 'dashboard/tools/pingservers/"><i
+						class="fa fa-external-link-square"></i> Ping Servers</a></li>						
 				<!--<li><a href="' . BASE_URL . 'dashboard/tools/import/"><i
 						class="fa fa-cloud-upload"></i> Import Articles</a></li>
 				<li><a href="' . BASE_URL . 'dashboard/tools/export/"><i
@@ -138,7 +170,6 @@ if ($_SESSION ['role'] == 'admin') {
 	';
 }
 
-
 $_sidebar = apply_filters ( 'pre_close_admin_sidebar', $_sidebar );
 
 $_sidebar .= '
@@ -146,6 +177,8 @@ $_sidebar .= '
 			</section>
 			<!-- /.sidebar -->		
 ';
+
 $_sidebar = apply_filters ( 'the_admin_sidebar', $_sidebar );
+
 print $_sidebar;
 ?>

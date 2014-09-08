@@ -56,9 +56,12 @@ require_once(ROOT_DIR . 'system/php_fast_cache.php');
 require_once(ROOT_DIR . 'system/afr.php');
 require_once(ROOT_DIR . 'system/ini.class.php');
 require_once(ROOT_DIR . 'system/includes/lib/pagination/Pagination.class.php');
+require_once(ROOT_DIR . 'system/trackback_cls.php');
+require_once(ROOT_DIR . 'system/media_embed.php');
+require_once(ROOT_DIR . 'system/mimetype.class.php');
 
 // Define base URL
-global $config;
+global $config, $site_config;
 define('BASE_URL', $config['base_url']);
 
 afr();

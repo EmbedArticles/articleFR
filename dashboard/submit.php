@@ -15,6 +15,38 @@
 	
 <?php 
 
+	if (isset($_REQUEST['submit']) && $_REQUEST['submit'] == 'images') {
+		$term = preg_replace('/(\s)/', ',', trim($_REQUEST['flickr']));
+		
+		$flickr = new Phlickr_Api("dd1322bcf1680ba0c0a5b3ebc85c667c", "d44939c31b3e9619");
+		
+		$xml = $flickr->executeMethod('flickr.photos.search',
+		array(
+		'text' => $term,
+		'tags' => $term,
+		'tag_mode' => 'any',
+		'per_page' => 60,
+		'privacy_filter' => '1',
+		'sort' => 'date-posted-desc',
+		'media' => 'photos'
+		)
+		);
+		 
+		$response = simplexml_load_string($xml);
+		$urls = array();
+		
+		$_images = '<select id="images" name="image" class="image-picker show-html">';
+		
+		foreach($response->photos->photo as $photo){
+			$_url_display = 'http://farm'.$photo['farm'].'.staticflickr.com/'.$photo['server'].'/'.$photo['id'].'_'.$photo['secret'].'_q.jpg';
+			$_url_value = 'http://farm'.$photo['farm'].'.staticflickr.com/'.$photo['server'].'/'.$photo['id'].'_'.$photo['secret'].'_z.jpg';
+			$_images .= '<option data-img-label="' . htmlspecialchars($photo['title']) . '" data-img-src="' . $_url_display . '" value="' . $_url_value . '">' . $_url_display . '</option>';
+		}
+		
+		$_images .= '</select>';
+		
+	}
+
 	if (isset($_REQUEST['submit']) && $_REQUEST['submit'] == 'submit') {			
 		$_max_words = getSiteSetting('ARTICLE_MAX_WORDS', $_conn);
 		$_min_words = getSiteSetting('ARTICLE_MIN_WORDS', $_conn);
@@ -34,7 +66,7 @@
 			if (str_word_count(strip_tags($_REQUEST['content'])) <= $_max_words && str_word_count(strip_tags($_REQUEST['content'])) >= $_min_words) {
 				if (str_word_count(strip_tags($_REQUEST['title'])) <= $_title_max && str_word_count(strip_tags($_REQUEST['title'])) >= $_title_min) {
 					$_is_adult = _is_adult($_REQUEST['content']);
-					if (!$_is_adult['is_adult'] && !$_is_adult['is_stuffing']) {
+					if (!$_is_adult['is_adult'] && !$_is_adult['is_stuffing']) {						
 						$_submit = submitArticle($_profile['username'], $_REQUEST['title'], $_REQUEST['category'], $_REQUEST['author'], $_REQUEST['summary'], $_REQUEST['content'], $_REQUEST['about'], $_conn);
 						doLog('SUBMIT', 'Article Submitted', 0, $_profile['username'], $_conn);
 						if ($_submit == 1) {
@@ -45,6 +77,10 @@
 									<b>Alert!</b> Success: Your article has been submitted.
 								</div>
 							';
+							if (!empty($_REQUEST['image'])) {
+								$_article = getArticleByTitle($_REQUEST['title'], $_conn);
+								$_database->query("INSERT INTO media(`url`, `article`, `user`, `date`) VALUES('" . $_database->quote($_REQUEST['image']) . "', " . $_database->quote($_article['id']) . ", " . $_profile['id'] . ", now())");							
+							}
 						} else if ($_submit == 2) {
 							print '
 								<div class="alert alert-danger alert-dismissable">
@@ -131,7 +167,7 @@
 		    		<h3 class="box-title">Article Submit Form</h3>
 		        </div>		        
 	            <div class="box-body">
-				<?php apply_filters('display_submit_form', $_profile['username'], $_conn); ?>
+				<?php apply_filters('display_submit_form', $_profile['username'], $_images, $_conn); ?>
 	            </div><!-- /.box-body -->
 			</div>
 		</div>

@@ -3,7 +3,8 @@
 	<div class="main-panel main-panel-right">
 		<div class="panel panel-danger">
 			<div class="panel-body">
-				<div class="articles-count"><? print thousandths($site->live_count); ?> Articles Published</div>
+				<div class="articles-count"><? print thousandths($site->live_count); ?> articles published</div>
+				<div class="articles-count"><? print thousandths($video->get('total_videos')); ?> videos published</div>
 				<div class="articles-count"><?=get_online()?></div>
 			</div>
 		</div>
@@ -23,6 +24,38 @@
 				</div>
 			</div>				
 		<? } ?>
+		
+		<? 
+		if ($video->get('total_videos') > 0) {
+			print '
+			<div class="side-label">
+				<h4>Recent Videos</h4>
+			</div>			
+			';
+			
+			foreach ( $video->get('recent_videos') as $_recent_video ) {
+		?>
+		
+			<div class="media">
+				<a class="thumbnail pull-left"
+					href="<?=$site->base?>videos/view/<?=encodeURL($_recent_video['title'])?>">
+					<img class="media-object"
+					src="<?=$_recent_video['thumbnail']?>" width="50" height="50" alt="video">
+				</a>
+				<div class="media-body">
+					<h4 class="media-heading">
+						<a href="<?=$site->base?>videos/view/<?=encodeURL($_recent_video['title'])?>"><?=$_recent_video['title']?></a>
+					</h4>
+					<p>
+						<small><?=substr($_recent_video['summary'], 0, 200)?>..</small>
+					</p>
+				</div>
+			</div>	
+			
+		<? 
+			}
+		}
+		?>
 		
 		<div class="side-label">
 			<h4>Recent Authors</h4>
@@ -44,7 +77,7 @@
 							href="<?=$site->base?>author/v/<?=encodeURL($recent_authors['name'])?>"><?=$recent_authors['name']?></a>
 					</h4>
 					<p>
-						<small><?=$recent_authors['biography']?></small>
+						<small><?=substr($recent_authors['biography'], 0, 200)?>..</small>
 					</p>
 				</div>
 			</div>	

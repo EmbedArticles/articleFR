@@ -38,6 +38,7 @@ class Social extends Controller {
 		
 		$_site = $this->loadModel('site');
 		$_view = $this->loadView('social');
+		$this->loadPlugins($_site);
 		
 		$_site->setBuffer('facebook_app_id', $ini->data['facebook']['app_id']);
 		$_site->setBuffer('facebook_app_secret', $ini->data['facebook']['app_secret']);
@@ -142,6 +143,16 @@ class Social extends Controller {
 		}
 		
 		$_site->close();
+		
+		$_video = $this->loadModel('video');
+		
+		$_video->connect();		
+		$_video->set( 'recent_videos', apply_filters('recent_videos', $_video->getConnection(), 0, 10) );
+		$_video->set( 'channels', apply_filters('random_channels', $_video->getConnection()) );
+		$_video->set( 'total_videos', apply_filters('get_total_videos', $_video->getConnection()) );
+		$_video->close();
+		
+		$_view->set('video', apply_filters('the_video_object', $_video));		
 		
 		$_view->set('site', apply_filters('the_site_object', $_site));
 		$_view->render();

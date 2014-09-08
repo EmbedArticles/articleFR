@@ -51,8 +51,13 @@ class Site extends Model {
 	public $controller;
 	public $pagination;
 	public $pages;
+	public $google_analytics;
+	public $module_links;
+	public $trackback;
 	
 	public function init() {		
+		global $site_config;
+							
 		$this->connect();
 		$this->base = $GLOBALS['base_url'];
 		$this->template = $GLOBALS['template'];
@@ -70,7 +75,28 @@ class Site extends Model {
 		$this->recent_pennames = apply_filters('get_pennames', 20, $GLOBALS['afrdb']);
 		$this->live_count = apply_filters('get_live_article_count', $GLOBALS['afrdb']);
 		$this->pages = apply_filters('get_pages', $GLOBALS['afrdb']);	
+		$this->google_analytics = apply_filters('the_google_analytics_id', $site_config['analytics']['ID']);
+		$this->module_links = $this->get_module_links();		
 		$this->close();
+	}
+	
+	public function set_trackback($_article_id) {
+		$this->trackback = $GLOBALS['base_url'] . 'trackback/' . $_article_id;
+	}	
+	
+	public function get_module_links() {
+		$_topmenu = '<li><a href="' . $this->base . '"><b class="glyphicon glyphicon-home icon"></b>Home</a></li>';
+		
+		if (!$_SESSION['isloggedin']) {
+			$_topmenu .= '<li><a href="' . $this->base . 'login/"><b class="glyphicon glyphicon-log-in icon"></b>Login</a></li>';
+			$_topmenu .= '<li><a href="' . $this->base . 'register/"><b class="glyphicon glyphicon-registration-mark icon"></b>Register</a></li>';
+		} else { 
+			$_topmenu .= '<li><a href="' . $this->base . 'dashboard/"><b class="glyphicon glyphicon-dashboard icon"></b>Dashboard</a></li>';
+		}
+		
+		$_topmenu .= '<li><a href="' . $this->base . 'videos/"><b class="glyphicon glyphicon-facetime-video icon"></b>Videos</a></li>';
+		
+		return apply_filters('the_module_links', $_topmenu);				
 	}
 		
 	public function set_canonical($_url) {

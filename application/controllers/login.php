@@ -37,7 +37,7 @@ class Login extends Controller {
 		$ini->read($ini_file);
 		
 		$_site = $this->loadModel('site');
-		$_view = $this->loadView('login');
+		$_view = $this->loadView('login');		
 		
 		$_site->setBuffer('facebook_app_id', $ini->data['facebook']['app_id']);
 		$_site->setBuffer('facebook_app_secret', $ini->data['facebook']['app_secret']);
@@ -82,7 +82,19 @@ class Login extends Controller {
 			}
 		}
 		
+		$_video = $this->loadModel('video');
+		
+		$_video->connect();		
+		$_video->set( 'recent_videos', apply_filters('recent_videos', $_video->getConnection(), 0, 10) );
+		$_video->set( 'channels', apply_filters('random_channels', $_video->getConnection()) );
+		$_video->set( 'total_videos', apply_filters('get_total_videos', $_video->getConnection()) );
+		$_video->close();
+		
+		$_view->set('video', apply_filters('the_video_object', $_video));		
+		
 		$_view->set('site', apply_filters('the_site_object', $_site));
+		
+		$this->loadPlugins($_site);
 		$_view->render();
 	}
 	
@@ -91,6 +103,7 @@ class Login extends Controller {
 		
 		$_site = $this->loadModel('site');
 		$_view = $this->loadView('login');
+		$this->loadPlugins($_site);
 		
 		$_site->init();
 		
@@ -106,6 +119,16 @@ class Login extends Controller {
 			$_view->set('m', true);
 		}
 		
+		$_video = $this->loadModel('video');
+		
+		$_video->connect();		
+		$_video->set( 'recent_videos', apply_filters('recent_videos', $_video->getConnection(), 0, 10) );
+		$_video->set( 'channels', apply_filters('random_channels', $_video->getConnection()) );
+		$_video->set( 'total_videos', apply_filters('get_total_videos', $_video->getConnection()) );
+		$_video->close();
+		
+		$_view->set('video', apply_filters('the_video_object', $_video));
+		
 		$_view->set('site', apply_filters('the_site_object', $_site));
 		$_view->render();		
 	}
@@ -115,7 +138,8 @@ class Login extends Controller {
 	
 		$_site = $this->loadModel('site');
 		$_view = $this->loadView('login');
-	
+		$this->loadPlugins($_site);
+		
 		$_site->init();
 	
 		$_site->set('title', apply_filters('the_site_title', ucfirst($_param_i) . ' Password'));
@@ -126,6 +150,16 @@ class Login extends Controller {
 	
 		$_site->controller = 'login';
 	
+		$_video = $this->loadModel('video');
+		
+		$_video->connect();		
+		$_video->set( 'recent_videos', apply_filters('recent_videos', $_video->getConnection(), 0, 10) );
+		$_video->set( 'channels', apply_filters('random_channels', $_video->getConnection()) );
+		$_video->set( 'total_videos', apply_filters('get_total_videos', $_video->getConnection()) );
+		$_video->close();
+		
+		$_view->set('video', apply_filters('the_video_object', $_video));
+		
 		if ($_REQUEST['submit'] == 'reset') {
 			$_site->connect();
 			$_user = apply_filters('get_password',  $_REQUEST['username'], $_site->getConnection());			

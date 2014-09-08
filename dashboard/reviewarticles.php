@@ -13,14 +13,23 @@
 <!-- Main content -->
 <section class="content">
 	<?php 
+		$_servers = getPingServers ( $_conn );
+		
 		if (isset($_REQUEST['dos'])) {									
 			if ($_REQUEST['action'] == 'Approve') {
 				foreach($_REQUEST['dos'] as $_dos) {
 					$_article = getArticleCommon($_dos, $_conn);
-					$_user = getPennameByName($_article['author'], $_conn);
 					$_url = BASE_URL . 'article/v/' . $_article['id'] . '/' . encodeURL($_article['title']);
+					$_user = getPennameByName($_article['author'], $_conn);					
 					$_brand = getSiteSetting('SITE_BRAND', $_conn);
 					$_site_title = getSiteSetting('SITE_TITLE', $_conn);
+					
+					$trackback = new Trackback($_site_title, $_article['author'], 'ISO-8859-1');
+					foreach ( $_servers as $_server ) {
+						$trackback->ping($_server['url'], $_url, $_article['title']);
+						flush();
+					}			
+					
 					$_admin_email = ADMIN_EMAIL;
 					$_email = $_user['gravatar'];
 					$_name = $_article['author'];				
@@ -33,12 +42,13 @@
 					';					
 					$_subject = $_site_title . ' Article Approved';
 					email($_url, $_brand, $_site_title, $_admin_email, $_email, $_name, $_message, $_subject);
+					sendMessage($_article['username'], 'admin', $_message, $_subject, $_conn);
 				}
 				print '
 				<div class="alert alert-success alert-dismissable">
 				<i class="fa fa-check"></i>
 				<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-				<b>Alert!</b> Success: Your article has been approved successfully.
+				<b>Alert!</b> Success: Your article(s) has been approved successfully. And ping servers pinged!
 				</div>
 			';
 			} else if ($_REQUEST['action'] == 'Disapprove') {
@@ -62,6 +72,7 @@
 					';					
 					$_subject = $_site_title . ' Article Disapproved';
 					email($_url, $_brand, $_site_title, $_admin_email, $_email, $_name, $_message, $_subject);
+					sendMessage($_article['username'], 'admin', $_message, $_subject, $_conn);
 				}									
 				print '
 				<div class="alert alert-info alert-dismissable">
@@ -84,6 +95,12 @@
 				$_email = $_user['gravatar'];
 				$_name = $_article['author'];
 					
+				$trackback = new Trackback($_site_title, $_article['author'], 'ISO-8859-1');
+				foreach ( $_servers as $_server ) {
+					$trackback->ping($_server['url'], $_url, $_article['title']);
+					flush();
+				}
+					
 				$_message = '
 				<p>Your article entitled ' . $_article['title'] . ' has been approved at ' . $_site_title . '.<p>
 				<p>Please click this url to view the article: ' . $_url . '</p>
@@ -96,11 +113,12 @@
 					<div class="alert alert-success alert-dismissable">
 					<i class="fa fa-check"></i>
 					<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-					<b>Alert!</b> Success: Your article has been approved successfully.
+					<b>Alert!</b> Success: Your article has been approved successfully. And ping servers pinged!
 					</div>
 				';				
 				
-				email($_url, $_brand, $_site_title, $_admin_email, $_email, $_name, $_message, $_subject);
+				email($_url, $_brand, $_site_title, $_admin_email, $_email, $_name, $_message, $_subject);		
+				sendMessage($_article['username'], 'admin', $_message, $_subject, $_conn);				
 			} else if ($_REQUEST['pa'] == 'delete') {			
 				$_article = getArticleCommon($_REQUEST['id'], $_conn);
 				$_user = getPennameByName($_article['author'], $_conn);
@@ -129,7 +147,8 @@
 					</div>
 				';
 				
-				email($_url, $_brand, $_site_title, $_admin_email, $_email, $_name, $_message, $_subject);				
+				email($_url, $_brand, $_site_title, $_admin_email, $_email, $_name, $_message, $_subject);			
+				sendMessage($_article['username'], 'admin', $_message, $_subject, $_conn);	
 			}
 		}		
 	?>
@@ -164,12 +183,34 @@
 								print '
 									<tr class="checkall">
 										<td><input type="checkbox" name="dos[]" value="' . $_article ['id'] . '"></td>
-										<td>' . $_article ['id'] . '</td>
-										<td>' . $_article ['title'] . '</td>
+										<td><a href="#!' . $_article ['id'] . '" data-toggle="modal" data-target="#modal' . $_article ['id'] . '">' . $_article ['id'] . '</a></td>
+										<td>
+											<a href="#!' . $_article ['id'] . '" data-toggle="modal" data-target="#modal' . $_article ['id'] . '">' . $_article ['title'] . '</a>
+											<div class="modal fade" id="modal' . $_article ['id'] . '">
+											  <div class="modal-dialog">
+											    <div class="modal-content">
+											      <div class="modal-header">
+											        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+											        <h4 class="modal-title">' . $_article ['title'] . '</h4>
+											      </div>
+											      <div class="modal-body">
+														' . $_article ['body'] . '			
+														<hr>
+														' . $_article ['about'] . '
+											      </div>
+											      <div class="modal-footer">
+														<a href="' . BASE_URL . 'dashboard/articles/edit/?id=' . $_article ['id'] . '" class="btn btn-info"><i class="fa fa-edit"></i> Edit</a>
+														<a href="' . BASE_URL . 'dashboard/articles/review/?pa=approve&id=' . $_article ['id'] . '" class="btn btn-success"><i class="fa fa-check-square"></i> Approve</a>
+														<a href="' . BASE_URL . 'dashboard/articles/review/?pa=delete&id=' . $_article ['id'] . '" class="btn btn-danger"><i class="fa fa-check-square"></i> Disapprove</a>
+											      </div>
+											    </div><!-- /.modal-content -->
+											  </div><!-- /.modal-dialog -->
+											</div><!-- /.modal -->									
+										</td>
 										<td>' . $_article ['author'] . '</td>
 										<td>' . getTime ( $_article ['date'] ) . '</td>
 										<td><a href="' . BASE_URL . 'dashboard/articles/edit/?id=' . $_article ['id'] . '" title="Edit"><i class="fa fa-edit"></i></a> / <a href="' . BASE_URL . 'dashboard/articles/review/?pa=approve&id=' . $_article ['id'] . '" title="Approve"><i class="fa fa-check-square"></i></a> / <a href="' . BASE_URL . 'dashboard/articles/review/?pa=delete&id=' . $_article ['id'] . '" title="Delete"><i class="fa fa-minus-square"></i></a></td>
-									</tr>
+									</tr>													
 								';
 							}
 						?>
@@ -184,7 +225,7 @@
 			</div>
 		</div>
 	</div>
-	<!-- /.row (main row) -->
+	<!-- /.row (main row) -->	
 
 </section>
 <!-- /.content -->

@@ -29,6 +29,7 @@
 		if (!$akismet->isCommentSpam()) {
 			$_is_adult = _is_adult($_REQUEST['content']);
 			if (!$_is_adult['is_adult'] && !$_is_adult['is_stuffing']) {
+				$_REQUEST['url'] = strtolower(trim($_REQUEST['url']));
 				$_create = editPage($_REQUEST['id'], $_REQUEST['url'], $_REQUEST['title'], $_REQUEST['description'], $_REQUEST['keywords'], $_REQUEST['content'], $_conn);
 				doLog('CREATE', 'Page ' . $_REQUEST['title'] . ' Created', 0, $_profile['username'], $_conn);
 				if ($_create == 1) {
@@ -74,22 +75,22 @@
 					<div class="box-body">
 
 					<div class="form-group">
-						<label>URL Slug - Will be viewed as <?=BASE_URL?>pages/v/&lt;URL SLUG></label>
+						<label>URL Slug The Unique URL Identifier</label>
 						<input type="text" name="url" class="form-control" value="<?php print $_page['url']; ?>" placeholder="URL Slug ..." parsley-type="alphanum" parsley-trigger="change" required />
 					</div>
 										
 					<div class="form-group">
-						<label>Title</label>
+						<label>Meta Page Title</label>
 						<input type="text" name="title" class="form-control" value="<?php print $_page['title']; ?>" placeholder="Title ..." parsley-trigger="change" required />
 					</div>	
 					
 					<div class="form-group">
-						<label>Description</label>
+						<label>Meta Page Description</label>
 						<input type="text" name="description" class="form-control" value="<?php print $_page['description']; ?>" placeholder="Description ..." parsley-trigger="change" required />
 					</div>		
 					
 					<div class="form-group">
-						<label>Keywords - Press the enter key <b class="fa fa-sign-in text-success"></b> to add and backspace key <b class="fa fa-mail-reply text-danger"></b> to delete an entry.</label><br>
+						<label>Meta Page Keywords<br><small>Press the enter key <b class="fa fa-sign-in text-success"></b> to add and backspace key <b class="fa fa-mail-reply text-danger"></b> to delete an entry.</small></label><br>
 						<input type="text" id="keywords" name="keywords" class="form-control" value="<?php print $_page['keywords']; ?>" data-role="tagsinput" parsley-trigger="change" required />
 					</div>									
 

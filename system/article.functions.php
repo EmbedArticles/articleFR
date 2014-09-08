@@ -26,6 +26,16 @@
 	*
 	*************************************************************************************************************************/
 	
+	/**
+	* Search for articles in FULL-TEXT mode
+	*
+	* @param   string      The keyword(s) to search
+	* @param   integer     The start value for pagination
+	* @param   integer     The limit value for pagination and database fetching
+	* @param   object      The connection object
+	*
+	* @return  array       An associative array of values
+	*/		
 	function searchArticles($_keyword, $_start = 0, $_limit = 10, $_connection) {
 		$_qc = "SELECT count(DISTINCT a.id) as count FROM article a, penname b, category c
 			WHERE MATCH( a.title, a.summary, a.body, b.name ) AGAINST ( '" . mysqli_real_escape_string($_connection, $_keyword) . "' IN BOOLEAN MODE )
@@ -64,6 +74,16 @@
 		return $_retval;
 	}	
 	
+	/**
+	* Retrieve the related articles
+	*
+	* @param   integer     The article string content or the body
+	* @param   integer     The start value for pagination
+	* @param   integer     The limit value for pagination and database fetching
+	* @param   object      The connection object
+	*
+	* @return  array       An associative array of values
+	*/		
 	function relatedArticles($_article, $_start = 0, $_limit = 10, $_connection) {
 		$_keywords = _keywords($_article);
 		foreach($_keywords as $_keyword) {
@@ -74,12 +94,28 @@
 		return $_retval;
 	}
 	
+	/**
+	* Get the article views
+	*
+	* @param   integer     The article ID
+	* @param   object      The connection object
+	*
+	* @return  array       An associative array of values
+	*/		
 	function getArticleView($_id, $_connection) {
 		$_q = "SELECT views FROM article WHERE id = " . intval($_id);
 		$_result = single_resulti($_q, $_connection);
 		return $_result['views'];
 	}
 	
+	/**
+	* Update article view count in database
+	*
+	* @param   integer      The article ID
+	* @param   object       The connection object
+	*
+	* @return  integer		1-success; 0-failed
+	*/		
 	function updateArticleView($_id, $_connection) {
 		if (!empty($_id)) {
 			$_q = "
@@ -93,6 +129,15 @@
 		}
 	}
 	
+	/**
+	* Get distinct article list by category
+	*
+	* @param   string      The category in string
+	* @param   integer     The article ID
+	* @param   object      The connection object
+	*
+	* @return  array       An associative array of values
+	*/		
 	function getArticlesByCategoryNoRepeat($_category, $_id, $_connection) {
 		$_q = "SELECT a.id, a.username, a.title, a.category, a.author, a.summary, a.body, a.about, b.name, b.gravatar, b.biography FROM article a, penname b WHERE b.name = a.author AND b.username = a.username AND a.category = '" . mysqli_real_escape_string($_connection, $_category) . "' AND a.id != " . intval($_id) . " ORDER BY a.date DESC LIMIT 50";
 		$_result = queryi($_q, $_connection);
@@ -115,6 +160,13 @@
 		return $_retval;
 	}
 	
+	/**
+	* Get the article list
+	*
+	* @param   object      The connection object
+	*
+	* @return  array       An associative array of values
+	*/		
 	function getArticles($_connection) {
 		$_q = "SELECT a.id, a.username, a.title, a.category, a.author, a.summary, a.body, a.about, b.name, b.gravatar, b.biography, a.status, a.date FROM article a, penname b WHERE b.name = a.author AND b.username = a.username ORDER BY a.date DESC";
 		$_result = queryi($_q, $_connection);
@@ -138,6 +190,14 @@
 		return $_retval;
 	}
 	
+	/**
+	* Get article list by category value
+	*
+	* @param   string      The category string value
+	* @param   object      The connection object
+	*
+	* @return  array       An associative array of values
+	*/		
 	function getArticlesByCategory($_category, $_connection) {
 		$_q = "SELECT a.id, a.username, a.title, a.category, a.author, a.summary, a.body, a.about, b.name, b.gravatar, b.biography FROM article a, penname b WHERE b.name = a.author AND b.username = a.username AND a.category = '" . mysqli_real_escape_string($_connection, $_category) . "' ORDER BY a.date DESC LIMIT 50";
 		$_result = queryi($_q, $_connection);
@@ -160,6 +220,14 @@
 		return $_retval;
 	}
 	
+	/**
+	* Get single article data by ID
+	*
+	* @param   integer     The article ID
+	* @param   object      The connection object
+	*
+	* @return  array       An associative array of values
+	*/		
 	function getArticleCommon($_id, $_connection) {
 		$_q = "SELECT a.id, a.username, a.title, a.category, a.author, a.summary, a.body, a.status, a.date, a.about, b.name, b.gravatar, b.biography, b.id as pennameid, c.id as category_id FROM article a, penname b, category c WHERE b.name = a.author AND b.username = a.username AND c.name = a.category AND a.id = " . intval($_id);
 		$_result = single_resulti($_q, $_connection);	
@@ -167,6 +235,30 @@
 		return $_result;
 	}
 	
+	/**
+	* Get single article data by title
+	*
+	* @param   string      The article title
+	* @param   object      The connection object
+	*
+	* @return  array       An associative array of values
+	*/		
+	function getArticleByTitle($_title, $_connection) {
+		$_q = "SELECT a.id, a.username, a.title, a.category, a.author, a.summary, a.body, a.status, a.date, a.about, b.name, b.gravatar, b.biography, b.id as pennameid, c.id as category_id FROM article a, penname b, category c WHERE b.name = a.author AND b.username = a.username AND c.name = a.category AND a.title = '" . mysqli_real_escape_string($_connection, $_title) . "'";
+		$_result = single_resulti($_q, $_connection);	
+		
+		return $_result;
+	}	
+	
+	/**
+	* Get article data
+	*
+	* @param   integer     The article ID
+	* @param   string      The user's username
+	* @param   object      The connection object
+	*
+	* @return  array       An associative array of values
+	*/		
 	function getArticle($_id, $_username, $_connection) {
 		$_q = "SELECT title, category, author, summary, body, about FROM article WHERE username = '" . $_username . "' AND id = " . intval($_id);
 		$_result = single_resulti($_q, $_connection);
@@ -182,6 +274,15 @@
 		return $_retval;
 	}
 	
+	
+	/**
+	* Delete all articles under a specific username
+	*
+	* @param   string      The username
+	* @param   object      The connection object
+	*
+	* @return  integer     1-success; 0-failed
+	*/		
 	function deleteAllArticlesByUsername($_username, $_connection) {
 		if (!empty($_id) && !empty($_username)) {
 			$_q = "
@@ -195,6 +296,15 @@
 		}
 	}
 	
+	/**
+	* Delete article
+	*
+	* @param   integer     The article ID
+	* @param   string      The username
+	* @param   object      The connection object
+	*
+	* @return  integer     1-success; 0-failed
+	*/		
 	function deleteArticle($_id, $_username, $_connection) {
 		if (!empty($_id) && !empty($_username)) {
 			$_body = preg_replace('/(\n)/sim', '<br>', $_body);
@@ -209,6 +319,20 @@
 		}
 	}	
 	
+	/**
+	* Edit article for administration use
+	*
+	* @param   integer     The article ID
+	* @param   string      The title
+	* @param   string      The category
+	* @param   string      The author name
+	* @param   string      The summary content
+	* @param   string      The article body content
+	* @param   string      The about / by-line content	
+	* @param   object      The connection object
+	*
+	* @return  integer     1-success; 0-failed
+	*/			
 	function adminEditArticle($_id, $_title, $_category, $_author, $_summary, $_body, $_about, $_connection) {
 		if (!empty($_title) && !empty($_category) && !empty($_author) && !empty($_summary) && !empty($_body) && !empty($_about)) {
 			$_q = "
@@ -229,6 +353,22 @@
 		}
 	}
 	
+	/**
+	* Edit article 
+	*
+	* @param   integer     The article ID
+	* @param   string      The username	
+	* @param   string      The title
+	* @param   string      The category
+	* @param   string      The author name
+	* @param   string      The summary content
+	* @param   string      The article body content
+	* @param   string      The about / by-line content	
+	* @param   object      The connection object
+	* @param   integer     The article status ~ 1-live; 0-pending
+	*
+	* @return  integer     1-success; 0-failed; 2-duplicate
+	*/	
 	function editArticle($_id, $_username, $_title, $_category, $_author, $_summary, $_body, $_about, $_connection, $_status = 0) {
 		$_cheksum = md5($_body);
 		if (!empty($_username) && !empty($_title) && !empty($_category) && !empty($_author) && !empty($_summary) && !empty($_body) && !empty($_about)) {			
@@ -262,6 +402,20 @@
 		}
 	}
 	
+	/**
+	* Submit an article 
+	*
+	* @param   string      The username	
+	* @param   string      The title
+	* @param   string      The category
+	* @param   string      The author name
+	* @param   string      The summary content
+	* @param   string      The article body content
+	* @param   string      The about / by-line content	
+	* @param   object      The connection object
+	*
+	* @return  integer     1-success; 0-failed; 2-duplicate; 3-duplicate
+	*/	
 	function submitArticle($_username, $_title, $_category, $_author, $_summary, $_body, $_about, $_connection) {
 		$_cheksum = md5($_body);
 		if (!empty($_username) && !empty($_title) && !empty($_category) && !empty($_author) && !empty($_summary) && !empty($_body) && !empty($_about)) {
@@ -312,6 +466,16 @@
 		}
 	}
 	
+	/**
+	* Get offline article list
+	*
+	* @param   string      The username	
+	* @param   object      The connection object
+	* @param   integer     Start value for pagination
+	* @param   integer     Limit value for pagination
+	*
+	* @return  array       An associative array of values
+	*/	
 	function getMyArticlesOffline($_username, $_connection, $_start = 0, $_limit = 10) {		
 		if ($_limit != 0) {
 			$_q = "SELECT title, id, summary, body, author, category, date, status FROM article WHERE status = 2 AND username = '" . mysqli_real_escape_string($_connection, $_username) . "' ORDER BY date DESC LIMIT " . $_start . ", " . $_limit;
@@ -340,6 +504,16 @@
 		return $_retval;
 	}
 	
+	/**
+	* Get pending article list
+	*
+	* @param   string      The username	
+	* @param   object      The connection object
+	* @param   integer     Start value for pagination
+	* @param   integer     Limit value for pagination
+	*
+	* @return  array       An associative array of values
+	*/		
 	function getMyArticlesPending($_username, $_connection, $_start = 0, $_limit = 10) {		
 		if ($_limit != 0) {
 			$_q = "SELECT title, id, summary, body, author, category, date, status FROM article WHERE status = 0 AND username = '" . mysqli_real_escape_string($_connection, $_username) . "' ORDER BY date DESC LIMIT " . $_start . ", " . $_limit;
@@ -368,6 +542,16 @@
 		return $_retval;
 	}
 	
+	/**
+	* Get article list of specific username
+	*
+	* @param   string      The username	
+	* @param   object      The connection object
+	* @param   integer     Start value for pagination
+	* @param   integer     Limit value for pagination
+	*
+	* @return  array       An associative array of values
+	*/		
 	function getMyArticles($_username, $_connection, $_start = 0, $_limit = 10) {
 		if ($_limit != 0) {
 			$_q = "SELECT title, id, summary, body, author, category, date, status FROM article WHERE status = 1 AND username = '" . mysqli_real_escape_string($_connection, $_username) . "' ORDER BY date DESC LIMIT " . $_start . ", " . $_limit;
@@ -396,6 +580,14 @@
 		return $_retval;
 	}	
 	
+	/**
+	* Get article stats list
+	*
+	* @param   string      The username	
+	* @param   object      The connection object
+	*
+	* @return  array       An associative array of values
+	*/		
 	function getMyArticleStats($_username, $_connection) {
 		$_q = "SELECT a.title, a.id, a.summary, a.body, a.author, a.category, a.date, a.views, a.status, b.rate, b.votes FROM article a, rating b WHERE b.id = a.id AND a.username = '" . mysqli_real_escape_string($_connection, $_username) . "'";
 		$_result = queryi($_q, $_connection);
@@ -432,6 +624,16 @@
 		return $_retval;
 	}	
 	
+	/**
+	* Get recent articles list by author name value
+	*
+	* @param   string      The author name	
+	* @param   object      The connection object
+	* @param   integer     Start value for pagination
+	* @param   integer     Limit value for pagination
+	*
+	* @return  array       An associative array of values
+	*/		
 	function getRecentArticlesByAuthor($_author, $_connection, $_start = 0, $_limit = 10) {		
 		$_qc = "SELECT count(a.id) as count FROM article a, category b, penname c WHERE a.status = 1 AND b.name = a.category AND c.name = a.author AND c.name = '" . mysqli_real_escape_string($_connection, $_author) . "'";
 		$_resultc = single_resulti($_qc, $_connection);
@@ -460,6 +662,15 @@
 		return $_retval;
 	}
 	
+	/**
+	* Get random articles list
+	*
+	* @param   object      The connection object
+	* @param   integer     Start value for pagination
+	* @param   integer     Limit value for pagination
+	*
+	* @return  array       An associative array of values
+	*/		
 	function getRandomArticles($_connection, $_start = 0, $_limit = 10) {		
 		$_q = "SELECT a.title, a.id, a.summary, a.body, a.author, a.category, a.date, b.id as category_id, c.gravatar FROM article a, category b, penname c WHERE a.status = 1 AND b.name = a.category AND c.name = a.author ORDER BY RAND() DESC LIMIT " . $_start . ", " . $_limit;
 		$_result = queryi($_q, $_connection);
@@ -484,6 +695,15 @@
 		return $_retval;
 	}
 	
+	/**
+	* Get recent articles list
+	*
+	* @param   object      The connection object
+	* @param   integer     Start value for pagination
+	* @param   integer     Limit value for pagination
+	*
+	* @return  array       An associative array of values
+	*/		
 	function getRecentArticles($_connection, $_start = 0, $_limit = 20) {		
 		$_q = "SELECT a.title, a.id, a.summary, a.body, a.author, a.category, a.date, b.id as category_id, c.gravatar FROM article a, category b, penname c WHERE a.status = 1 AND b.name = a.category AND c.name = a.author ORDER BY a.date DESC LIMIT " . $_start . ", " . $_limit;
 		$_result = queryi($_q, $_connection);
@@ -508,13 +728,20 @@
 		return $_retval;
 	}
 	
+	/**
+	* Get pending articles list for administration use
+	*
+	* @param   object      The connection object
+	*
+	* @return  array       An associative array of values
+	*/		
 	function getAdminPendingArticles($_connection) {
 		$_q = "SELECT count(id) as count FROM article WHERE status = 0";
 		$_result = single_resulti($_q, $_connection);
 		
 		$_count = $_result['count'];
 		
-		$_q = "SELECT title, id, summary, body, author, category, date FROM article WHERE status = 0";
+		$_q = "SELECT title, id, summary, body, author, category, date, about FROM article WHERE status = 0";
 		$_result = queryi($_q, $_connection);
 	
 		$_retval = array();
@@ -529,12 +756,23 @@
 			$_entry['author'] = $_rs['author'];
 			$_entry['category'] = $_rs['category'];
 			$_entry['date'] = $_rs['date'];
+			$_entry['about'] = $_rs['about'];
 			array_push($_retval, $_entry);
 		}
 		
 		return $_retval;
 	}
 	
+	/**
+	* Get articles by category ID value
+	*
+	* @param   integer     The category ID
+	* @param   object      The connection object
+	* @param   integer     Start value for pagination
+	* @param   integer     Limit value for pagination
+	*
+	* @return  array       An associative array of values
+	*/		
 	function getArticlesByCategoryID($_category_id, $_connection, $_start = 0, $_limit = 10) {				
 		$_qc = "SELECT count(a.id) as count FROM article a, category b, penname c WHERE a.status = 1 AND b.name = a.category AND c.name = a.author AND b.id = " . intval($_category_id);
 		$_resultc = single_resulti($_qc, $_connection);
@@ -563,6 +801,16 @@
 		return $_retval;
 	}
 	
+	/**
+	* Get live articles list by category
+	*
+	* @param   string      The category name
+	* @param   object      The connection object
+	* @param   integer     Start value for pagination
+	* @param   integer     Limit value for pagination
+	*
+	* @return  array       An associative array of values
+	*/		
 	function getCategoryLiveArticles($_category, $_connection, $_start = 0, $_limit = 10) {		
 		$_q = "SELECT count(id) as count FROM article WHERE category = '" . mysqli_real_escape_string($_connection, $_category) . "' AND status = 1";
 		$_result = single_resulti($_q, $_connection);
@@ -590,6 +838,14 @@
 		return $_retval;
 	}	
 	
+	/**
+	* Get live articles list by username
+	*
+	* @param   string      The username	
+	* @param   object      The connection object
+	*
+	* @return  array       An associative array of values
+	*/		
 	function getLiveArticles($_username, $_connection) {
 		$_q = "SELECT title, id, summary, body, author, category, date FROM article WHERE username = '" . mysqli_real_escape_string($_connection, $_username) . "' AND status = 1";
 		$_result = queryi($_q, $_connection);
@@ -612,7 +868,14 @@
 		return $_retval;
 	}
 	
-	
+	/**
+	* Get pending articles list by username
+	*
+	* @param   string      The username	
+	* @param   object      The connection object
+	*
+	* @return  array       An associative array of values
+	*/		
 	function getPendingArticles($_username, $_connection) {
 		$_q = "SELECT title, id, summary, body, author, category, date FROM article WHERE username = '" . mysqli_real_escape_string($_connection, $_username) . "' AND status = 0";
 		$_result = queryi($_q, $_connection);
@@ -635,24 +898,54 @@
 		return $_retval;
 	}
 
+	/**
+	* Get pending articles count for administration use
+	*
+	* @param   object      The connection object
+	*
+	* @return  integer     The count value
+	*/
 	function getAdminPendingArticleCount($_connection) {
 		$_q = "SELECT count(id) as count FROM article WHERE STATUS = 0";
 		$_result = single_resulti($_q, $_connection);
 		return $_result['count'];
 	}
-	
+
+	/**
+	* Get pending articles count for administration use
+	*
+	* @param   string      The username
+	* @param   object      The connection object
+	*
+	* @return  integer     The count value
+	*/	
 	function getPendingArticleCount($_username, $_connection) {
 		$_q = "SELECT count(id) as count FROM article WHERE STATUS = 0 AND username = '" . mysqli_real_escape_string($_connection, $_username) . "'";
 		$_result = single_resulti($_q, $_connection);
 		return $_result['count'];
 	}	
 	
+	/**
+	* Get live articles count for administration use
+	*
+	* @param   string      The username
+	* @param   object      The connection object
+	*
+	* @return  integer     The count value
+	*/	
 	function getLiveArticleCount($_username, $_connection) {
 		$_q = "SELECT count(id) as count FROM article WHERE STATUS = 1 AND username = '" . mysqli_real_escape_string($_connection, $_username) . "'";
 		$_result = single_resulti($_q, $_connection);
 		return $_result['count'];
 	}	
 	
+	/**
+	* Get live articles count for administration use
+	*
+	* @param   object      The connection object
+	*
+	* @return  integer     The count value
+	*/	
 	function getAdminLiveArticleCount($_connection) {
 		$_q = "SELECT count(id) as count FROM article WHERE STATUS = 1";
 		$_result = single_resulti($_q, $_connection);

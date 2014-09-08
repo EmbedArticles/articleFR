@@ -34,6 +34,7 @@
 	require_once(ROOT_DIR . 'system/inbox.functions.php');	
 	require_once(ROOT_DIR . 'system/template.functions.php');	
 	require_once(ROOT_DIR . 'system/dashboard.functions.php');
+	require_once(ROOT_DIR . 'system/video.functions.php');
 	
 	function occurrence_keyphrases($phrase, $string) {
 		$count = preg_match_all("/(" . preg_quote($phrase) . ")/i", $string, $matches);
@@ -240,7 +241,7 @@
 	function encodeURL($text) {
 		$text = ucwords($text);
 		$text = str_replace('/', '-', $text);
-		$_t = preg_replace("/[^\w\-\s]/i", "", $text);
+		$_t = preg_replace("/[^\w\.\-\s]/i", "", $text);
 		$_t = preg_replace("/[\s]/i", "-", $_t);
 		return $_t;
 	}	

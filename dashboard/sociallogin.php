@@ -22,7 +22,9 @@
 					'facebook' => array('app_id' => $_REQUEST['facebook'], 'app_secret' => $_REQUEST['facebook_secret']),
 					'twitter' => array('app_id' => $_REQUEST['twitter'], 'app_secret' => $_REQUEST['twitter_secret'])
 				 );
+
 		$ini->write($ini_file, $_data, true);
+		
 		print '
 			<div class="alert alert-info alert-dismissable">
 				<i class="fa fa-info"></i>
@@ -44,7 +46,7 @@
 					<h3 class="box-title">Social Login Settings</h3>
 				</div>
 				<div class="box-body">
-					<form method="post" role="form" parsley-validate>
+					<form method="post" role="form" parsley-validate>					
 						<div class="form-group">
 							<fieldset>					
 							<legend>Facebook</legend>						
@@ -64,7 +66,7 @@
 							<input type="text" name="twitter_secret" class="form-control" placeholder="Twitter App Secret" value="<?=$ini->data['twitter']['app_secret']?>" parsley-trigger="change" required />
 							</fieldset>
 						</div>
-																				
+																		
 						<div class="box-footer">
 							<button type="submit" name="submit" value="Update" class="btn btn-primary"><b class="fa fa-sign-in"></b> Set Setting</button>
 						</div>

@@ -26,6 +26,7 @@
 	*
 	*************************************************************************************************************************/	
 	
+	add_filter('build_login_form', 'build_login_form', 10, 2);
 	add_filter('get_site_settings', 'getSiteSettings');
 	add_filter('get_brand', 'getSiteBrand');
 	add_filter('get_password', 'getPassword', 10, 2);
@@ -76,7 +77,7 @@
 	add_filter('send_message', 'sendMessage');
 	add_filter('update_message', 'updateMessage');
 	add_filter('get_message', 'getMessage');
-	add_filter('get_inbox', 'getInbox');
+	add_filter('get_inbox', 'getInbox', 10, 2);
 	add_filter('get_unread_message_count', 'getUnreadMessagesCount');	
 	add_filter('get_total_inbox_count', 'getTotalInboxCount');
 
@@ -110,9 +111,25 @@
 	add_filter('the_inactive_plugins', 'getInactivePlugins');
 	add_filter('the_keywords', '_keywords');
 	add_filter('is_adult', '_is_adult');
-	add_filter('the_footer', 'getSiteFooterLinks');	
+	add_filter('the_footer', 'getSiteFooterLinks');	   
 	
 	add_filter('the_article_body', 'format_article_body');
 	add_filter('send_email', 'email', 10, 7);
+	
+	add_filter('recent_videos', 'getRecentVideos', 10, 3);
+	add_filter('random_videos', 'getRandomVideos', 10, 3);
+	add_filter('random_channels', 'getRandomChannels');
+	
+	add_filter('the_video', 'getVideo', 10, 2);
+	
+	add_filter('recent_submitters', 'getRecentVideoSubmitters', 10, 3);
+	add_filter('recent_channel_videos', 'getRecentChannelVideos', 10, 4);
+	add_filter('random_channel_videos', 'getRandomChannelVideos', 10, 4);
+	add_filter('the_channel', 'getChannel', 10, 2);	
+	add_filter('channel_videos_count', 'getChannelVideosCount', 10, 2);	
+	add_filter('live_videos_count', 'getVideosCount');
+	add_filter('get_total_videos', 'getAdminLiveVideoCount');	
+	add_filter('get_total_channel_videos', 'getAdminLiveChannelVideoCount', 10, 2);
+
 	
 ?>

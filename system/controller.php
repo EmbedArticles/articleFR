@@ -43,6 +43,15 @@ class Controller {
 		return $view;
 	}
 	
+	public function loadPlugins($site) {
+		$site->connect();
+		$_plugins = getActivePlugins($site->getConnection());	
+		foreach ( $_plugins as $_plugin ) {
+			@require_once (PLUGIN_DIR . $_plugin['path'] . '/plugin.php');
+		}
+		$site->close();
+	}
+	
 	public function loadPlugin($name)
 	{
 		require_once(APP_DIR . 'plugins/' . strtolower($name) . '/' . strtolower($name) . '.php');

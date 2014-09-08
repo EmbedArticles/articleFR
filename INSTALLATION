@@ -1,15 +1,15 @@
-===============================================================================
-======
-======
-======
-====== 1. EDIT /path/to/application/config/config.php and supply the needed database and other main configuration values for the system to deploy.
-======
-====== 2. Execute articlefr.sql IN Your Database Server
-======
-====== 3. Login as admin(username)/admin123(password) and edit Site Settings
-======
-====== 4. That's it! Enjoy!
-======
-======
-======
+===============================================================================
+======
+======
+======
+====== 1. EDIT /path/to/application/config/config.php and supply the needed database and other main configuration values for the system to deploy.
+======
+====== 2. Execute articlefr.sql IN Your Database Server
+======
+====== 3. Login as admin(username)/admin123(password) and edit Site Settings
+======
+====== 4. That's it! Enjoy!
+======
+======
+======
 ===============================================================================

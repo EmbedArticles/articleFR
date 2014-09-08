@@ -22,9 +22,7 @@
 					<h3 class="box-title">Message Users</h3>
 				</div>
 				<div class="box-body">
-					<form action="<?php print BASE_URL . 'dashboard/sendmessage.php'; ?>" method="post" target="progressFrame">
-						<input type="hidden" name="cmd" value="value_to_post_to_server" />
-						
+					<form method="post" action="<?=BASE_URL?>dashboard/sendmessage.php" target="progressFrame">						
 						<div class="form-group">
 							<label>Title</label> <input type="text" class="form-control"
 								name="title" placeholder="Title ..." parsley-trigger="change"

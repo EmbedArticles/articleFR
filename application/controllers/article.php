@@ -30,10 +30,17 @@ class Article extends Controller {
 
 	function index() {}
 	
-	function v($_param_i, $_param_ii) {			
+	function v($_param_i, $_param_ii) {		
+		$ini = new INI(APP_DIR . 'config/site.ini');
+		
+		$_link_track = $ini->data['byline_link_tracking']['enable'];
+		
 		$_site = $this->loadModel('site');
 		$_view = $this->loadView('article');
-
+		$_video = $this->loadModel('video');
+		
+		$this->loadPlugins($_site);
+		
 		$_site->init();
 		
 		$_site->connect();
@@ -46,7 +53,15 @@ class Article extends Controller {
 		$_article = apply_filters('the_article', $_param_i, $_site->getConnection());
 		$_keywords = apply_filters('the_keywords', $_article['body']);
 		$_is_adult = apply_filters('is_adult', $_article['body']);			
+		
+		if ($_link_track) {
+			$_article['about'] .= get_link_tracker_js(); 
+			$_article['about'] = preg_replace('/<a(.*?)href="(.+?)"(.*?)>/sim', '<a$1href="$2" onclick="trackOutboundLink(\'$2\'); return false;"$3>', $_article['about']);								
+		}
+				
 		$_site->controller = 'article';
+		$_site->set_trackback($_article['id']);
+				
 		$_related = apply_filters('get_related_articles', $_article['body'], 0, 4, $_site->getConnection());
 		
 		$_site->recent = apply_filters('get_category_live_articles', $_article['category_id'], $_site->getConnection(), 0, 10);
@@ -68,11 +83,20 @@ class Article extends Controller {
 		
 		$_site->set_canonical(apply_filters('the_canonical', $GLOBALS['base_url'] . 'article/v/' . $_param_i . '/' . $_param_ii));
 
-		$_view->set('related', apply_filters('the_related_articles', $_related));
+		$_video->connect();	
 		
+		$_video->set( 'recent_videos', apply_filters('recent_videos', $_video->getConnection(), 0, 10) );
+		$_video->set( 'channels', apply_filters('random_channels', $_video->getConnection()) );
+		$_video->set( 'total_videos', apply_filters('get_total_videos', $_video->getConnection()) );
+
+		$_video->close();
+		
+		$_view->set('related', apply_filters('the_related_articles', $_related));
+				
 		$_view->set('site', apply_filters('the_site_object', $_site));
 		$_view->set('article', apply_filters('the_article_object', $_article));
 		$_view->set('is_adult', apply_filters('the_is_adult', $_is_adult));
+		$_view->set('video', apply_filters('the_video_object', $_video));
 		
 		$_view->set('rateup', apply_filters('get_rate_up', $_article['id'], $_site->getConnection()));
 		$_view->set('ratedown', apply_filters('get_rate_down', $_article['id'], $_site->getConnection()));

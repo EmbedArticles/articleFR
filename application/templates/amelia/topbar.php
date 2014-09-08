@@ -10,17 +10,7 @@
 	</div>
 	<div class="collapse navbar-collapse">
 		<ul class="nav navbar-nav">
-			<li><a href="<?=$site->base?>"><b class="glyphicon glyphicon-home icon"></b>Home</a></li>
-			<? if (!$_SESSION['isloggedin']) { ?>
-			<li><a href="<?=$site->base?>login/"><b class="glyphicon glyphicon-log-in icon"></b>Login</a></li>
-			<li><a href="<?=$site->base?>register/"><b class="glyphicon glyphicon-registration-mark icon"></b>Register</a></li>
-			<? } else { ?>
-			<li><a href="<?=$site->base?>dashboard/"><b class="glyphicon glyphicon-dashboard icon"></b>Dashboard</a></li>			
-			<? 
-			   } 
-			
-			   apply_filters('topmenu_lastitem', null);
-			?>
+			<?=$site->module_links?>
 		</ul>
 		<div class="col-sm-3 col-md-3 pull-right">
 		  <form class="navbar-form" method="get" action="<?=$site->base.'search/v/'?>" role="search">

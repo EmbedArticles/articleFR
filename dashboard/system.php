@@ -21,6 +21,8 @@
 		$ini->data['rss']['items'] = $_REQUEST ['rss'];
 		$ini->data['byline_link_tracking']['enable'] = $_REQUEST ['byline_link_tracking'];
 		$ini->data['paypal']['email'] = $_REQUEST ['paypal'];
+		$ini->data['analytics']['ID'] = $_REQUEST ['analytics'];
+		$ini->data['thumbnail_generator']['url'] = $_REQUEST ['thumbnail'];
 		
 		$ini->write();
 		
@@ -47,31 +49,61 @@
 				<div class="box-body">
 					<form method="post" role="form">
 						<div class="form-group">
-							<label>Gravatar</label> <input type="text" class="form-control"
-								name="gravatar" value="<?=$ini->data['gravatar']['default']?>" class="minimal" />
-						</div>
+							<label>Gravatar</label> 
+								<select name="gravatar" class="form-control">
+								<?php 
+									$_options = array('blank', 'identicon', 'mm', 'monsterid', 'retro', 'wavatar');
 
-						<div class="form-group">
-							<label>RSS</label> <select name="rss" class="form-control"><option
-									value="10" class="bg-success">10</option>
-								<option value="20" class="bg-primary">20</option>
-								<option value="30" class="bg-info">30</option>
-								<option value="40" class="bg-danger">40</option>
-								<option value="50" class="bg-warning">50</option></select>
+									foreach($_options as $_option) {
+										$_selected = $ini->data['gravatar']['default'] == $_option ? 'selected' : '';
+										print '<option	value="' . $_option . '" class="bg-success" ' . $_selected . '>' . $_option . '</option>'; 
+									}
+								?>
+								</select>
 						</div>
-
+												
 						<div class="form-group">
-							<label>Track By-line/About Links</label> 
-							<select	name="byline_link_tracking" class="form-control">
-								<option value="TRUE" class="btn btn-primary">TRUE</option>
-								<option value="FALSE" class="btn btn-danger">FALSE</option>
-							</select>
+							<label>RSS</label> 
+								<select name="rss" class="form-control">
+								<?php 
+									$_options = array(10, 20, 30, 40, 50);
+
+									foreach($_options as $_option) {
+										$_selected = $ini->data['rss']['items'] == $_option ? 'selected' : '';
+										print '<option	value="' . $_option . '" class="bg-success" ' . $_selected . '>' . $_option . '</option>'; 
+									}
+								?>
+								</select>
 						</div>
 
 						<div class="form-group">
 							<label>Paypal Email</label> <input type="text" class="form-control"
 								name="paypal" value="<?=$ini->data['paypal']['email']?>" class="minimal" />
 						</div>
+						
+						<div class="form-group">
+							<label>Google Analytics</label> <input type="text" class="form-control"
+								name="analytics" value="<?=$ini->data['analytics']['ID']?>" placeholder="Example: UA-43531041-1" class="minimal" />
+						</div>		
+						
+						<div class="form-group">
+							<label>Track By-line/About Links</label> 
+							<select	name="byline_link_tracking" class="form-control">
+								<?php 
+									$_options = array('TRUE', 'FALSE');
+
+									foreach($_options as $_option) {
+										$_selected = $ini->data['byline_link_tracking']['enable'] == $_option ? 'selected' : '';
+										print '<option	value="' . $_option . '" class="bg-primary" ' . $_selected . '>' . $_option . '</option>'; 
+									}
+								?>							
+							</select>
+						</div>						
+
+						<div class="form-group">
+							<label>Video Thumbnail Generator</label> <input type="text" class="form-control"
+								name="thumbnail" value="<?=$ini->data['thumbnail_generator']['url']?>" placeholder="Generator URL" class="minimal" />
+						</div>						
 												
 						<div class="box-footer" style="margin-top: 30px;">
 							<button type="submit" name="submit" value="Set"
@@ -133,7 +165,8 @@
 								style="height: 0px;">
 								<div class="box-body">The byline link tracking is the
 									clickthrough tracking of every about the author or byline
-									section links.</div>
+									section links. <span class="label label-info">This will only work if you provide your Google Analytics ID.</span>									
+								</div>
 							</div>
 						</div>
 
@@ -150,7 +183,32 @@
 									paid features.</div>
 							</div>
 						</div>
+						
+						<div class="panel box box-warning">
+							<div class="box-header">
+								<h4 class="box-title">
+									<a data-toggle="collapse" data-parent="#accordion"
+										href="#collapse5" class="collapsed"> Google Analytics </a>
+								</h4>
+							</div>
+							<div id="collapse5" class="panel-collapse collapse"
+								style="height: 0px;">
+								<div class="box-body">This is the Google Analytics publisher tracking code ID which can be found in your Google Analytics tracking code and in the analytics website.</div>
+							</div>
+						</div>						
 
+						<div class="panel box box-danger">
+							<div class="box-header">
+								<h4 class="box-title">
+									<a data-toggle="collapse" data-parent="#accordion"
+										href="#collapse6" class="collapsed"> Video Thumbnail Generator </a>
+								</h4>
+							</div>
+							<div id="collapse6" class="panel-collapse collapse"
+								style="height: 0px;">
+								<div class="box-body">There are thousands of thumbnail generators online However, only one offers free 1,000 thumbnail generations monthly and that is <a href="http://www.thumbgettys.com" target="_new">www.thumbgettys.com</a>. So get your own account created there now and go directly to "Integration" after adding your domain and application. Copy and paste the URL for the "Video Thumbnails" integration.</div>
+							</div>
+						</div>						
 					</div>
 				</div>
 				<!-- /.box-body -->
