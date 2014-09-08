@@ -18,6 +18,28 @@
 		print '<p>Downloading http://freereprintables.com/download.php?filename=articleFR-upgrade.zip</p>';
 		print '<p>Unpacking and overwriting files...</p>';
 		$_update = unzip("http://freereprintables.com/download.php?filename=articleFR-upgrade.zip", ROOT_DIR, false, true);
+		
+		// Temporary variable, used to store current query
+		$templine = '';
+		// Read in entire file
+		$lines = file(ROOT_DIR . 'update/articlefr.sql');
+		// Loop through each line
+		foreach ($lines as $line_num => $line) {
+		// Only continue if it's not a comment
+			if (substr($line, 0, 2) != '--' && $line != '') {
+			// Add this line to the current segment
+			$templine .= $line;
+			// If it has a semicolon at the end, it's the end of the query
+				if (substr(trim($line), -1, 1) == ';') {
+				// Perform the query
+				//mysql_query($templine) or print('Error performing query \'<b>' . $templine . '</b>\': ' . mysql_error() . '<br /><br />');
+				$_database->query($templine);
+				// Reset temp variable to empty
+				$templine = '';
+				}
+			}
+		}	
+			
 		if ($_update) {
 			print '<p><b>Update complete...</b></p>';
 		} else {

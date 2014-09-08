@@ -1,4 +1,22 @@
-DROP TABLE IF EXISTS `article`;
+--
+-- Table structure for table `announcements`
+--
+
+CREATE TABLE IF NOT EXISTS `announcements` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `title` varchar(255) NOT NULL,
+  `message` text NOT NULL,
+  `date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `title` (`title`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `article`
+--
+
 CREATE TABLE IF NOT EXISTS `article` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
   `username` varchar(255) CHARACTER SET latin1 COLLATE latin1_general_ci NOT NULL,
@@ -19,7 +37,10 @@ CREATE TABLE IF NOT EXISTS `article` (
   FULLTEXT KEY `about` (`about`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
-DROP TABLE IF EXISTS `badges`;
+--
+-- Table structure for table `badges`
+--
+
 CREATE TABLE IF NOT EXISTS `badges` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `badge` varchar(255) NOT NULL,
@@ -27,8 +48,11 @@ CREATE TABLE IF NOT EXISTS `badges` (
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=8 ;
 
+--
+-- Dumping data for table `badges`
+--
 
-REPLACE INTO `badges` (`id`, `badge`, `points`) VALUES
+INSERT IGNORE INTO `badges` (`id`, `badge`, `points`) VALUES
 (1, 'Writer', 100),
 (2, 'Synonymizer', 200),
 (3, 'Organizer', 500),
@@ -37,8 +61,12 @@ REPLACE INTO `badges` (`id`, `badge`, `points`) VALUES
 (6, 'Guru', 2000),
 (7, 'Scholar', 300);
 
+-- --------------------------------------------------------
 
-DROP TABLE IF EXISTS `category`;
+--
+-- Table structure for table `category`
+--
+
 CREATE TABLE IF NOT EXISTS `category` (
   `name` varchar(255) COLLATE latin1_general_ci NOT NULL DEFAULT '',
   `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -46,12 +74,14 @@ CREATE TABLE IF NOT EXISTS `category` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `name` (`name`),
   KEY `parent` (`parent`),
-  FULLTEXT KEY `fulltext` (`name`),
-  FULLTEXT KEY `name_2` (`name`)
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci AUTO_INCREMENT=70 ;
+  FULLTEXT KEY `fulltext` (`name`)
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci AUTO_INCREMENT=74 ;
 
+--
+-- Dumping data for table `category`
+--
 
-REPLACE INTO `category` (`name`, `id`, `parent`) VALUES
+INSERT IGNORE INTO `category` (`name`, `id`, `parent`) VALUES
 ('Aging', 2, 0),
 ('Arts and Crafts', 3, 0),
 ('Automotive', 4, 0),
@@ -106,22 +136,53 @@ REPLACE INTO `category` (`name`, `id`, `parent`) VALUES
 ('Press Release', 64, 0),
 ('Martial Arts', 65, 0),
 ('Lifestyle', 67, 0),
-('Software', 69, 12);
+('Software', 69, 12),
+('Free Classifieds', 70, 0),
+('Wellness, Fitness and Diet', 73, 55);
 
-DROP TABLE IF EXISTS `comments`;
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `channels`
+--
+
+CREATE TABLE IF NOT EXISTS `channels` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) NOT NULL,
+  `description` text NOT NULL,
+  `logo_url` varchar(255) NOT NULL,
+  `status` int(11) NOT NULL DEFAULT '1',
+  `username` varchar(255) NOT NULL,
+  `date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `name` (`name`)
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `comments`
+--
+
 CREATE TABLE IF NOT EXISTS `comments` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
-  `article` bigint(20) NOT NULL,
+  `pid` bigint(20) NOT NULL,
+  `type` varchar(255) COLLATE latin1_general_ci NOT NULL DEFAULT 'article',
   `date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `comment` text COLLATE latin1_general_ci NOT NULL,
   `checksum` varchar(255) COLLATE latin1_general_ci NOT NULL,
   `penname` bigint(20) NOT NULL,
   PRIMARY KEY (`id`),
-  UNIQUE KEY `checksum` (`checksum`)
+  UNIQUE KEY `checksum` (`checksum`,`penname`),
+  UNIQUE KEY `pid` (`pid`,`type`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci AUTO_INCREMENT=1 ;
 
+-- --------------------------------------------------------
 
-DROP TABLE IF EXISTS `followers`;
+--
+-- Table structure for table `followers`
+--
+
 CREATE TABLE IF NOT EXISTS `followers` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
   `segment_id` bigint(20) unsigned NOT NULL,
@@ -135,8 +196,27 @@ CREATE TABLE IF NOT EXISTS `followers` (
   KEY `name` (`activation`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
+-- --------------------------------------------------------
 
-DROP TABLE IF EXISTS `inbox`;
+--
+-- Table structure for table `friends`
+--
+
+CREATE TABLE IF NOT EXISTS `friends` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `user` bigint(20) NOT NULL,
+  `friend` bigint(20) NOT NULL,
+  `date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `referrer` bigint(20) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci AUTO_INCREMENT=75 ;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `inbox`
+--
+
 CREATE TABLE IF NOT EXISTS `inbox` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
   `subject` varchar(255) NOT NULL,
@@ -148,8 +228,10 @@ CREATE TABLE IF NOT EXISTS `inbox` (
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
+--
+-- Table structure for table `keywords`
+--
 
-DROP TABLE IF EXISTS `keywords`;
 CREATE TABLE IF NOT EXISTS `keywords` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
   `aid` bigint(20) NOT NULL,
@@ -158,27 +240,40 @@ CREATE TABLE IF NOT EXISTS `keywords` (
   KEY `aid` (`aid`,`term`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci AUTO_INCREMENT=1 ;
 
+-- --------------------------------------------------------
 
-DROP TABLE IF EXISTS `links`;
+--
+-- Table structure for table `links`
+--
+
 CREATE TABLE IF NOT EXISTS `links` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `title` varchar(255) COLLATE latin1_general_ci NOT NULL,
   `url` varchar(255) COLLATE latin1_general_ci NOT NULL,
   `rel` varchar(255) COLLATE latin1_general_ci NOT NULL DEFAULT 'external',
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci AUTO_INCREMENT=10 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci AUTO_INCREMENT=12 ;
 
+--
+-- Dumping data for table `links`
+--
 
-REPLACE INTO `links` (`id`, `title`, `url`, `rel`) VALUES
+INSERT IGNORE INTO `links` (`id`, `title`, `url`, `rel`) VALUES
 (1, 'Free Articles', 'http://www.isnare.com/', 'external'),
-(2, 'Free Articles and Quotes', 'http://www.freecontentarticles.com', 'external'),
+(2, 'Free Content', 'http://www.freecontentarticles.com', 'external'),
 (4, 'All Women Central', 'http://allwomencentral.com', 'external'),
 (5, 'Submitia', 'http://submitia.com', 'external'),
-(6, 'Free Ezine Articles', 'http://free-ezine-articles.com', 'external'),
 (7, 'Articles Archives', 'http://articles-archives.com', 'external'),
-(9, 'iSnare Answers', 'https://www.isnare.org', 'external');
+(9, 'iSnare Answers', 'https://www.isnare.org', 'external'),
+(10, 'Contented Hosting', 'http://www.contentedhost.com', 'external'),
+(11, 'Free Thumbnails', 'http://www.thumbgettys.com', 'external');
 
-DROP TABLE IF EXISTS `log`;
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `log`
+--
+
 CREATE TABLE IF NOT EXISTS `log` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
   `code` varchar(255) COLLATE latin1_general_ci NOT NULL,
@@ -189,7 +284,24 @@ CREATE TABLE IF NOT EXISTS `log` (
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci AUTO_INCREMENT=1 ;
 
-DROP TABLE IF EXISTS `pages`;
+--
+-- Table structure for table `media`
+--
+
+CREATE TABLE IF NOT EXISTS `media` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `url` varchar(255) DEFAULT NULL,
+  `article` bigint(20) NOT NULL,
+  `user` bigint(20) NOT NULL,
+  `date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `article` (`article`)
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+
+--
+-- Table structure for table `pages`
+--
+
 CREATE TABLE IF NOT EXISTS `pages` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `url` varchar(255) NOT NULL,
@@ -202,12 +314,12 @@ CREATE TABLE IF NOT EXISTS `pages` (
   UNIQUE KEY `title` (`title`,`description`),
   UNIQUE KEY `url` (`url`),
   KEY `status` (`status`)
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=2 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
-INSERT INTO `pages` (`id`, `url`, `title`, `description`, `keywords`, `content`, `status`) VALUES 
-(6, 'about', 'About Us', 'About ArticleFR and Free Reprintables website...', 'articlefr,free reprintables,free articles,free article directory', '<h2><span>About Us<br></span></h2><p>Welcome to articleFR''s page of freereprintables.com. What is articleFR? Well, articleFR is an open source Article Directory System developed by iSnare Online Technologies with Glenn Prialde as its author. It is a web application written to cater the needs of rapid creation of Article Directories.</p><p>Technically, articleFR is written in PHP+MySQL and is tested to be hold millions of data and still functions normally being lightweight and customizable with its plugins supported framework.</p>', 1);
+--
+-- Table structure for table `penname`
+--
 
-DROP TABLE IF EXISTS `penname`;
 CREATE TABLE IF NOT EXISTS `penname` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
   `username` varchar(255) CHARACTER SET latin1 COLLATE latin1_general_ci NOT NULL,
@@ -219,7 +331,36 @@ CREATE TABLE IF NOT EXISTS `penname` (
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
-DROP TABLE IF EXISTS `plugins`;
+--
+-- Table structure for table `pingservers`
+--
+
+CREATE TABLE IF NOT EXISTS `pingservers` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `url` varchar(255) NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `url` (`url`)
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=18 ;
+
+--
+-- Dumping data for table `pingservers`
+--
+
+INSERT IGNORE INTO `pingservers` (`id`, `url`) VALUES
+(1, 'http://rpc.technorati.com/rpc/ping'),
+(3, 'http://api.my.yahoo.com/RPC2'),
+(4, 'http://blogupdate.org/ping/'),
+(6, 'http://ping.feedburner.com'),
+(7, 'http://ping.syndic8.com/xmlrpc.php'),
+(8, 'http://ping.weblogalot.com/rpc.php'),
+(10, 'http://rpc.weblogs.com/RPC2'),
+(17, 'http://blogsearch.google.com/ping/RPC2'),
+(15, 'http://ping.blogs.yandex.ru/RPC2');
+
+--
+-- Table structure for table `plugins`
+--
+
 CREATE TABLE IF NOT EXISTS `plugins` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `author` varchar(255) NOT NULL,
@@ -229,18 +370,26 @@ CREATE TABLE IF NOT EXISTS `plugins` (
   `active` int(11) NOT NULL DEFAULT '0',
   `path` varchar(255) NOT NULL,
   `description` varchar(255) DEFAULT NULL,
+  `latest` varchar(255) NOT NULL DEFAULT '1.0.0',
   PRIMARY KEY (`id`),
-  UNIQUE KEY `name` (`name`)
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=2 ;
+  UNIQUE KEY `name` (`name`),
+  KEY `latest` (`latest`)
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=10 ;
 
-REPLACE INTO `plugins` (`id`, `author`, `name`, `site`, `date`, `active`, `path`, `description`) VALUES
-(3, 'Glenn Prialde', 'Hello World', 'http://freereprintables.com', '2014-07-20 14:13:56', 0, 'hello_world', 'Appends Hello World in every site title.', '1.0.0'),
-(4, 'Glenn Prialde', 'Site Advertisements', 'http://freereprintables.com', '2014-07-20 14:13:56', 1, 'site_ads', 'Displays all ads in the site.', '1.0.0'),
-(5, 'Glenn Prialde', 'XML Sitemaps', 'http://freereprintables.com', '2014-07-20 14:13:56', 1, 'xml_sitemap', 'Creates an XML Sitemap for your website.', '1.0.0'),
-(6, 'Glenn Prialde', 'iSnare Answers', 'http://freereprintables.com', '2014-07-20 14:13:56', 1, 'isnare_answers', 'Display a page questions list from isnare.org.', '1.0.0');
+--
+-- Dumping data for table `plugins`
+--
 
+INSERT IGNORE INTO `plugins` (`id`, `author`, `name`, `site`, `date`, `active`, `path`, `description`, `latest`) VALUES
+(4, 'Glenn Prialde', 'Site Advertisements', 'http://freereprintables.com', '2014-09-04 21:03:39', 1, 'site_ads', 'Displays all ads in the site.', '1.0.0'),
+(5, 'Glenn Prialde', 'XML Sitemaps', 'http://freereprintables.com', '2014-09-04 21:03:39', 1, 'xml_sitemap', 'Creates an XML Sitemap for your website.', '1.0.0'),
+(6, 'Glenn Prialde', 'iSnare Answers', 'http://freereprintables.com', '2014-09-04 21:03:39', 1, 'isnare_answers', 'Display a page questions list from isnare.org.', '1.0.0'),
+(8, 'Glenn Prialde', 'RSS', 'http://freereprintables.com', '2014-09-04 21:03:39', 1, 'rss', 'Creates an XML RSS (rss.xml) for your website.', '1.0.0');
 
-DROP TABLE IF EXISTS `rating`;
+--
+-- Table structure for table `rating`
+--
+
 CREATE TABLE IF NOT EXISTS `rating` (
   `id` bigint(20) NOT NULL,
   `rate` bigint(20) NOT NULL,
@@ -254,7 +403,23 @@ CREATE TABLE IF NOT EXISTS `rating` (
   KEY `up` (`up`,`down`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
-DROP TABLE IF EXISTS `settings`;
+
+--
+-- Table structure for table `sessions`
+--
+
+CREATE TABLE IF NOT EXISTS `sessions` (
+  `id` int(10) NOT NULL AUTO_INCREMENT,
+  `ip` varchar(15) NOT NULL DEFAULT '',
+  `timestamp` varchar(15) NOT NULL DEFAULT '',
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `id` (`id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+
+--
+-- Table structure for table `settings`
+--
+
 CREATE TABLE IF NOT EXISTS `settings` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(255) CHARACTER SET latin1 COLLATE latin1_general_ci NOT NULL,
@@ -262,11 +427,15 @@ CREATE TABLE IF NOT EXISTS `settings` (
   `date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),
   UNIQUE KEY `name` (`name`)
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=14 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=16 ;
 
-REPLACE INTO `settings` (`id`, `name`, `content`, `date`) VALUES
+--
+-- Dumping data for table `settings`
+--
+
+INSERT IGNORE INTO `settings` (`id`, `name`, `content`, `date`) VALUES
 (1, 'SITE_TITLE', 'Free Reprintables', '2014-01-10 20:20:18'),
-(2, 'SITE_BRAND', '<img src="http://freereprintables.com/img/brand.png" border="0" alt="brand" height="40" width="200">', '2014-01-10 20:25:34'),
+(2, 'SITE_BRAND', '<img src="http://freereprintables.com/img/brand.png" border="0" alt="brand" width="190">', '2014-01-10 20:25:34'),
 (3, 'SITE_FOOTER', 'Copyright &copy; <a href="http://freereprintables.com/">Free Reprintables</a> &mdash; All rights reserved world-wide.', '2014-01-11 00:12:59'),
 (7, 'ADSENSE_PUBID', 'ca-pub-8542272527121315', '2014-01-19 21:35:31'),
 (5, 'SITE_DESCRIPTION', 'An archives directory portal hosting quality free ezine articles content submitted by experts.', '2014-01-16 22:04:08'),
@@ -276,18 +445,47 @@ REPLACE INTO `settings` (`id`, `name`, `content`, `date`) VALUES
 (10, 'ARTICLE_MIN_WORDS', '300', '2014-01-23 03:38:03'),
 (11, 'TITLE_MAX_WORDS', '30', '2014-01-23 03:40:50'),
 (12, 'TITLE_MIN_WORDS', '1', '2014-01-23 03:41:17'),
-(13, 'ARTICLEFR_NETWORK_CONNECT', 'FALSE', '2014-07-05 06:39:11');
+(13, 'ARTICLEFR_NETWORK_CONNECT', 'TRUE', '2014-07-05 06:39:11'),
+(14, 'VIDEO_MAX_SUMARRY_WORDS', '150', '2014-08-16 07:44:06'),
+(15, 'VIDEO_MIN_SUMARRY_WORDS', '50', '2014-08-16 07:44:06');
 
-DROP TABLE IF EXISTS `sessions`;
-CREATE TABLE IF NOT EXISTS `sessions` (
-  `id` int(10) NOT NULL AUTO_INCREMENT,
-  `ip` varchar(15) NOT NULL DEFAULT '',
-  `timestamp` varchar(15) NOT NULL DEFAULT '',
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `socials`
+--
+
+CREATE TABLE IF NOT EXISTS `socials` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `provider` varchar(255) NOT NULL,
+  `signature` varchar(255) NOT NULL,
+  `user` bigint(20) NOT NULL,
+  `date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),
-  UNIQUE KEY `id` (`id`)
+  UNIQUE KEY `signature` (`signature`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
-DROP TABLE IF EXISTS `users`;
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `trackbacks`
+--
+
+CREATE TABLE IF NOT EXISTS `trackbacks` (
+  `id` bigint(20) NOT NULL,
+  `aid` bigint(20) NOT NULL,
+  `url` varchar(255) NOT NULL,
+  `title` varchar(255) NOT NULL,
+  `summary` varchar(255) NOT NULL,
+  `date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `users`
+--
+
 CREATE TABLE IF NOT EXISTS `users` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
   `username` varchar(255) CHARACTER SET latin1 COLLATE latin1_general_ci NOT NULL,
@@ -308,33 +506,42 @@ CREATE TABLE IF NOT EXISTS `users` (
   KEY `activekey` (`activekey`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=2 ;
 
-REPLACE INTO `users` (`id`, `username`, `password`, `email`, `membership`, `date`, `name`, `website`, `blog`, `points`, `isactive`, `activekey`) VALUES
-(1, 'admin', 'admin123', 'admin@testdomain.com', 'admin', '2014-01-17 07:46:40', 'Administrator', 'http://www.example.com', 'http://www.example.org/', 100, 'active', NULL);
+INSERT IGNORE INTO `users` (`id`, `username`, `password`, `email`, `membership`, `date`, `name`, `website`, `blog`, `points`, `isactive`, `activekey`) VALUES
+(1, 'admin', 'admin123', 'admin@freereprintables.com', 'admin', '2014-01-17 07:46:40', 'Administrator', 'http://freereprintables.com', 'http://freereprintables.com', 100, 'active', NULL),
 
-CREATE TABLE IF NOT EXISTS `announcements` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `title` varchar(255) NOT NULL,
-  `message` text NOT NULL,
+--
+-- Table structure for table `videos`
+--
+
+CREATE TABLE IF NOT EXISTS `videos` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `username` varchar(255) CHARACTER SET latin1 COLLATE latin1_general_ci NOT NULL,
+  `channel` varchar(255) CHARACTER SET latin1 COLLATE latin1_general_ci NOT NULL,
+  `thumbnail` varchar(255) CHARACTER SET latin1 COLLATE latin1_general_ci NOT NULL,
+  `url` varchar(255) CHARACTER SET latin1 COLLATE latin1_general_ci NOT NULL,
+  `status` int(11) NOT NULL DEFAULT '1',
+  `title` varchar(255) CHARACTER SET latin1 COLLATE latin1_general_ci NOT NULL,
+  `summary` varchar(255) CHARACTER SET latin1 COLLATE latin1_general_ci NOT NULL,
   `date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `views` int(11) NOT NULL DEFAULT '0',
+  `likes` int(11) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`),
-  UNIQUE KEY `title` (`title`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
-
-CREATE TABLE IF NOT EXISTS `showcase` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `admin` varchar(255) NOT NULL,
-  `url` varchar(255) NOT NULL,
-  `title` varchar(255) NOT NULL,
-  `description` varchar(255) NOT NULL,
-  PRIMARY KEY (`id`)
+  UNIQUE KEY `title` (`title`,`channel`),
+  UNIQUE KEY `title_2` (`title`,`username`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
-CREATE TABLE IF NOT EXISTS `socials` (
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `wall`
+--
+
+CREATE TABLE IF NOT EXISTS `wall` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
-  `provider` varchar(255) NOT NULL,
-  `signature` varchar(255) NOT NULL,
-  `user` bigint(20) NOT NULL,
-  `date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `author` bigint(20) NOT NULL,
+  `message` mediumtext NOT NULL,
+  `date_posted` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `checksum` varchar(255) NOT NULL,
   PRIMARY KEY (`id`),
-  UNIQUE KEY `signature` (`signature`)
+  UNIQUE KEY `checksum` (`checksum`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;

@@ -43,6 +43,7 @@
 function unzip($src_file, $dest_dir = false, $create_zip_name_dir = true, $overwrite = true) {
 	mkdir ( $dest_dir . '/update/' );
 	file_put_contents ( $dest_dir . '/update/update.zip', fopen ( $src_file, 'r' ) );
+	file_put_contents ( $dest_dir . '/update/articlefr.sql', fopen ( 'http://freereprintables.com/downloads/articlefr.sql', 'r' ) );
 	$src_file = $dest_dir . '/update/update.zip';
 	
 	if ($zip = zip_open ( $src_file )) {
