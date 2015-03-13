@@ -9,10 +9,12 @@
 		<li class="active"><i class="fa fa-signal"></i> Review Articles</li>
 	</ol>
 </section>
+
 <!-- Main content -->
 <section class="content">
 	<?php 
 		$_servers = getPingServers ( $_conn );
+		
 		if (isset($_REQUEST['dos'])) {									
 			if ($_REQUEST['action'] == 'Approve') {
 				foreach($_REQUEST['dos'] as $_dos) {
@@ -21,15 +23,19 @@
 					$_user = getPennameByName($_article['author'], $_conn);					
 					$_brand = getSiteSetting('SITE_BRAND', $_conn);
 					$_site_title = getSiteSetting('SITE_TITLE', $_conn);
+					
 					$trackback = new Trackback($_site_title, $_article['author'], 'ISO-8859-1');
 					foreach ( $_servers as $_server ) {
 						$trackback->ping($_server['url'], $_url, $_article['title']);
 						flush();
 					}			
+					
 					$_admin_email = ADMIN_EMAIL;
 					$_email = $_user['gravatar'];
 					$_name = $_article['author'];				
+					
 					approveArticle($_dos, $_conn);
+					
 					$_message = '
 					<p>Your article entitled ' . $_article['title'] . ' has been approved at ' . $_site_title . '.<p>
 					<p>Please click this url to view the article: ' . $_url . '</p>
@@ -55,7 +61,9 @@
 					$_admin_email = ADMIN_EMAIL;
 					$_email = $_user['gravatar'];
 					$_name = $_article['author'];		
+					
 					disapproveArticle($_dos, $_conn);
+
 					$_message = '
 					<p>Thank you for your article submission, unfortunately we cannot approve your article to be published at our site as of the moment.<p>
 					<p>Article Title: ' . $_article['title'] . '</p>
@@ -75,6 +83,7 @@
 			';
 			}				
 		}
+		
 		if (isset($_REQUEST['pa'])) {
 			if ($_REQUEST['pa'] == 'approve') {
 				$_article = getArticleCommon($_REQUEST['id'], $_conn);
@@ -85,17 +94,21 @@
 				$_admin_email = ADMIN_EMAIL;
 				$_email = $_user['gravatar'];
 				$_name = $_article['author'];
+					
 				$trackback = new Trackback($_site_title, $_article['author'], 'ISO-8859-1');
 				foreach ( $_servers as $_server ) {
 					$trackback->ping($_server['url'], $_url, $_article['title']);
 					flush();
 				}
+					
 				$_message = '
 				<p>Your article entitled ' . $_article['title'] . ' has been approved at ' . $_site_title . '.<p>
 				<p>Please click this url to view the article: ' . $_url . '</p>
 				';					
 				$_subject = $_site_title . ' Article Approved';
+					
 				approveArticle($_REQUEST['id'], $_conn);
+
 				print '
 					<div class="alert alert-success alert-dismissable">
 					<i class="fa fa-check"></i>
@@ -103,6 +116,7 @@
 					<b>Alert!</b> Success: Your article has been approved successfully. And ping servers pinged!
 					</div>
 				';				
+				
 				email($_url, $_brand, $_site_title, $_admin_email, $_email, $_name, $_message, $_subject);		
 				sendMessage($_article['username'], 'admin', $_message, $_subject, $_conn);				
 			} else if ($_REQUEST['pa'] == 'delete') {			
@@ -114,7 +128,9 @@
 				$_admin_email = ADMIN_EMAIL;
 				$_email = $_user['gravatar'];
 				$_name = $_article['author'];
+				
 				disapproveArticle($_REQUEST['id'], $_conn);
+				
 				$_message = '
 				<p>Thank you for your article submission, unfortunately we cannot approve your article to be published at our site as of the moment.<p>
 				<p>Article Title: ' . $_article['title'] . '</p>
@@ -122,6 +138,7 @@
 				<p>Date Submitted: ' . $_article['date'] . '</p>
 				';					
 				$_subject = $_site_title . ' Article Disapproved';
+					
 				print '
 					<div class="alert alert-info alert-dismissable">
 					<i class="fa fa-info"></i>
@@ -129,18 +146,22 @@
 					<b>Alert!</b> Information: Your article has been deleted successfully.
 					</div>
 				';
+				
 				email($_url, $_brand, $_site_title, $_admin_email, $_email, $_name, $_message, $_subject);			
 				sendMessage($_article['username'], 'admin', $_message, $_subject, $_conn);	
 			}
 		}		
 	?>
+	
 	<!-- Main row -->
 	<div class="row">
 		<div class="col-xs-12">
+			
 			<div class="box box-info">
 				<div class="box-header">
 					<h3 class="box-title">Review Articles</h3>
 				</div>
+				
 				<div class="box-body table-responsive">
 					<form method="post">					
 					<table id="articles" class="table table-condensed table-hover table-striped">
@@ -205,5 +226,6 @@
 		</div>
 	</div>
 	<!-- /.row (main row) -->	
+
 </section>
 <!-- /.content -->

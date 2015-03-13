@@ -9,11 +9,14 @@
 		<li class="active"><i class="fa fa-film"></i> My Videos</li>
 	</ol>
 </section>
+
 <!-- Main content -->
 <section class="content">
+
 	<!-- Main row -->
 	<div class="row">
 		<div class="col-xs-12">
+			
 			<?
 				if (isset($_REQUEST['pa']) && $_REQUEST['pa'] == 'delete') {
 					$_delete = deleteVideo($_REQUEST['id'], $_SESSION['username'], $_conn);
@@ -35,6 +38,7 @@
 						';					
 					}
 				}	
+
 				if (isset($_REQUEST['pa']) && $_REQUEST['pa'] == 'republish') {					
 					$_update = republish($_REQUEST['id'], $_conn);
 					if ($_update == 1) {
@@ -56,6 +60,8 @@
 					}
 				}				
 			?>
+			
+			
 			<div class="nav-tabs-custom">
 				<!-- Tabs within a box -->
 				<ul class="nav nav-tabs pull-right">
@@ -71,11 +77,15 @@
 					<li><a href="#offline-articles" data-toggle="tab">Offline</a></li>
 					<li class="pull-left header">Videos</li>
 				</ul>
+				
 				<div class="tab-content">
+				
 					<?
 						$active = 'active';
+						
 						if ($_SESSION ['role'] == 'admin') {
 							$active = null;
+							
 							print '
 								<div class="tab-pane active" id="afr-articles" style="position: relative;">
 									<table id="all" class="table table-condensed table-hover table-striped">
@@ -94,8 +104,10 @@
 										add_filter ( 'all_articles', 'getVideos');
 				            			$_articles = apply_filters ( 'all_articles', $_conn );
 										foreach ( $_articles as $_article ) {
+
 											$_em = new media_embed( $_article['url'] );
 											$_embed = $_em->get_embed(550, 300);
+											
 											if (empty($_embed)) {
 												$_mimeclass = new mimetype();
 												$_mimetype = $_mimeclass->getType($_article['url']);
@@ -109,6 +121,7 @@
 													</video>
 												';
 											}
+
 											if ($_article['status'] == 0) {
 												$_article['status'] = '<b class="text-warning">PENDING</b>';
 											} elseif ($_article['status'] == 1) {
@@ -149,6 +162,7 @@
 							';
 						}
 					?>
+													
 					<div class="tab-pane <?=$active?>" id="online-articles" style="position: relative;">
 						<table id="articles" class="table table-condensed table-hover table-striped">
 							<thead>
@@ -168,6 +182,7 @@
 								foreach ( $_articles as $_article ) {
 									$_em = new media_embed( $_article['url'] );
 									$_embed = $_em->get_embed(550, 300);
+										
 									if (empty($_embed)) {
 										$_mimeclass = new mimetype();
 										$_mimetype = $_mimeclass->getType($_article['url']);
@@ -181,6 +196,7 @@
 											</video>
 										';
 									}
+
 									if ($_article['status'] == 0) {
 										$_article['status'] = '<b class="text-warning">PENDING</b>';
 									} elseif ($_article['status'] == 1) {
@@ -203,6 +219,7 @@
 		            	</tbody>
 						</table>				
 					</div>
+					
 					<div class="tab-pane" id="pending-articles" style="position: relative;">
 						<table id="pending" class="table table-condensed table-hover table-striped">
 							<thead>
@@ -221,6 +238,7 @@
 								foreach ( $_articles as $_article ) {
 									$_em = new media_embed( $_article['url'] );
 									$_embed = $_em->get_embed(550, 300);
+									
 									if (empty($_embed)) {
 										$_mimeclass = new mimetype();
 										$_mimetype = $_mimeclass->getType($_article['url']);
@@ -234,6 +252,7 @@
 											</video>
 										';
 									}
+
 									if ($_article['status'] == 0) {
 										$_article['status'] = '<b class="text-warning">PENDING</b>';
 									} elseif ($_article['status'] == 1) {
@@ -244,6 +263,7 @@
 									print '
 										<tr>
 													<td>' . $_article ['id'] . '</td>
+
 													<td>
 														<a href="#!' . $_article ['id'] . '" data-toggle="modal" data-target="#modal' . $_article ['id'] . '">' . $_article ['title'] . '</a>
 														<div class="modal fade" id="modal' . $_article ['id'] . '">
@@ -260,6 +280,7 @@
 														  </div><!-- /.modal-dialog -->
 														</div><!-- /.modal -->																											
 													</td>
+																		
 													<td><img src="' . $_article ['thumbnail'] . '" border="0" width="120" height="90"></td>
 													<td>' . $_article ['status'] . '</td>
 													<td>' . getTime ( $_article ['date'] ) . '</td>
@@ -270,6 +291,7 @@
 		            	</tbody>
 						</table>					
 					</div>
+					
 					<div class="tab-pane" id="offline-articles" style="position: relative;">
 						<table id="offline" class="table table-condensed table-hover table-striped">
 							<thead>
@@ -297,6 +319,7 @@
 									print '
 										<tr>
 											<td>' . $_article ['id'] . '</td>
+
 											<td>
 												<a href="#!' . $_article ['id'] . '" data-toggle="modal" data-target="#modal' . $_article ['id'] . '">' . $_article ['title'] . '</a>
 												<div class="modal fade" id="modal' . $_article ['id'] . '">
@@ -313,6 +336,7 @@
 												  </div><!-- /.modal-dialog -->
 												</div><!-- /.modal -->																											
 											</td>
+																		
 											<td><img src="' . $_article ['thumbnail'] . '" border="0" width="120" height="90"></td>
 											<td>' . $_article ['status'] . '</td>
 											<td>' . getTime ( $_article ['date'] ) . '</td>
@@ -324,10 +348,13 @@
 		            	</tbody>
 						</table>					
 					</div>
+										
 				</div>
 			</div>		
+			
 		</div>
 	</div>
 	<!-- /.row (main row) -->
+
 </section>
 <!-- /.content -->

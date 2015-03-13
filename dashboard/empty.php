@@ -12,6 +12,7 @@
         <link href="css/ionicons.min.css" rel="stylesheet" type="text/css" />
         <!-- Theme style -->
         <link href="css/AdminLTE.css" rel="stylesheet" type="text/css" />
+
         <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
         <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
         <!--[if lt IE 9]>
@@ -139,6 +140,7 @@
                                                 <i class="fa fa-users warning"></i> 5 new members joined
                                             </a>
                                         </li>
+
                                         <li>
                                             <a href="#">
                                                 <i class="ion ion-ios7-cart success"></i> 25 sales made
@@ -278,6 +280,7 @@
                         </div>
                         <div class="pull-left info">
                             <p>Hello, Jane</p>
+
                             <a href="#"><i class="fa fa-circle text-success"></i> Online</a>
                         </div>
                     </div>
@@ -381,6 +384,7 @@
                 </section>
                 <!-- /.sidebar -->
             </aside>
+
             <!-- Right side column. Contains the navbar and content of the page -->
             <aside class="right-side">                
                 <!-- Content Header (Page header) -->
@@ -394,16 +398,22 @@
                         <li class="active">Blank page</li>
                     </ol>
                 </section>
+
                 <!-- Main content -->
                 <section class="content">
+
+
                 </section><!-- /.content -->
             </aside><!-- /.right-side -->
         </div><!-- ./wrapper -->
+
+
         <!-- jQuery 2.0.2 -->
         <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.0.2/jquery.min.js"></script>
         <!-- Bootstrap -->
         <script src="js/plugins/bootstrap.min.js" type="text/javascript"></script>
         <!-- AdminLTE App -->
         <script src="js/plugins/AdminLTE/app.js" type="text/javascript"></script>
+
     </body>
 </html>

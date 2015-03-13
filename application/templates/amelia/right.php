@@ -38,13 +38,13 @@
 		
 			<div class="media">
 				<a class="thumbnail pull-left"
-					href="<?=$site->base?>videos/view/<?=$_recent_video['id']?>/<?=encodeURL($_recent_video['title'])?>">
+					href="<?=$site->base?>videos/view/<?=encodeURL($_recent_video['title'])?>">
 					<img class="media-object"
 					src="<?=$_recent_video['thumbnail']?>" width="50" height="50" alt="video">
 				</a>
 				<div class="media-body">
 					<h4 class="media-heading">
-						<a href="<?=$site->base?>videos/view/<?=$_recent_video['id']?>/<?=encodeURL($_recent_video['title'])?>"><?=$_recent_video['title']?></a>
+						<a href="<?=$site->base?>videos/view/<?=encodeURL($_recent_video['title'])?>"><?=$_recent_video['title']?></a>
 					</h4>
 					<p>
 						<small><?=substr($_recent_video['summary'], 0, 200)?>..</small>

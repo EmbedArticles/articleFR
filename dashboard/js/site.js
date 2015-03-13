@@ -1,3 +1,3 @@
-jQuery(function ($) {
-	$('#js-news').ticker();	
-});
+jQuery(function ($) {
+	$('#js-news').ticker();	
+});

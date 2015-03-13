@@ -9,10 +9,13 @@
 		<li class="active"><i class="fa fa-compass"></i> System</li>
 	</ol>
 </section>
+
 <!-- Main content -->
 <section class="content">
+
 <?php
 	$ini = new INI(dirname(dirname(__FILE__)) . '/application/config/site.ini');
+
 	if (isset ( $_REQUEST ['submit'] ) && $_REQUEST ['submit'] == 'Set') {						
 		$ini->data['gravatar']['default'] = $_REQUEST ['gravatar'];
 		$ini->data['rss']['items'] = $_REQUEST ['rss'];
@@ -20,7 +23,9 @@
 		$ini->data['paypal']['email'] = $_REQUEST ['paypal'];
 		$ini->data['analytics']['ID'] = $_REQUEST ['analytics'];
 		$ini->data['thumbnail_generator']['url'] = $_REQUEST ['thumbnail'];
+		
 		$ini->write();
+		
 		print '
 			<div class="alert alert-info alert-dismissable">
 				<i class="fa fa-info"></i>
@@ -29,10 +34,13 @@
 			</div>			
 			';		
 	}
+	
 	$ini->read();
 ?>
+
 	<!-- Main row -->
 	<div class="row">
+
 		<section class="col-lg-6">
 			<div class="box box-info">
 				<div class="box-header">
@@ -45,6 +53,7 @@
 								<select name="gravatar" class="form-control">
 								<?php 
 									$_options = array('blank', 'identicon', 'mm', 'monsterid', 'retro', 'wavatar');
+
 									foreach($_options as $_option) {
 										$_selected = $ini->data['gravatar']['default'] == $_option ? 'selected' : '';
 										print '<option	value="' . $_option . '" class="bg-success" ' . $_selected . '>' . $_option . '</option>'; 
@@ -52,11 +61,13 @@
 								?>
 								</select>
 						</div>
+												
 						<div class="form-group">
 							<label>RSS</label> 
 								<select name="rss" class="form-control">
 								<?php 
 									$_options = array(10, 20, 30, 40, 50);
+
 									foreach($_options as $_option) {
 										$_selected = $ini->data['rss']['items'] == $_option ? 'selected' : '';
 										print '<option	value="' . $_option . '" class="bg-success" ' . $_selected . '>' . $_option . '</option>'; 
@@ -64,19 +75,23 @@
 								?>
 								</select>
 						</div>
+
 						<div class="form-group">
 							<label>Paypal Email</label> <input type="text" class="form-control"
 								name="paypal" value="<?=$ini->data['paypal']['email']?>" class="minimal" />
 						</div>
+						
 						<div class="form-group">
 							<label>Google Analytics</label> <input type="text" class="form-control"
 								name="analytics" value="<?=$ini->data['analytics']['ID']?>" placeholder="Example: UA-43531041-1" class="minimal" />
 						</div>		
+						
 						<div class="form-group">
 							<label>Track By-line/About Links</label> 
 							<select	name="byline_link_tracking" class="form-control">
 								<?php 
 									$_options = array('TRUE', 'FALSE');
+
 									foreach($_options as $_option) {
 										$_selected = $ini->data['byline_link_tracking']['enable'] == $_option ? 'selected' : '';
 										print '<option	value="' . $_option . '" class="bg-primary" ' . $_selected . '>' . $_option . '</option>'; 
@@ -84,10 +99,12 @@
 								?>							
 							</select>
 						</div>						
+
 						<div class="form-group">
 							<label>Video Thumbnail Generator</label> <input type="text" class="form-control"
 								name="thumbnail" value="<?=$ini->data['thumbnail_generator']['url']?>" placeholder="Generator URL" class="minimal" />
 						</div>						
+												
 						<div class="box-footer" style="margin-top: 30px;">
 							<button type="submit" name="submit" value="Set"
 								class="btn btn-primary">
@@ -99,13 +116,16 @@
 				<!-- /.box-body -->
 			</div>
 		</section>
+
 		<section class="col-lg-6">
 			<div class="box box-solid box-danger">
 				<div class="box-header">
 					<h3 class="box-title">Help</h3>
 				</div>
+
 				<div class="box-body">
 					<div class="box-group" id="accordion">
+
 						<div class="panel box box-primary">
 							<div class="box-header">
 								<h4 class="box-title">
@@ -119,6 +139,7 @@
 									site page.</div>
 							</div>
 						</div>
+
 						<div class="panel box box-success">
 							<div class="box-header">
 								<h4 class="box-title">
@@ -132,6 +153,7 @@
 									shown in every RSS page.</div>
 							</div>
 						</div>
+
 						<div class="panel box box-danger">
 							<div class="box-header">
 								<h4 class="box-title">
@@ -147,6 +169,7 @@
 								</div>
 							</div>
 						</div>
+
 						<div class="panel box box-info">
 							<div class="box-header">
 								<h4 class="box-title">
@@ -160,6 +183,7 @@
 									paid features.</div>
 							</div>
 						</div>
+						
 						<div class="panel box box-warning">
 							<div class="box-header">
 								<h4 class="box-title">
@@ -172,6 +196,7 @@
 								<div class="box-body">This is the Google Analytics publisher tracking code ID which can be found in your Google Analytics tracking code and in the analytics website.</div>
 							</div>
 						</div>						
+
 						<div class="panel box box-danger">
 							<div class="box-header">
 								<h4 class="box-title">
@@ -189,7 +214,9 @@
 				<!-- /.box-body -->
 			</div>
 		</section>
+
 	</div>
 	<!-- /.row (main row) -->
+
 </section>
 <!-- /.content -->

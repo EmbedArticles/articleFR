@@ -9,9 +9,12 @@
 		<li class="active"><i class="fa fa-list"></i> User List</li>
 	</ol>
 </section>
+
 <!-- Main content -->
 <section class="content">
+
 	<?php
+
 		if (isset($_REQUEST['pa']) && $_REQUEST['pa'] == 'delete') {
 			deleteProfile($_REQUEST['u'], $_conn);
 			deleteAllArticlesByUsername($_REQUEST['u'], $_conn);
@@ -24,6 +27,7 @@
 				</div>
 			';			
 		}
+		
 		if (isset($_REQUEST['pa']) && $_REQUEST['pa'] == 'activate') {
 			activateProfile($_REQUEST['u'], $_conn);
 			print '
@@ -34,6 +38,7 @@
 				</div>
 			';
 		}		
+		
 		if (isset($_REQUEST['pa']) && $_REQUEST['pa'] == 'edit') {						
 			if (isset($_REQUEST['submit']) && $_REQUEST['submit'] == 'Update') {
 				$_edit = editProfile($_REQUEST['username'], $_REQUEST['name'], $_REQUEST['password'], $_REQUEST['email'], $_REQUEST['website'], $_REQUEST['blog'], $_REQUEST['membership'], $_REQUEST['isactive'], $_conn);
@@ -55,7 +60,9 @@
 					';							
 				}
 			}			
+			
 			$_account = getProfile( $_REQUEST['u'], $_conn );
+			
 			if ($_account['membership'] == 'admin') {
 				$_membership .= '<select name="membership" class="form-control">';
 				$_membership .= '<option value="admin" selected>Administrator</option>';				
@@ -75,6 +82,7 @@
 				$_membership .= '<option value="reviewer" selected>Reviewer</option>';
 				$_membership .= '</select>';
 			}				
+			
 			if ($_account['isactive'] == 'active') {
 				$_isactive .= '<select name="isactive" class="form-control">';
 				$_isactive .= '<option value="active" selected>Active</option>';
@@ -86,6 +94,7 @@
 				$_isactive .= '<option value="inactive" selected>Inactive</option>';
 				$_isactive .= '</select>';
 			}
+						
 			print '
 					<div class="box box-primary">			
 						<div class="box-header">
@@ -97,30 +106,37 @@
 									<label>Complete Name</label>
 									<input type="text" name="name" class="form-control" placeholder="Complete Name ..." value="' . $_account['name'] . '" parsley-trigger="change" required />
 								</div>
+			
 								<div class="form-group">
 									<label>Password</label>
 									<input type="text" name="password" class="form-control" placeholder="Password ..." value="' . $_account['password'] . '" parsley-trigger="change" required />
 								</div>				
+							
 								<div class="form-group">
 									<label>Email</label>
 									<input type="text" name="email" class="form-control" placeholder="Email ..." value="' . $_account['email'] . '" parsley-type="email" parsley-trigger="change" required />
 								</div>
+							
 								<div class="form-group">
 									<label>Website</label>
 									<input type="text" name="website" class="form-control" placeholder="Website ..." value="' . $_account['website'] . '" parsley-type="url" parsley-trigger="change" required />
 								</div>
+				
 								<div class="form-group">
 									<label>Blog</label>
 									<input type="text" name="blog" class="form-control" placeholder="Blog ..." value="' . $_account['blog'] . '" parsley-type="url" parsley-trigger="change" required />
 								</div>
+
 								<div class="form-group">
 									<label>Membership</label>
 									' . $_membership . '
 								</div>
+
 								<div class="form-group">
 									<label>Active</label>
 									' . $_isactive . '
 								</div>											
+																						
 								<div class="box-footer">
 									<input type="hidden" name="username" value="' . $_account['username'] . '"/>
 									<button type="submit" name="submit" value="Update" class="btn btn-primary">Update</button>
@@ -131,10 +147,13 @@
 					</div>				
 				';
 		}
+		
 	?>
+	
 	<!-- Main row -->
 	<div class="row">
 		<div class="col-xs-12">
+		
 			<div class="nav-tabs-custom">
 				<!-- Tabs within a box -->
 				<ul class="nav nav-tabs pull-right">
@@ -245,8 +264,10 @@
 					</div>					
 				</div>
 			</div>		
+			
 		</div>
 	</div>
 	<!-- /.row (main row) -->
+
 </section>
 <!-- /.content -->

@@ -8,9 +8,12 @@
 		<li class="active"><i class="fa fa-external-link-square"></i> Ping Servers</li>
 	</ol>
 </section>
+
 <!-- Main content -->
 <section class="content">
+
 <?php 
+	
 	if (isset($_REQUEST['submit']) && $_REQUEST['submit'] == 'Add') {
 		$_a = addPingServer($_REQUEST['url'], $_conn);
 		if ($_a == 1) {
@@ -23,6 +26,7 @@
 			';
 		}
 	}	
+	
 	if (!isset($_REQUEST['submit']) && $_REQUEST['pa'] == 'delete') {
 		$_a = deletePingServer($_REQUEST['id'], $_conn);
 		if ($_a == 1) {
@@ -35,9 +39,12 @@
 			';
 		}
 	}	
+		
 ?>
+
 	<!-- Main row -->
 	<div class="row">
+	
        <section class="col-lg-6">                
 			<div class="box box-info">			
 				<div class="box-header">
@@ -51,6 +58,7 @@
 										<label>URL</label>
 										<input type="text" name="url" class="form-control" placeholder="URL ..." value="" parsley-type="url" parsley-trigger="change" required />
 									</div>							
+								
 									<div class="box-footer">
 										<button type="submit" name="submit" value="Add" class="btn btn-primary"><b class="fa fa-external-link-square"></b> Add</button>
 										<button type="reset" name="reset" value="Reset" class="btn btn-danger">Reset</button>
@@ -61,11 +69,13 @@
 				</div><!-- /.box-body -->
 			</div>
       	</section>
+
     	<section class="col-lg-6">
 			<div class="box box-warning">
 				<div class="box-header">
 					<h3 class="box-title">List Ping Servers</h3>
 				</div>
+				
 				<div class="box-body">
 					<table id="pingservers" class="table table-hover">
 						<thead>
@@ -94,7 +104,9 @@
 				<!-- /.box-body -->
 			</div>
 		</section>
+		                    
 	</div>
 	<!-- /.row (main row) -->
+
 </section>
 <!-- /.content -->

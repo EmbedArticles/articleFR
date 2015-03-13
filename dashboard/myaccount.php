@@ -9,9 +9,12 @@
 		<li class="active"><i class="fa fa-users"></i> My Account</li>
 	</ol>
 </section>
+
 <!-- Main content -->
 <section class="content">
+
 <?php 
+	
 	if (isset($_REQUEST['submit']) && $_REQUEST['submit'] == 'Edit') {
 		$_a = updateProfile($_profile['username'], ucwords($_REQUEST['name']), $_REQUEST['password'], $_REQUEST['email'], $_REQUEST['website'], $_REQUEST['blog'], $_conn);
 		if ($_a == 1) {
@@ -24,11 +27,13 @@
 			';
 		}
 	}	
+	
 	if (isset($_REQUEST['delete']) && $_REQUEST['delete'] == 'Delete') {
 		if ($_profile['username'] != 'admin') {
 			deleteProfile($_profile['username'], $_conn);
 			deleteAllArticlesByUsername($_profile['username'], $_conn);
 			deletePennamesByUsername($_profile['username'], $_conn);
+			
 			$_SESSION['isloggedin'] = FALSE;
 			$_SESSION['username'] = NULL;		
 			$_SESSION['name'] = NULL;
@@ -36,6 +41,7 @@
 			$_SESSION['website'] = NULL;
 			$_SESSION['blog'] = NULL;
 			$_SESSION['role'] = NULL;	
+			
 			print '	<script type="text/javascript">
 					<!-- 
 						window.location="' . BASE_URL . '" 
@@ -51,9 +57,12 @@
 			';		
 		}
 	}
+		
 ?>
+
 	<!-- Main row -->
 	<div class="row">
+	
        <section class="col-lg-6">                
 			<div class="box box-primary">			
 				<div class="box-header">
@@ -68,22 +77,27 @@
 										<label>Complete Name</label>
 										<input type="text" name="name" class="form-control" placeholder="Complete Name ..." value="' . $_account['name'] . '" parsley-trigger="change" required />
 									</div>
+				
 									<div class="form-group">
 										<label>Password</label>
 										<input type="text" name="password" class="form-control" placeholder="Password ..." value="' . $_account['password'] . '" parsley-trigger="change" required />
 									</div>				
+								
 									<div class="form-group">
 										<label>Email</label>
 										<input type="text" name="email" class="form-control" placeholder="Email ..." value="' . $_account['email'] . '" parsley-type="email" parsley-trigger="change" required />
 									</div>
+								
 									<div class="form-group">
 										<label>Website</label>
 										<input type="text" name="website" class="form-control" placeholder="Website ..." value="' . $_account['website'] . '" parsley-type="url" parsley-trigger="change" required />
 									</div>
+					
 									<div class="form-group">
 										<label>Blog</label>
 										<input type="text" name="blog" class="form-control" placeholder="Blog ..." value="' . $_account['blog'] . '" parsley-type="url" parsley-trigger="change" required />
 									</div>					
+								
 									<div class="box-footer">
 										<button type="submit" name="submit" value="Edit" class="btn btn-primary"><b class="fa fa-users"></b> Edit</button>
 										<button type="submit" name="delete" value="Delete" class="btn btn-danger">Delete Account</button>
@@ -94,11 +108,13 @@
 				</div><!-- /.box-body -->
 			</div>
       	</section>
+
     	<section class="col-lg-6">
 			<div class="box box-success">
 				<div class="box-header">
 					<h3 class="box-title">Account Profile</h3>
 				</div>
+				
 				<div class="box-body">
 					<div class="media">
 					  <a class="pull-left">
@@ -122,5 +138,6 @@
 		</section>                    
 	</div>
 	<!-- /.row (main row) -->
+
 </section>
 <!-- /.content -->

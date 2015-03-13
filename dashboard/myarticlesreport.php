@@ -9,15 +9,19 @@
 		<li class="active"><i class="fa fa-signal"></i> Article Reports</li>
 	</ol>
 </section>
+
 <!-- Main content -->
 <section class="content">
+
 	<!-- Main row -->
 	<div class="row">
 		<div class="col-xs-12">
+			
 			<div class="box box-danger">
 				<div class="box-header">
 					<h3 class="box-title">Article Statistics</h3>
 				</div>
+				
 				<div class="box-body table-responsive">
 					<table id="articles" class="table table-condensed table-hover table-striped">
 						<thead>
@@ -58,5 +62,6 @@
 		</div>
 	</div>
 	<!-- /.row (main row) -->
+
 </section>
 <!-- /.content -->

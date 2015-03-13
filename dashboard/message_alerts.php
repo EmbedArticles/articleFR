@@ -5,7 +5,9 @@
 		<?php 
 			add_filter ( 'get_inbox', 'getInbox', 10, 2 );
 			add_filter ( 'get_unread_inbox', 'getUnreadInbox', 10, 2 );
+		
 			$_messages = apply_filters ( 'get_unread_inbox', $_profile['username'], $_conn );
+			
 			foreach ( $_messages as $_message ) {
 				if ($_message['status'] == 1) {
 					$_message ['subject'] = '<b>' . $_message ['subject'] . '</b>';

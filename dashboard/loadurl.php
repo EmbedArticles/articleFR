@@ -9,13 +9,18 @@
 		<li class="active"><i class="fa fa-upload"></i> Video URL</li>
 	</ol>
 </section>
+
 <!-- Main content -->
 <section class="content">
+
 	<div class="row">
+	
 		<div class="col-md-9">
+		
 			<?php 			
 				$ini = new INI(dirname(dirname(__FILE__)) . '/application/config/site.ini');
 				$ini->read();
+				
 				if (empty($ini->data['thumbnail_generator']['url'])) {
 					print '
 						<div class="alert alert-warning alert-dismissable">
@@ -25,14 +30,20 @@
 						</div>
 					';
 				}
+								
 				if (isset($_REQUEST['submit'])) {
 					$_REQUEST['summary'] = strip_tags($_REQUEST['summary']);
+					
 					if (str_word_count($_REQUEST['summary']) < 200) {
+
 						$extension = pathinfo($_REQUEST['url'], PATHINFO_EXTENSION);
 						$extlist = explode(",", "mpeg4,ogv,ogg,3gp,webm,gif,mkv,flv,drc,mng,avi,mov,qt,wmv,rm,rmvb,asf,mp4,m4p,m4v,mpg,mpeg,mpe,mp2,mpg,mpv,m2v,m4v,svi,3g2,roq,mxf,nsv");
+						
 						if (in_array(strtolower($extension), $extlist)) {
 							$_thumbnail = $ini->data['thumbnail_generator']['url'] . $_REQUEST['url'];
+							
 							$_database->clean();
+								
 							$_database->from('videos');
 							$_database->into('username');
 							$_database->into('channel');
@@ -51,6 +62,7 @@
 							$_database->value("'" . $_database->quote($_REQUEST['summary']) . "'");
 							$_database->value("now()");
 							$_database->exec('INSERT');
+	
 							$_error = $_database->get_error();
 							if (!empty($_error)) {
 								print '
@@ -89,7 +101,9 @@
 					}
 				}
 			?>
+		
 		<form role="form" method="post" parsley-validate>
+		
 			<div class="box box-solid">
 				<div class="box-header">
 					<i class="fa fa-ticket"></i>
@@ -113,6 +127,7 @@
 				</div><!-- /.box-body -->
 			</div><!-- /.box -->
 		</div><!-- ./col -->
+		                
 		<div class="col-md-3">
 			<div class="box box-solid">
 				<div class="box-body">
@@ -140,7 +155,10 @@
 				</div><!-- /.box-body -->
 			</div><!-- /.box -->			
 		</div>
+		
 	</form>				                        
+				                     
 	</div><!-- /.row -->
+
 </section>
 <!-- /.content -->

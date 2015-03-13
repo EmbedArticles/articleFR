@@ -9,10 +9,14 @@
 		<li class="active"><i class="fa fa-cloud-download"></i> Export</li>
 	</ol>
 </section>
+
 <!-- Main content -->
 <section class="content">
+
 <?php 
+
 	if (isset($_REQUEST['submit']) && $_REQUEST['submit'] == 'Export') {
+		
 		if (!is_writable(dirname(__FILE__) . '/export/users/')) {
 			print '
 			<div class="alert alert-danger alert-dismissable">
@@ -27,6 +31,7 @@
 			$_first = true;
 			$_records = array();
 			$_record = array();		
+		
 			foreach($_users as $_user) {			
 				if ($_REQUEST['type'] == 'xml') {				
 					if ($_first) {
@@ -59,6 +64,7 @@
 					$_record = array();
 				}
 			}
+		
 			if ($_REQUEST['type'] == 'xml') {
 				$_file = dirname(__FILE__) . '/export/users/' . md5('ArticleFRSalt-GwapoKo12345' . time()) . '.xml';
 				$_data .= '</users></articlefr>';
@@ -66,16 +72,20 @@
 			} else if ($_REQUEST['type'] == 'csv') {
 				$_file = dirname(__FILE__) . '/export/users/' . md5('ArticleFRSalt-GwapoKo12345' . time()) . '.csv';
 				$fp = fopen($_file, 'w');
+				
 				foreach ($_records as $_record) {
 					fputcsv($fp, $_record);
 				}
+				
 				fclose($fp);			
 			}
 		}
 	}
 ?>
+
 	<!-- Main row -->
 	<div class="row">
+	
 	    <section class="col-lg-6">                
 			<div class="box box-default">			
 				<div class="box-header">
@@ -85,18 +95,23 @@
 					<form method="post" role="form">
 						<div class="form-group">						
 							<label>Type</label>
+							
 							<p>					
 								<input type="radio" name="type" value="xml" class="minimal" /> XML
 								<input type="radio" name="type" value="csv" class="minimal" checked/> CSV
 							</p>
+							
 							<hr>
+							
 							<label>Fields</label>
+							
 							<p>	
 								<input type="checkbox" class="flat-red" name="username" value="u" checked/> Username							
 								<input type="checkbox" class="flat-red" name="name" value="n" checked/> Name
 								<input type="checkbox" class="flat-red" name="email" value="e" checked/> Email
 							</p>							
 						</div>			
+															
 						<div class="box-footer" style="margin-top: 30px;">
 							<button type="submit" name="submit" value="Export"
 								class="btn btn-primary"><b class="fa fa-cloud-download"></b> Export</button>
@@ -105,11 +120,13 @@
 				</div><!-- /.box-body -->
 			</div>
       	</section>
+
     	<section class="col-lg-6">
 			<div class="box box-primary">
 				<div class="box-header">
 					<h3 class="box-title">File List</h3>
 				</div>
+				
 				<div class="box-body">
 					<table id="articles" class="table table-hover">
 						<thead>
@@ -122,6 +139,7 @@
 						<tbody>
 	            		<?php
 	            			$_recordset = getUserExports();
+	            		
 							foreach ( $_recordset as $_record ) {							
 								$_date = date ("F d Y H:i:s.", filemtime(dirname(__FILE__) . '/export/users/' . $_record));
 								print '
@@ -141,5 +159,6 @@
 		</section>                    
 	</div>
 	<!-- /.row (main row) -->
+
 </section>
 <!-- /.content -->

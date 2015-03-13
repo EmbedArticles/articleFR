@@ -9,8 +9,10 @@
 		<li class="active"><i class="fa fa-chain"></i> Network</li>
 	</ol>
 </section>
+
 <!-- Main content -->
 <section class="content">
+
 <?php
 	if (isset ( $_REQUEST ['submit'] ) && $_REQUEST ['submit'] == 'Update') {
 		updateSiteSetting('SITE_TITLE', $_REQUEST['SITE_TITLE'], $_conn);
@@ -33,8 +35,10 @@
 			';
 	}
 ?>
+
 	<!-- Main row -->
 	<div class="row">
+
 		<section class="col-lg-6">
 			<div class="box box-primary">
 				<div class="box-header">
@@ -46,6 +50,7 @@
 					print '
 								<form method="post" role="form" parsley-validate>
 							';
+					
 					foreach ( $_settings [count ( $_settings ) - 1] as $_key => $_value ) {
 						print '
 									<div class="form-group">
@@ -54,6 +59,7 @@
 									</div>
 								';
 					}
+					
 					print '	
 									<div class="box-footer">
 										<button type="submit" name="submit" value="Update" class="btn btn-primary">Update</button>
@@ -66,11 +72,13 @@
 				<!-- /.box-body -->
 			</div>
 		</section>
+
 		<section class="col-lg-6">
 			<div class="box box-solid box-success">
 				<div class="box-header">
 					<h3 class="box-title">Help</h3>
 				</div>
+
 				<div class="box-body">
 					<p>
 						<h4>ADSENSE_PUBID</h4>
@@ -78,51 +86,61 @@
 	                    	<p>Replace this with your Google Adsense Publisher ID. To get one visit <a href="https://www.google.com/adsense" target="_new">https://www.google.com/adsense</a></p>
 	                    </div>
 	                    <hr>
+	                    
 						<h4>AKISMET_KEY</h4>
 						<div class="callout callout-info">
 	                    	<p>An AKISMET valid key for anti-spam filters on article submissions and page creations. Visit <a href="http://www.akismet.com" target="_new">http://www.akismet.com</a> to get your key.</p>
 	                    </div>
 	                    <hr>	
+	                    
 						<h4>ARTICLE_MAX_WORDS</h4>
 						<div class="callout callout-info">
 	                    	<p>The maximum word count each article submission may have.</p>
 	                    </div>
 	                    <hr>	
+	                    
 						<h4>ARTICLE_MIN_WORDS</h4>
 						<div class="callout callout-info">
 	                    	<p>The minimum word count each article submission may have. Below this minimum setting, the article is denied.</p>
 	                    </div>
 	                    <hr>
+	                    
 						<h4>SITE_BRAND</h4>
 						<div class="callout callout-info">
 	                    	<p>This is the site branding name which is useful mostly on emails and other inpage branding purposes.</p>
 	                    </div>
 	                    <hr>	   
+	                    
 						<h4>SITE_DESCRIPTION</h4>
 						<div class="callout callout-info">
 	                    	<p>The main page site description which is useful for SEO purposes.</p>
 	                    </div>
 	                    <hr>	
+	                    
 						<h4>SITE_FOOTER</h4>
 						<div class="callout callout-info">
 	                    	<p>Custom fite footer. Useful for branding.</p>
 	                    </div>
 	                    <hr>
+	                    
 						<h4>SITE_KEYWORDS</h4>
 						<div class="callout callout-info">
 	                    	<p>The main page site keywords definition list which is useful for SEO purposes.</p>
 	                    </div>
 	                    <hr>	      
+	                    
 						<h4>SITE_TITLE</h4>
 						<div class="callout callout-info">
 	                    	<p>The main page site title definition which is useful for SEO purposes.</p>
 	                    </div>
 	                    <hr>	
+	                    
 						<h4>TITLE_MAX_WORDS</h4>
 						<div class="callout callout-info">
 	                    	<p>Article submission, article title maximum set of words.</p>
 	                    </div>
 	                    <hr>	
+	                    
 						<h4>TITLE_MIN_WORDS</h4>
 						<div class="callout callout-info">
 	                    	<p>Article submission, article title minimum set of words.</p>
@@ -132,7 +150,9 @@
 				<!-- /.box-body -->
 			</div>
 		</section>
+
 	</div>
 	<!-- /.row (main row) -->
+
 </section>
 <!-- /.content -->
