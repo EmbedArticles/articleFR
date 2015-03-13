@@ -8,17 +8,13 @@
 		<li class="active"><i class="fa fa-upload"></i> Update</li>
 	</ol>
 </section>
-
 <!-- Main content -->
 <section class="content">
-
 <?php 
-	
 	if (isset($_REQUEST['submit']) && $_REQUEST['submit'] == 'Update') {
 		print '<p>Downloading http://freereprintables.com/download.php?filename=articleFR-upgrade.zip</p>';
 		print '<p>Unpacking and overwriting files...</p>';
 		$_update = unzip("http://freereprintables.com/download.php?filename=articleFR-upgrade.zip", ROOT_DIR, false, true);
-		
 		// Temporary variable, used to store current query
 		$templine = '';
 		// Read in entire file
@@ -39,19 +35,15 @@
 				}
 			}
 		}	
-			
 		if ($_update) {
 			print '<p><b>Update complete...</b></p>';
 		} else {
 			print '<p><b>There was an error while updating your version, please do a manual update instead...</b></p>';
 		}				
 	}	
-		
 ?>
-
 	<!-- Main row -->
 	<div class="row">
-	
        <section class="col-lg-6">                
 			<div class="box box-warning">			
 				<div class="box-header">
@@ -72,13 +64,11 @@
 				</div><!-- /.box-body -->
 			</div>
       	</section>
-
 		<section class="col-lg-6">
 			<div class="box box-solid box-info">
 				<div class="box-header">
 					<h3 class="box-title">Help</h3>
 				</div>
-
 				<div class="box-body">
 					<?php 
 						if (AFR_VERSION == file_get_contents("http://freereprintables.com/latest_release.txt")) {
@@ -94,9 +84,7 @@
 				<!-- /.box-body -->
 			</div>
 		</section>      	
-		                    
 	</div>
 	<!-- /.row (main row) -->
-
 </section>
 <!-- /.content -->

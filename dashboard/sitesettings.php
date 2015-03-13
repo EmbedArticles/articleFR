@@ -9,10 +9,8 @@
 		<li class="active"><i class="fa fa-gears"></i> Site Settings</li>
 	</ol>
 </section>
-
 <!-- Main content -->
 <section class="content">
-
 <?php
 	if (isset ( $_REQUEST ['submit'] ) && $_REQUEST ['submit'] == 'Update') {		
 		if (strtolower($_REQUEST['ARTICLEFR_NETWORK_CONNECT']) == 'true' || strtolower($_REQUEST['ARTICLEFR_NETWORK_CONNECT']) == 'false') {
@@ -28,7 +26,6 @@
 			updateSiteSetting('ARTICLE_MAX_WORDS', $_REQUEST['ARTICLE_MAX_WORDS'], $_conn);
 			updateSiteSetting('AKISMET_KEY', $_REQUEST['AKISMET_KEY'], $_conn);			
 			updateSiteSetting('ARTICLEFR_NETWORK_CONNECT', strtoupper($_REQUEST['ARTICLEFR_NETWORK_CONNECT']), $_conn);
-
 			print '
 			<div class="alert alert-info alert-dismissable">
 				<i class="fa fa-info"></i>
@@ -47,10 +44,8 @@
 		}
 	}
 ?>
-
 	<!-- Main row -->
 	<div class="row">
-
 		<section class="col-lg-6">
 			<div class="box box-primary">
 				<div class="box-header">
@@ -62,7 +57,6 @@
 					print '
 								<form method="post" role="form" parsley-validate>
 							';
-					
 					foreach ( $_settings [count ( $_settings ) - 1] as $_key => $_value ) {
 						print '
 									<div class="form-group">
@@ -71,7 +65,6 @@
 									</div>
 								';
 					}
-					
 					print '	
 									<div class="box-footer">
 										<button type="submit" name="submit" value="Update" class="btn btn-primary"><b class="fa fa-cloud"></b> Update</button>
@@ -84,13 +77,11 @@
 				<!-- /.box-body -->
 			</div>
 		</section>
-
 		<section class="col-lg-6">
 			<div class="box box-solid box-success">
 				<div class="box-header">
 					<h3 class="box-title">Help</h3>
 				</div>
-
 				<div class="box-body">
 					<div class="box-group" id="accordion">
 						<!-- we are adding the .panel class so bootstrap.js collapse plugin detects it -->
@@ -253,9 +244,7 @@
 				<!-- /.box-body -->
 			</div>
 		</section>
-
 	</div>
 	<!-- /.row (main row) -->
-
 </section>
 <!-- /.content -->

@@ -9,10 +9,8 @@
 		<li class="active"><i class="fa fa-info"></i> iSnare Publisher</li>
 	</ol>
 </section>
-
 <!-- Main content -->
 <section class="content">
-
 <?php
 	if (isset ( $_REQUEST ['submit'] ) && $_REQUEST ['submit'] == 'submit') {		
 	$_data = '
@@ -29,10 +27,8 @@ file_put_contents( dirname(dirname(__FILE__)) . '/application/config/isnare.ini'
 	';
 	}
 ?>
-
 	<!-- Main row -->
 	<div class="row">
-
 		<section class="col-lg-6">
 			<div class="box box-primary">
 				<div class="box-header">
@@ -42,22 +38,18 @@ file_put_contents( dirname(dirname(__FILE__)) . '/application/config/isnare.ini'
 					<?php
 					$_pennames = getPennames($_profile['username'], $_conn);
 					$_ini = parse_ini_file( dirname(dirname(__FILE__)) . '/application/config/isnare.ini', true);
-					
 					print '
 								<form method="post" role="form" parsley-validate>
 									<div class="form-group">
 										<label>Import Assigned Author Name</label>		
 										<select class="form-control" name="author">	
 							';
-					
 					foreach ( $_pennames as $_penname ) {
 						$_selected = $_ini['meta']['author'] == $_penname['name'] ? 'selected' : '';
-						
 						print '
 										<option value="' . $_penname['name'] . '" ' . $_selected . '>' . $_penname['name'] . '</option>									
 								';
 					}
-					
 					print '	
 									</select>
 									</div>
@@ -71,27 +63,21 @@ file_put_contents( dirname(dirname(__FILE__)) . '/application/config/isnare.ini'
 				<!-- /.box-body -->
 			</div>
 		</section>
-
 		<section class="col-lg-6">
 			<div class="box box-solid box-success">
 				<div class="box-header">
 					<h3 class="box-title">Help</h3>
 				</div>
-
 				<div class="box-body">
-						
 					<p>The iSnare import articles module works by registering an account at <a href="http://www.isnare.com/publisher" target="_new">http://www.isnare.com/publisher</a> and then enable to accept articles by setting your script URL under SETTINGS menu at the iSnare Publisher site.</p>
 					<p>Your script URL is <code><a href="<?=BASE_URL?>isnare.php" target="_new"><?=BASE_URL?>isnare.php</a></code></p>
 					<p>Be sure to have finished setting the '<i>Import Assigned Author Name</i>' before registering an account at iSnare.com.</p>
 					<p>If you have any questions or if you need some assitance please do not hesitate to email <i>admin@isnare.org</i></p>
-						
 				</div>							
 				<!-- /.box-body -->
 			</div>
 		</section>
-
 	</div>
 	<!-- /.row (main row) -->
-
 </section>
 <!-- /.content -->

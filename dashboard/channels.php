@@ -9,24 +9,18 @@
 		<li class="active"><i class="fa fa-ticket"></i> Channels</li>
 	</ol>
 </section>
-
 <!-- Main content -->
 <section class="content">
-
 <?php 
-
 	$_REQUEST['description'] = strip_tags($_REQUEST['description']); 
-
 	if (isset($_REQUEST['submit']) && $_REQUEST['submit'] == 'Create') {
 		if (isset($_REQUEST['username'])) {
 			$_profile ['username'] = $_REQUEST['username'];
 		} else {
 			$_profile ['username'] = $_profile ['username'];
 		}
-				
 		if (str_word_count($_REQUEST['biography']) < 200) {
 			$_database->clean();
-			
 			$_database->from('channels');
 			$_database->into('name');
 			$_database->into('description');
@@ -41,7 +35,6 @@
 			$_database->value("'" . $_database->quote($_REQUEST ['logo_url']) . "'");
 			$_database->value("now()");
 			$_database->exec('INSERT');
-						
 			$_error = $_database->get_error();
 			if (!empty($_error)) {
 				print '<div class="alert alert-danger">' . $_error . '</div>';
@@ -64,7 +57,6 @@
 				';			
 		}
 	}
-	
 	if (isset($_REQUEST['submit']) && $_REQUEST['submit'] == 'Edit') {
 		if (str_word_count($_REQUEST['description']) < 200) {
 			$_database->clean();
@@ -91,7 +83,6 @@
 				';		
 		}
 	}	
-	
 	if (!isset($_REQUEST['submit']) && isset($_REQUEST['pa']) && $_REQUEST['pa'] == 'delete') {
 		$_database->clean();
 		$_delete = $_database->query("DELETE FROM channels WHERE id = " . $_database->quote($_REQUEST['id']));
@@ -108,15 +99,11 @@
 			';
 		}		
 	}	
-	
 	$_channel = $_database->squery("SELECT * FROM channels WHERE id = " . $_database->quote($_REQUEST['id']));
 ?>
-
 	<!-- Main row -->
 	<div class="row">
-	
 	  <?php if (isset($_REQUEST['pa']) && $_REQUEST['pa'] == 'edit') { ?>
-      
        <section class="col-lg-6">                
 			<div class="box box-primary">			
 				<div class="box-header">
@@ -128,9 +115,7 @@
 				</div><!-- /.box-body -->
 			</div>
       	</section>
-      	      
       <?php } else { ?>
-      
 	       <section class="col-lg-6">                
 				<div class="box box-info">			
 					<div class="box-header">
@@ -141,15 +126,12 @@
 					</div><!-- /.box-body -->
 				</div>
 	      	</section>
-	      	      
       <?php } ?>
-
     	<section class="col-lg-6">
 			<div class="box box-warning">
 				<div class="box-header">
 					<h3 class="box-title">My Channels</h3>
 				</div>
-				
 				<div class="box-body">
 					<table id="articles" class="table table-hover">
 						<thead>
@@ -167,7 +149,6 @@
 							} else {
 								$_profile ['username'] = $_profile ['username'];
 							}
-							
 							$_database->clean();
 							$_mychannels = $_database->query("SELECT * FROM channels WHERE username = '" . $_database->quote($_profile['username']) . "' AND status = 1");
 							while($_rs = mysqli_fetch_assoc($_mychannels)) {
@@ -189,6 +170,5 @@
 		</section>                    
 	</div>
 	<!-- /.row (main row) -->
-
 </section>
 <!-- /.content -->

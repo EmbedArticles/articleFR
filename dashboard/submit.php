@@ -9,17 +9,12 @@
 		<li class="active"><i class="fa fa-pencil-square-o"></i> Create Articles</li>
 	</ol>
 </section>
-
 <!-- Main content -->
 <section class="content">
-	
 <?php 
-
 	if (isset($_REQUEST['submit']) && $_REQUEST['submit'] == 'images') {
 		$term = preg_replace('/(\s)/', ',', trim($_REQUEST['flickr']));
-		
 		$flickr = new Phlickr_Api("dd1322bcf1680ba0c0a5b3ebc85c667c", "d44939c31b3e9619");
-		
 		$xml = $flickr->executeMethod('flickr.photos.search',
 		array(
 		'text' => $term,
@@ -31,29 +26,22 @@
 		'media' => 'photos'
 		)
 		);
-		 
 		$response = simplexml_load_string($xml);
 		$urls = array();
-		
 		$_images = '<select id="images" name="image" class="image-picker show-html">';
-		
 		foreach($response->photos->photo as $photo){
 			$_url_display = 'http://farm'.$photo['farm'].'.staticflickr.com/'.$photo['server'].'/'.$photo['id'].'_'.$photo['secret'].'_q.jpg';
 			$_url_value = 'http://farm'.$photo['farm'].'.staticflickr.com/'.$photo['server'].'/'.$photo['id'].'_'.$photo['secret'].'_z.jpg';
 			$_images .= '<option data-img-label="' . htmlspecialchars($photo['title']) . '" data-img-src="' . $_url_display . '" value="' . $_url_value . '">' . $_url_display . '</option>';
 		}
-		
 		$_images .= '</select>';
-		
 	}
-
 	if (isset($_REQUEST['submit']) && $_REQUEST['submit'] == 'submit') {			
 		$_max_words = getSiteSetting('ARTICLE_MAX_WORDS', $_conn);
 		$_min_words = getSiteSetting('ARTICLE_MIN_WORDS', $_conn);
 		$_title_max = getSiteSetting('TITLE_MAX_WORDS', $_conn);
 		$_title_min = getSiteSetting('TITLE_MIN_WORDS', $_conn);
 		$_akismet_key = getSiteSetting('AKISMET_KEY', $_conn);
-		
 		$url = BASE_URL;
 		$akismet = new Akismet($url ,$_akismet_key);
 		$akismet->setCommentAuthor($_REQUEST['author']);
@@ -61,7 +49,6 @@
 		$akismet->setCommentAuthorURL($url);
 		$akismet->setCommentContent($_REQUEST['content']);
 		$akismet->setPermalink($url);
-		
 		if (!$akismet->isCommentSpam()) {
 			if (str_word_count(strip_tags($_REQUEST['content'])) <= $_max_words && str_word_count(strip_tags($_REQUEST['content'])) >= $_min_words) {
 				if (str_word_count(strip_tags($_REQUEST['title'])) <= $_title_max && str_word_count(strip_tags($_REQUEST['title'])) >= $_title_min) {
@@ -143,22 +130,17 @@
 							';			
 		}					
 	}
-
 	$_pnames = apply_filters ( 'my_penname_count', getPennameCount ( $_profile['username'], $_conn ) );
-
 	if ($_pnames <= 0) {
 ?>
-
 	<div class="alert alert-warning alert-dismissable">
 		<i class="fa fa-warning"></i>
 		<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
 		<b>Alert!</b> Warning: You must add at least 1 pen name to submit an article. <a href="<?php print BASE_URL.'dashboard/articles/pennames/'?>" class="btn btn-primary btn-xs">Add Pen Names</a>
 	</div>
-	
 <?php 
 	}
 ?>
-
 	<!-- Main row -->
 	<div class="row">
 		<div class="col-xs-12">
@@ -173,6 +155,5 @@
 		</div>
 	</div>
 	<!-- /.row (main row) -->
-
 </section>
 <!-- /.content -->

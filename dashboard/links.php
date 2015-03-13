@@ -8,12 +8,9 @@
 		<li class="active"><i class="fa fa-external-link-square"></i> Links</li>
 	</ol>
 </section>
-
 <!-- Main content -->
 <section class="content">
-
 <?php 
-	
 	if (isset($_REQUEST['submit']) && $_REQUEST['submit'] == 'Add') {
 		$_a = addLinks($_REQUEST['title'], $_REQUEST['url'], $_REQUEST['rel'], $_conn);
 		if ($_a == 1) {
@@ -26,7 +23,6 @@
 			';
 		}
 	}	
-	
 	if (!isset($_REQUEST['submit']) && $_REQUEST['pa'] == 'delete') {
 		$_a = deleteLinks($_REQUEST['id'], $_conn);
 		if ($_a == 1) {
@@ -39,12 +35,9 @@
 			';
 		}
 	}	
-		
 ?>
-
 	<!-- Main row -->
 	<div class="row">
-	
        <section class="col-lg-6">                
 			<div class="box box-info">			
 				<div class="box-header">
@@ -58,17 +51,14 @@
 										<label>Title</label>
 										<input type="text" name="title" class="form-control" placeholder="Title ..." value="" parsley-trigger="change" required />
 									</div>
-				
 									<div class="form-group">
 										<label>URL</label>
 										<input type="text" name="url" class="form-control" placeholder="URL ..." value="" parsley-type="url" parsley-trigger="change" required />
 									</div>
-								
 									<div class="form-group">
 										<label>Rel</label>
 										<input type="text" name="rel" class="form-control" placeholder="Rel ..." value="" parsley-trigger="change" required />
 									</div>				
-								
 									<div class="box-footer">
 										<button type="submit" name="submit" value="Add" class="btn btn-primary"><b class="fa fa-external-link-square"></b> Add</button>
 										<button type="reset" name="reset" value="Reset" class="btn btn-danger">Reset</button>
@@ -79,13 +69,11 @@
 				</div><!-- /.box-body -->
 			</div>
       	</section>
-
     	<section class="col-lg-6">
 			<div class="box box-success">
 				<div class="box-header">
 					<h3 class="box-title">List Links</h3>
 				</div>
-				
 				<div class="box-body">
 					<table id="articles" class="table table-hover">
 						<thead>
@@ -118,9 +106,7 @@
 				<!-- /.box-body -->
 			</div>
 		</section>
-		                    
 	</div>
 	<!-- /.row (main row) -->
-
 </section>
 <!-- /.content -->

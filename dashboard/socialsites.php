@@ -9,18 +9,13 @@
 		<li class="active"><i class="fa fa-upload"></i> Social Sites</li>
 	</ol>
 </section>
-
 <!-- Main content -->
 <section class="content">
-
 	<div class="row">
-	
 		<div class="col-md-9">
-		
 			<?php 			
 				$ini = new INI(dirname(dirname(__FILE__)) . '/application/config/site.ini');
 				$ini->read();
-				
 				if (empty($ini->data['thumbnail_generator']['url'])) {
 					print '
 						<div class="alert alert-warning alert-dismissable">
@@ -30,18 +25,14 @@
 						</div>
 					';
 				}
-								
 				if (isset($_REQUEST['submit'])) {
 					$_REQUEST['summary'] = strip_tags($_REQUEST['summary']);
-					
 					if (str_word_count($_REQUEST['summary']) < 200) {
 						$_em = new media_embed( $_REQUEST['url'] );
 						$_embed = $_em->get_thumb('small');
 						if (!empty($_embed)) {
 							$_thumbnail = $ini->data['thumbnail_generator']['url'] . $_REQUEST['url'];
-							
 							$_database->clean();
-								
 							$_database->from('videos');
 							$_database->into('username');
 							$_database->into('channel');
@@ -60,7 +51,6 @@
 							$_database->value("'" . $_database->quote($_REQUEST['summary']) . "'");
 							$_database->value("now()");
 							$_database->exec('INSERT');
-	
 							$_error = $_database->get_error();
 							if (!empty($_error)) {
 								print '
@@ -99,9 +89,7 @@
 					}
 				}
 			?>
-		
 		<form role="form" method="post" parsley-validate>
-		
 			<div class="box box-solid">
 				<div class="box-header">
 					<i class="fa fa-ticket"></i>
@@ -125,7 +113,6 @@
 				</div><!-- /.box-body -->
 			</div><!-- /.box -->
 		</div><!-- ./col -->
-		                
 		<div class="col-md-3">
 			<div class="box box-solid">
 				<div class="box-body">
@@ -153,10 +140,7 @@
 				</div><!-- /.box-body -->
 			</div><!-- /.box -->			
 		</div>
-		
 	</form>				                        
-				                     
 	</div><!-- /.row -->
-
 </section>
 <!-- /.content -->

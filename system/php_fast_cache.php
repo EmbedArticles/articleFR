@@ -9,7 +9,7 @@
 class phpFastCache {
     // Public OPTIONS
     // Can be set by phpFastCache::$option_name = $value|array|string
-    public static $storage = "auto"; // PDO | mpdo | Auto | Files | memcache | apc | wincache | xcache
+    public static $storage = "files"; // PDO | mpdo | Auto | Files | memcache | apc | wincache | xcache
     public static $files_cleanup_after = 1; // hour | auto clean up files after this
     public static $autosize = 40; // Megabytes
     public static $path = "cache/"; // PATH/TO/CACHE/ default will be current path
@@ -24,7 +24,7 @@ class phpFastCache {
     // NOTHING TO CHANGE FROM HERE
     private static $step_debugging = 0;
     private static $Tmp = array();
-    private static $supported_api = array("pdo","mpdo","files","memcache","memcached","apc","xcache","wincache");
+    private static $supported_api = array("files");
     private static $filename = "pdo.caching";
     private static $table = "objects";
     private static $autodb = "";

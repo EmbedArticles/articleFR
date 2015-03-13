@@ -8,16 +8,12 @@
 		<li class="active"><i class="fa fa-inbox"></i> Inbox</li>
 	</ol>
 </section>
-
 <!-- Main content -->
 <section class="content">
-	
 	<!-- Main row -->
 	<div class="row">
 		<div class="col-xs-12">
-			
 		<?php
-
 		if (isset($_REQUEST['dos'])) {
 			if ($_REQUEST['action'] == 'Read') {
 				foreach($_REQUEST['dos'] as $_dos) {
@@ -54,7 +50,6 @@
 				';				
 			}
 		}
-		
 		if (isset($_REQUEST['pa']) && $_REQUEST['pa'] == 'delete') {
 			updateMessage($_REQUEST['id'], 'status', 3, $_conn);
 			print '
@@ -65,7 +60,6 @@
 				</div>
 			';
 		}
-				
 		if (isset($_REQUEST['pa']) && $_REQUEST['pa'] == 'read') {
 			updateMessage($_REQUEST['id'], 'status', 2, $_conn);
 			$_message = getMessage($_REQUEST['id'], $_conn);
@@ -74,7 +68,6 @@
 					<div class="box-header">
 						<h3 class="box-title">' . $_message['subject'] . '</h3>
 					</div>
-					
 					<div class="box-body table-responsive">
 						<dl class="dl-horizontal">
 							<dt>To:</dt>
@@ -93,7 +86,6 @@
 				</div>
 			';
 		}
-		
 		if (isset($_REQUEST['pa']) && $_REQUEST['pa'] == 'reply') {
 			if (isset($_REQUEST['submit']) && $_REQUEST['submit'] == 'submit') {
 				$_sent = sendMessage($_REQUEST['to'], $_REQUEST['from'], $_REQUEST['content'], $_REQUEST['subject'], $_conn);
@@ -122,7 +114,6 @@
 					<div class="box-header">
 						<h3 class="box-title">RE: ' . $_message['subject'] . '</h3>
 					</div>
-			
 					<div class="box-body">						
 						<dl class="dl-horizontal">
 							<div class="form-group">
@@ -158,14 +149,11 @@
 				</div>
 			';
 		}		
-		
 		?>
-		
 			<div class="box box-info">
 				<div class="box-header">
 					<h3 class="box-title">Inbox</h3>
 				</div>
-				
 				<div class="box-body table-responsive">
 					<form method="post">					
 					<table id="inbox" class="table table-condensed table-hover table-striped">
@@ -211,10 +199,8 @@
 				</div>
 				<!-- /.box-body -->
 			</div>
-			
 		</div>
 	</div>
 	<!-- /.row (main row) -->
-
 </section>
 <!-- /.content -->

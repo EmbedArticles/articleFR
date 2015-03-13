@@ -1,17 +1,13 @@
 <?php
 $up_id = uniqid();
-
 $_head = apply_filters('admin_header', '
 <head>
 <meta charset="ISO-8859-1">
 <title>ArticleFR - Dashboard</title>
 <meta content=\'width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no\' name=\'viewport\'>
-
 <link rel="shortcut icon" href="http://freereprintables.com/sandbox/dashboard/favicon.ico" />
-		
 <link href="' . BASE_URL. 'dashboard/css/image-picker.css" rel="stylesheet" type="text/css" />
 <link href="' . BASE_URL. 'dashboard/css/ticker-style.css" rel="stylesheet" type="text/css" />
-
 <!-- bootstrap 3.0.2 -->
 <link href="' . BASE_URL. 'dashboard/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
 <!-- font Awesome -->
@@ -37,44 +33,28 @@ $_head = apply_filters('admin_header', '
 <link href="' . BASE_URL. 'dashboard/css/iCheck/minimal/blue.css" rel="stylesheet" type="text/css" />
 <link href="' . BASE_URL. 'dashboard/css/iCheck/all.css" rel="stylesheet" type="text/css" />		
 <link href="' . BASE_URL. 'dashboard/css/AdminLTE.css" rel="stylesheet" type="text/css" />
-		
 <link href="' . BASE_URL. 'dashboard/css/modal.css" rel="stylesheet" type="text/css" />			
-		
 <link rel="stylesheet" href="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/themes/smoothness/jquery-ui.css" />
 <link href="//cdnjs.cloudflare.com/ajax/libs/x-editable/1.5.0/bootstrap3-editable/css/bootstrap-editable.css" rel="stylesheet"/>
-		
 <link href="' . BASE_URL. 'dashboard/css/bootstrap-tagsinput.css" rel="stylesheet prefetch" />
-				
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>		
 <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
-		
 <script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=true"></script>
 <script type="text/javascript" src="' . BASE_URL. 'dashboard/js/ipmapper.min.js"></script>
-
 <script type="text/javascript" src="' . BASE_URL. 'dashboard/js/image-picker.min.js"></script>
-		
 <script type="text/javascript" src="' . BASE_URL. 'dashboard/js/parsley.js"></script>
-		
 <script type="text/javascript" src="' . BASE_URL. 'dashboard/js/jquery.ticker.js"></script>		
-				
 <link href="' . BASE_URL. 'dashboard/js/markdown/pagedown/highlightjs.css" rel="stylesheet" type="text/css" />	
-		
 <link href="' . BASE_URL. 'dashboard/css/video-js.css" rel="stylesheet" type="text/css">
 <script src="' . BASE_URL. 'dashboard/js/video.js"></script>
-		
 <script type="text/javascript" src="' . BASE_URL. 'dashboard/js/markdown/pagedown/highlight.min.js"></script>
-
 <script src="' . BASE_URL. 'dashboard/js/bootstrap-tagsinput.min.js"></script>
-			
 <link rel="stylesheet" type="text/css" media="screen" href="' . BASE_URL. 'dashboard/css/jquery.spellchecker.min.css" />
-		
 <script src="http://hayageek.github.io/jQuery-Upload-File/jquery.uploadfile.min.js"></script>
 <link href="http://hayageek.github.io/jQuery-Upload-File/uploadfile.min.css" rel="stylesheet">
-
 <script>
 	videojs.options.flash.swf = "video-js.swf";
 </script>
-		
 <script type="text/javascript">
 	$(function(){
 		$(\'.wmd-input\').keypress(function(){
@@ -101,12 +81,10 @@ $_head = apply_filters('admin_header', '
 		$("#exports").dataTable();
 		$("#all").dataTable();
 		$("#inbox").dataTable({ "order": [[ 1, "desc" ]]});
-		
 		$.fn.editable.defaults.mode = "inline";
 		$.fn.editable.defaults.showbuttons = false;
 		$(".edit").editable();		
 		$("a").tooltip();	
-
 		$("#images").imagepicker({
           hide_select : true,
           show_label  : false
@@ -129,45 +107,36 @@ $_head = apply_filters('admin_header', '
 		$("#check-all").on("ifUnchecked", function(event) {
 			$("input[type=\"checkbox\"]", ".table-mailbox").iCheck("uncheck");
 		});
-		
 		$("#check-all").on("ifChecked", function(event) {
 			$("input[type=\"checkbox\"]", ".table-mailbox").iCheck("check");
 		});	
-		
 		$("#checkall").on("ifUnchecked", function(event) {
 			$("input[type=\"checkbox\"]", ".checkall").iCheck("uncheck");
 		});
-		
 		$("#checkall").on("ifChecked", function(event) {
 			$("input[type=\"checkbox\"]", ".checkall").iCheck("check");
 		});
-				
 		$(".fa-star, .fa-star-o, .glyphicon-star, .glyphicon-star-empty").click(function(e) {
 			e.preventDefault();
 			var glyph = $(this).hasClass("glyphicon");
 			var fa = $(this).hasClass("fa");
-		
 			if (glyph) {
 				$(this).toggleClass("glyphicon-star");
 				$(this).toggleClass("glyphicon-star-empty");
 			}
-		
 			if (fa) {
 				$(this).toggleClass("fa-star");
 				$(this).toggleClass("fa-star-o");
 			}
 		});			
 	});
-			
 	function check(source, name) {
 	  checkboxes = document.getElementsByName(name);
 	  for(var i=0, n=checkboxes.length;i<n;i++) {
 		checkboxes[i].checked = source.checked;
 	  }
 	}	
-
 	function objShowHide(id) {
-		
 		if (document.getElementById) {
 			if (document.getElementById(id).style.display == \'block\') {
 				document.getElementById(id).style.display = \'none\';
@@ -214,7 +183,6 @@ $(document).ready( function(){
 	});
 });
 </script>
-	
 <script>
 	$(document).ready(function()
 	{
@@ -228,12 +196,10 @@ $(document).ready( function(){
 		onSuccess:function(files,data,xhr)
 		{
 			$("#videofile").val(data);
-			
 		}
 		});
 	});
 </script>
-						
 <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
 <!-- WARNING: Respond.js doesn\'t work if you view the page via file:// -->
 <!--[if lt IE 9]>
@@ -257,6 +223,5 @@ $(document).ready( function(){
 </style>
 </head>		
 ');
-
 print $_head;
 ?>
