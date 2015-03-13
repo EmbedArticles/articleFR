@@ -9,15 +9,11 @@
 		<li class="active"><i class="fa fa-gears"></i> Create Page</li>
 	</ol>
 </section>
-
 <!-- Main content -->
 <section class="content">
-	
 <?php 
-
 	if (isset($_REQUEST['submit']) && $_REQUEST['submit'] == 'submit') {
 		$_akismet_key = getSiteSetting('AKISMET_KEY', $_conn);
-		
 		$url = BASE_URL;
 		$akismet = new Akismet($url ,$_akismet_key);
 		$akismet->setCommentAuthor($_profile["name"]);
@@ -25,7 +21,6 @@
 		$akismet->setCommentAuthorURL($url);
 		$akismet->setCommentContent($_REQUEST['content']);
 		$akismet->setPermalink($url);
-		
 		if (!$akismet->isCommentSpam()) {
 			$_is_adult = _is_adult($_REQUEST['content']);
 			if (!$_is_adult['is_adult'] && !$_is_adult['is_stuffing']) {
@@ -68,9 +63,7 @@
 							';			
 		}					
 	}
-
 ?>
-
 	<!-- Main row -->
 	<div class="row">
 		<div class="col-xs-12">
@@ -80,32 +73,26 @@
 		        </div>		        	            
 				<form method="post" role="form" parsley-validate>
 					<div class="box-body">
-
 					<div class="form-group">
 						<label>URL Slug The Unique URL Identifier</label>
 						<input type="text" name="url" class="form-control" placeholder="URL Slug ..." parsley-type="alphanum" parsley-trigger="change" required />
 					</div>
-										
 					<div class="form-group">
 						<label>Meta Page Title</label>
 						<input type="text" name="title" class="form-control" placeholder="Title ..." parsley-trigger="change" required />
 					</div>	
-					
 					<div class="form-group">
 						<label>Meta Page Description</label>
 						<input type="text" name="description" class="form-control" placeholder="Description ..." parsley-trigger="change" required />
 					</div>		
-					
 					<div class="form-group">
 						<label>Meta Page Keywords<br><small>Press the enter key <b class="fa fa-sign-in text-success"></b> to add and backspace key <b class="fa fa-mail-reply text-danger"></b> to delete an entry.</small></label><br>
 						<input type="text" id="keywords" name="keywords" class="form-control" data-role="tagsinput" parsley-trigger="change" required style="width: 100% !important;" />
 					</div>
-					
 					<div class="form-group">
 						<label>Content - <small>NO PHP Codes Only HTML...</small></label>
 						<textarea id="content" name="content" class="form-control" rows="10" placeholder="NO PHP Codes Only HTML ..." parsley-trigger="change" required></textarea>
 					</div>
-																						
 					<div class="box-footer">
 						<div class="btn-group">
 							<button type="submit" name="submit" value="submit" class="btn btn-info"><b class="fa fa-gears"></b> Submit</button>
@@ -119,13 +106,11 @@
 							</ul>
 						</div>											
 					</div>
-					
 					</div><!-- /.box-body -->					
 				</form>	            
 			</div>
 		</div>
 	</div>
 	<!-- /.row (main row) -->
-
 </section>
 <!-- /.content -->

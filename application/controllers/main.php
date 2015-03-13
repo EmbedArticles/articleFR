@@ -31,13 +31,14 @@ class Main extends Controller {
 	function index()
 	{		
 		$_site = $this->loadModel('site');
-		$_video = $this->loadModel('video');
-		$this->loadPlugins($_site);
+		$_video = $this->loadModel('video');		
 		
 		$_site->init();		
 		
+		$this->loadPlugins($_site);
+		
 		$_site->set_canonical(apply_filters('the_canonical', $GLOBALS['base_url']));	
-		$_site->controller = 'index';
+		$_site->controller = 'index';			
 		
 		$_video->connect();	
 		
@@ -50,7 +51,7 @@ class Main extends Controller {
 		$_view = $this->loadView('index');		
 		
 		$_view->set('site', apply_filters('the_site_object', $_site));
-		$_view->set('video', apply_filters('the_video_object', $_video));
+		$_view->set('video', apply_filters('the_video_object', $_video));			
 		
 		$_view->render();
 		

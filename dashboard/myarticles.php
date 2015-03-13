@@ -9,14 +9,11 @@
 		<li class="active"><i class="fa fa-pencil-square-o"></i> My Articles</li>
 	</ol>
 </section>
-
 <!-- Main content -->
 <section class="content">
-
 	<!-- Main row -->
 	<div class="row">
 		<div class="col-xs-12">
-		
 			<div class="nav-tabs-custom">
 				<!-- Tabs within a box -->
 				<ul class="nav nav-tabs pull-right">
@@ -193,10 +190,8 @@
 					?>					
 				</div>
 			</div>		
-			
 		</div>
 	</div>
 	<!-- /.row (main row) -->
-
 </section>
 <!-- /.content -->

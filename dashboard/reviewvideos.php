@@ -9,12 +9,10 @@
 		<li class="active"><i class="fa fa-desktop"></i> Review Videos</li>
 	</ol>
 </section>
-
 <!-- Main content -->
 <section class="content">
 	<?php 
 		$_servers = getPingServers ( $_conn );
-		
 		if (isset($_REQUEST['dos'])) {									
 			if ($_REQUEST['action'] == 'Approve') {
 				foreach($_REQUEST['dos'] as $_dos) {
@@ -23,19 +21,15 @@
 					$_user = getProfile($_video['username'], $_conn);					
 					$_brand = getSiteSetting('SITE_BRAND', $_conn);
 					$_site_title = getSiteSetting('SITE_TITLE', $_conn);
-					
 					$trackback = new Trackback($_site_title, $_user['name'], 'ISO-8859-1');
 					foreach ( $_servers as $_server ) {
 						$trackback->ping($_server['url'], $_url, $_video['title']);
 						flush();
 					}			
-					
 					$_admin_email = ADMIN_EMAIL;
 					$_email = $_user['email'];
 					$_name = $_user['name'];				
-					
 					approveVideo($_dos, $_conn);
-					
 					$_message = '
 					<p>Your video entitled ' . $_video['title'] . ' has been approved at ' . $_site_title . '.<p>
 					<p>Please click this url to view the video: ' . $_url . '</p>
@@ -61,9 +55,7 @@
 					$_admin_email = ADMIN_EMAIL;
 					$_email = $_user['email'];
 					$_name = $_user['name'];		
-					
 					disapproveVideo($_dos, $_conn);
-
 					$_message = '
 					<p>Thank you for your video submission, unfortunately we cannot approve your video to be published at our site as of the moment.<p>
 					<p>Video Title: ' . $_video['title'] . '</p>
@@ -81,7 +73,6 @@
 			';
 			}				
 		}
-		
 		if (isset($_REQUEST['pa'])) {						
 			if ($_REQUEST['pa'] == 'approve') {
 				$_video = getVideo($_REQUEST['id'], $_conn);
@@ -92,21 +83,17 @@
 				$_admin_email = ADMIN_EMAIL;
 				$_email = $_user['email'];
 				$_name = $_user['name'];
-					
 				$trackback = new Trackback($_site_title, $_user['name'], 'ISO-8859-1');
 				foreach ( $_servers as $_server ) {
 					$trackback->ping($_server['url'], $_url, $_video['title']);
 					flush();
 				}
-					
 				$_message = '
 				<p>Your video entitled ' . $_video['title'] . ' has been approved at ' . $_site_title . '.<p>
 				<p>Please click this url to view the video: ' . $_url . '</p>
 				';					
 				$_subject = $_site_title . ' Video Approved';
-					
 				approveVideo($_REQUEST['id'], $_conn);
-
 				print '
 					<div class="alert alert-success alert-dismissable">
 					<i class="fa fa-check"></i>
@@ -114,7 +101,6 @@
 					<b>Alert!</b> Success: Your video has been approved successfully. And ping servers pinged!
 					</div>
 				';				
-				
 				email($_url, $_brand, $_site_title, $_admin_email, $_email, $_name, $_message, $_subject);		
 				sendMessage($_video['username'], 'admin', $_message, $_subject, $_conn);				
 			} else if ($_REQUEST['pa'] == 'delete') {			
@@ -126,15 +112,12 @@
 				$_admin_email = ADMIN_EMAIL;
 				$_email = $_user['email'];
 				$_name = $_user['name'];
-				
 				disapproveVideo($_REQUEST['id'], $_conn);
-				
 				$_message = '
 				<p>Thank you for your video submission, unfortunately we cannot approve your video to be published at our site as of the moment.<p>
 				<p>Video Title: ' . $_video['title'] . '</p>
 				';					
 				$_subject = $_site_title . ' Video Disapproved';
-					
 				print '
 					<div class="alert alert-info alert-dismissable">
 					<i class="fa fa-info"></i>
@@ -142,22 +125,18 @@
 					<b>Alert!</b> Information: Your video has been deleted successfully.
 					</div>
 				';
-				
 				email($_url, $_brand, $_site_title, $_admin_email, $_email, $_name, $_message, $_subject);			
 				sendMessage($_video['username'], 'admin', $_message, $_subject, $_conn);	
 			}
 		}		
 	?>
-	
 	<!-- Main row -->
 	<div class="row">
 		<div class="col-xs-12">
-			
 			<div class="box box-info">
 				<div class="box-header">
 					<h3 class="box-title">Review Videos</h3>
 				</div>
-				
 				<div class="box-body table-responsive">
 					<form method="post">					
 					<table id="articles" class="table table-condensed table-hover table-striped">
@@ -178,7 +157,6 @@
 							foreach ( $_videos as $_video ) {
 								$_em = new media_embed( $_video['url'] );
 								$_embed = $_em->get_embed(550, 300);
-								
 								if (empty($_embed)) {	
 									$_mimeclass = new mimetype();
 									$_mimetype = $_mimeclass->getType($_video['url']);
@@ -192,7 +170,6 @@
 										</video>				
 									';
 								}
-								
 								print '
 									<tr class="checkall">
 										<td><input type="checkbox" name="dos[]" value="' . $_video ['id'] . '"></td>
@@ -237,6 +214,5 @@
 		</div>
 	</div>
 	<!-- /.row (main row) -->	
-
 </section>
 <!-- /.content -->

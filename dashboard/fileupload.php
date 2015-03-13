@@ -9,18 +9,13 @@
 		<li class="active"><i class="fa fa-upload"></i> File Upload</li>
 	</ol>
 </section>
-
 <!-- Main content -->
 <section class="content">
-
 	<div class="row">
-	
 		<div class="col-md-9">
-		
 			<?php 			
 				$ini = new INI(dirname(dirname(__FILE__)) . '/application/config/site.ini');
 				$ini->read();
-				
 				if (empty($ini->data['thumbnail_generator']['url'])) {
 					print '
 						<div class="alert alert-warning alert-dismissable">
@@ -30,16 +25,12 @@
 						</div>
 					';
 				}
-								
 				if (isset($_REQUEST['submit'])) {
 					$_REQUEST['summary'] = strip_tags($_REQUEST['summary']);
-					
 					if (str_word_count($_REQUEST['summary']) < 200) {
 						if (!empty($_REQUEST['filename'])) {
 							$_thumbnail = $ini->data['thumbnail_generator']['url'] . BASE_URL . "videos_repository/" . $_REQUEST['filename'];
-							
 							$_database->clean();
-								
 							$_database->from('videos');
 							$_database->into('username');
 							$_database->into('channel');
@@ -58,7 +49,6 @@
 							$_database->value("'" . $_database->quote($_REQUEST['summary']) . "'");
 							$_database->value("now()");
 							$_database->exec('INSERT');
-	
 							$_error = $_database->get_error();
 							if (!empty($_error)) {
 								print '
@@ -97,9 +87,7 @@
 					}
 				}
 			?>
-		
 		<form role="form" id="upload_form" enctype="multipart/form-data" method="post" parsley-validate>
-		
 			<div class="box box-solid">
 				<div class="box-header">
 					<i class="fa fa-ticket"></i>
@@ -121,11 +109,9 @@
 								<div id="eventsmessage"><input type="text" id="videofile" class="form-control" value="" name="filename" placeholder="Video generated filename..." parsley-trigger="change" required /></div>
 							</div>							
 						</div><!-- /.box-body -->
-								
 				</div><!-- /.box-body -->
 			</div><!-- /.box -->
 		</div><!-- ./col -->
-		
 		<div class="col-md-3">
 			<div class="box box-solid">
 				<div class="box-body">
@@ -154,10 +140,7 @@
 				</div><!-- /.box-body -->
 			</div><!-- /.box -->			
 		</div>
-	
 	</form>	
-		                        
 	</div><!-- /.row -->
-
 </section>
 <!-- /.content -->

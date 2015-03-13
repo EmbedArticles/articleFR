@@ -9,19 +9,15 @@
 		<li class="active"><i class="fa fa-font"></i> Pen Names</li>
 	</ol>
 </section>
-
 <!-- Main content -->
 <section class="content">
-
 <?php 
-
 	if (isset($_REQUEST['submit']) && $_REQUEST['submit'] == 'Create') {
 		if (isset($_REQUEST['u'])) {
 			$_profile ['username'] = $_REQUEST['u'];
 		} else {
 			$_profile ['username'] = $_profile ['username'];
 		}
-				
 		if (str_word_count($_REQUEST['biography']) < 140) {
 			$_create = apply_filters('add_penname', addPennames($_REQUEST['name'], $_REQUEST['gravatar'], $_REQUEST['biography'], $_profile['username'], $_conn));
 			if ($_create == 1) {
@@ -51,7 +47,6 @@
 				';			
 		}
 	}
-	
 	if (isset($_REQUEST['submit']) && $_REQUEST['submit'] == 'Edit') {
 		if (str_word_count($_REQUEST['biography']) < 140) {
 			$_create = apply_filters('edit_penname', editPennames($_REQUEST['name'], $_REQUEST['gravatar'], $_REQUEST['biography'], $_REQUEST['id'], $_conn));
@@ -74,7 +69,6 @@
 				';		
 		}
 	}	
-	
 	if (!isset($_REQUEST['submit']) && isset($_REQUEST['pa']) && $_REQUEST['pa'] == 'delete') {
 		$_delete = deletePenname($_REQUEST['id'], $_conn);
 		if ($_delete == 1) {
@@ -96,12 +90,9 @@
 		}
 	}	
 ?>
-
 	<!-- Main row -->
 	<div class="row">
-	
 	  <?php if (isset($_REQUEST['pa']) && $_REQUEST['pa'] == 'edit') { ?>
-      
        <section class="col-lg-6">                
 			<div class="box box-primary">			
 				<div class="box-header">
@@ -113,9 +104,7 @@
 				</div><!-- /.box-body -->
 			</div>
       	</section>
-      	      
       <?php } else { ?>
-      
 	       <section class="col-lg-6">                
 				<div class="box box-info">			
 					<div class="box-header">
@@ -126,15 +115,12 @@
 					</div><!-- /.box-body -->
 				</div>
 	      	</section>
-	      	      
       <?php } ?>
-
     	<section class="col-lg-6">
 			<div class="box box-warning">
 				<div class="box-header">
 					<h3 class="box-title">Pen Name List</h3>
 				</div>
-				
 				<div class="box-body">
 					<table id="articles" class="table table-hover">
 						<thead>
@@ -152,7 +138,6 @@
 							} else {
 								$_profile ['username'] = $_profile ['username'];
 							}
-							
 							$_pennames = apply_filters ( 'my_pennames', $_profile ['username'], $_conn );
 							foreach ( $_pennames as $_penname ) {
 								print '
@@ -173,6 +158,5 @@
 		</section>                    
 	</div>
 	<!-- /.row (main row) -->
-
 </section>
 <!-- /.content -->

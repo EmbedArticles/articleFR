@@ -9,12 +9,9 @@
 		<li class="active"><i class="fa fa-upload"></i> Upload</li>
 	</ol>
 </section>
-
 <!-- Main content -->
 <section class="content">
-
 	<div class="row">
-	
 		<div class="col-md-6">
 			<div class="box box-solid">
 				<div class="box-header">
@@ -26,7 +23,6 @@
 				</div><!-- /.box-body -->
 			</div><!-- /.box -->
 		</div><!-- ./col -->
-		
 		<div class="col-md-3">
 			<div class="box box-solid">
 				<div class="box-header">
@@ -38,7 +34,6 @@
 				</div><!-- /.box-body -->
 			</div><!-- /.box -->
 		</div><!-- ./col -->
-		
 		<div class="col-md-3">
 			<div class="box box-solid">
 				<div class="box-header">
@@ -50,8 +45,6 @@
 				</div><!-- /.box-body -->
 			</div><!-- /.box -->
 		</div><!-- ./col -->
-		                        
 	</div><!-- /.row -->
-
 </section>
 <!-- /.content -->

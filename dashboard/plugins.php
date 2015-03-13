@@ -8,16 +8,11 @@
 		<li class="active"><i class="fa fa fa-code"></i> Plugins</li>
 	</ol>
 </section>
-
 <!-- Main content -->
 <section class="content">
-
 <?php 
-
 	$ini = new INI();
-	
 	do_action ( 'find_plugins', $_conn );
-	
 	if (isset($_REQUEST['pa']) && $_REQUEST['pa'] == 'enable') {
 		$_a = updatePlugin($_REQUEST['id'], 'active', 1, $_conn);
 		print '
@@ -28,7 +23,6 @@
 		</div>
 		';
 	}	
-	
 	if (isset($_REQUEST['pa']) && $_REQUEST['pa'] == 'disable') {
 		$_a = updatePlugin($_REQUEST['id'], 'active', 0, $_conn);
 		print '
@@ -39,14 +33,10 @@
 		</div>
 		';
 	}	
-		
 ?>
-
 	<!-- Main row -->
 	<div class="row">
-	
     	<section class="col-lg-6">
-    	
 			<div class="nav-tabs-custom">
 				<!-- Tabs within a box -->
 				<ul class="nav nav-tabs pull-right">
@@ -66,7 +56,7 @@
 							</thead>
 							<tbody>
 		            		<?php
-								$_plugins = apply_filters ( 'the_active_plugins', $_conn );
+								$_plugins = getActivePlugins($_conn );
 								foreach ( $_plugins as $_plugin ) {
 									print '
 										<tr>
@@ -93,7 +83,7 @@
 							</thead>
 							<tbody>
 		            		<?php
-								$_plugins = apply_filters ( 'the_inactive_plugins', $_conn );
+								$_plugins = getInactivePlugins ( $_conn );
 								foreach ( $_plugins as $_plugin ) {
 									print '
 										<tr>
@@ -112,7 +102,6 @@
 				<!-- /.box-body -->
 			</div>
 		</section>
-		
        <section class="col-lg-6">                
 			<div class="box box-info">			
 				<div class="box-header">
@@ -121,7 +110,6 @@
 				<div class="box-body">
 				<?php 
 					$_plugin = getPlugin ( $_REQUEST['id'] , $_conn );
-					
 					print '
 						<dl class="dl-horizontal">
 							<dt>Name</dt>
@@ -137,7 +125,6 @@
 				?>
 				</div><!-- /.box-body -->
 			</div>
-			
 			<div class="box box-warning">			
 				<div class="box-header">
 					<h3 class="box-title">Plugin Settings</h3>
@@ -149,9 +136,7 @@
 				</div><!-- /.box-body -->
 			</div>			
       	</section>		
-		                    
 	</div>
 	<!-- /.row (main row) -->
-
 </section>
 <!-- /.content -->
